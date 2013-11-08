@@ -1,0 +1,1202 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		65E1EF763092449C847D2504 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 707C21036BB74385A79EDF39 /* libPods.a */; };
+		6F000D76181C3E4700C5AD69 /* BlackholeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F000D75181C3E4700C5AD69 /* BlackholeView.m */; };
+		6F23E36D18024D60006BEA1E /* CHFSpringyFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E36C18024D60006BEA1E /* CHFSpringyFlowLayout.m */; };
+		6F23E37218024F86006BEA1E /* CHFChatStackItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E36F18024F86006BEA1E /* CHFChatStackItem.m */; };
+		6F23E37318024F86006BEA1E /* CHFChatStackManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E37118024F86006BEA1E /* CHFChatStackManager.m */; };
+		6F23E37618024FDA006BEA1E /* CHFBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E37518024FDA006BEA1E /* CHFBlurView.m */; };
+		6F23E385180250B9006BEA1E /* CHFHoverMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E378180250B9006BEA1E /* CHFHoverMenuCell.m */; };
+		6F23E386180250B9006BEA1E /* CHFHoverMenuHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E37A180250B9006BEA1E /* CHFHoverMenuHeaderView.m */; };
+		6F23E387180250B9006BEA1E /* CHFHoverMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E37C180250B9006BEA1E /* CHFHoverMenuViewController.m */; };
+		6F23E388180250B9006BEA1E /* CHFItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E37E180250B9006BEA1E /* CHFItemCollectionViewCell.m */; };
+		6F23E389180250B9006BEA1E /* CHFItemsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E380180250B9006BEA1E /* CHFItemsCollectionViewController.m */; };
+		6F23E38A180250B9006BEA1E /* CHFKickOutBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E382180250B9006BEA1E /* CHFKickOutBehavior.m */; };
+		6F23E38B180250B9006BEA1E /* CHFStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E384180250B9006BEA1E /* CHFStackViewController.m */; };
+		6F23E38E18025290006BEA1E /* CHFChatStackDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E38D18025290006BEA1E /* CHFChatStackDeckController.m */; };
+		6F23E391180252D1006BEA1E /* CHFClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E390180252D1006BEA1E /* CHFClientManager.m */; };
+		6F23E396180253FA006BEA1E /* CHFAppContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E395180253FA006BEA1E /* CHFAppContainerViewController.m */; };
+		6F23E39B18025491006BEA1E /* CHFControllerCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E39818025491006BEA1E /* CHFControllerCard.m */; };
+		6F23E39C18025491006BEA1E /* CHFDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E39A18025491006BEA1E /* CHFDeckController.m */; };
+		6F23E39F18026101006BEA1E /* CHFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E39E18026101006BEA1E /* CHFHomeViewController.m */; };
+		6F23E3A21802615B006BEA1E /* CHFMainDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */; };
+		6F23E3A518026514006BEA1E /* CHFAppBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E3A418026514006BEA1E /* CHFAppBar.m */; };
+		6F998883180B62A700C4B2A2 /* CHFNotificationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */; };
+		6F998889180B668600C4B2A2 /* CHFHoverGridLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F998888180B668600C4B2A2 /* CHFHoverGridLayout.m */; };
+		6F9DDE6E1829F1CF00820392 /* CHFAppBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9DDE6D1829F1CF00820392 /* CHFAppBarView.m */; };
+		6F9F50F1180E29A200944339 /* UIImage+AverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F50F0180E29A200944339 /* UIImage+AverageColor.m */; };
+		6F9F514D17A476B000035E9F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F514C17A476B000035E9F /* Foundation.framework */; };
+		6F9F514F17A476B000035E9F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F514E17A476B000035E9F /* CoreGraphics.framework */; };
+		6F9F515117A476B000035E9F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F515017A476B000035E9F /* UIKit.framework */; };
+		6F9F515717A476B000035E9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F9F515517A476B000035E9F /* InfoPlist.strings */; };
+		6F9F515917A476B000035E9F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F515817A476B000035E9F /* main.m */; };
+		6F9F515D17A476B000035E9F /* CHFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F515C17A476B000035E9F /* CHFAppDelegate.m */; };
+		6F9F516017A476B000035E9F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F9F515E17A476B000035E9F /* Main_iPhone.storyboard */; };
+		6F9F516317A476B000035E9F /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F9F516117A476B000035E9F /* Main_iPad.storyboard */; };
+		6F9F516817A476B000035E9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F9F516717A476B000035E9F /* Images.xcassets */; };
+		6F9F516F17A476B100035E9F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F516E17A476B100035E9F /* XCTest.framework */; };
+		6F9F517017A476B100035E9F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F514C17A476B000035E9F /* Foundation.framework */; };
+		6F9F517117A476B100035E9F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F515017A476B000035E9F /* UIKit.framework */; };
+		6F9F517917A476B100035E9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F9F517717A476B100035E9F /* InfoPlist.strings */; };
+		6F9F517B17A476B100035E9F /* ChatFeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F517A17A476B100035E9F /* ChatFeedTests.m */; };
+		6F9F51A717A4A2C000035E9F /* CHFExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F519D17A4A2C000035E9F /* CHFExploreViewController.m */; };
+		6F9F51AB17A4A2C000035E9F /* CHFMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F51A517A4A2C000035E9F /* CHFMessagesViewController.m */; };
+		6F9F51B417A4EE1400035E9F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B317A4EE1400035E9F /* SystemConfiguration.framework */; };
+		6F9F51B617A4EE1C00035E9F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B517A4EE1C00035E9F /* MobileCoreServices.framework */; };
+		6F9F51B817A4EE2400035E9F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B717A4EE2400035E9F /* CoreLocation.framework */; };
+		6F9F51BA17A4EE3400035E9F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B917A4EE3400035E9F /* QuartzCore.framework */; };
+		6F9F51C517A4F58F00035E9F /* CHFClientStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F51C417A4F58F00035E9F /* CHFClientStreamCell.m */; };
+		6F9F51CB17A5078E00035E9F /* CHFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F51CA17A5078E00035E9F /* CHFLoginViewController.m */; };
+		6F9F968A180F3E1500FB8255 /* CHFStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8B9C517C946C30078EDB3 /* CHFStoreViewController.m */; };
+		6F9F968B180F3E2200FB8255 /* CHFSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8B9CB17C946E20078EDB3 /* CHFSettingsViewController.m */; };
+		6F9F9C6E181A07A7007955E2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F9C6D181A07A7007955E2 /* StoreKit.framework */; };
+		6F9FA748180D64DB0052813F /* CHFNotificationBarObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FA747180D64DB0052813F /* CHFNotificationBarObject.m */; };
+		6F9FB3D5180CC52D00EF0948 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9FB3D3180CC52D00EF0948 /* spark.png */; };
+		6F9FD3F01826DB3900111FF6 /* CHFChatStackItem+ClientItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD3EF1826DB3900111FF6 /* CHFChatStackItem+ClientItem.m */; };
+		6F9FEFCC181D593100A449C7 /* CHFNonInteractiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FEFCB181D593100A449C7 /* CHFNonInteractiveView.m */; };
+		6FA03569181C90BB00DADEC7 /* CHFWallpaperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA03568181C90BB00DADEC7 /* CHFWallpaperView.m */; };
+		6FA03573181CB57F00DADEC7 /* backgroundImage3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03570181CB57F00DADEC7 /* backgroundImage3.jpg */; };
+		6FA03574181CB57F00DADEC7 /* backgroundImage4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03571181CB57F00DADEC7 /* backgroundImage4.jpg */; };
+		6FA03575181CB57F00DADEC7 /* backgroundImage5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03572181CB57F00DADEC7 /* backgroundImage5.png */; };
+		6FA1E3AE182461730023C74D /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1E3AD182461730023C74D /* UIView+AutoLayout.m */; };
+		6FA2EBEF1813529900EFF09F /* CHFCenterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA2EBEE1813529900EFF09F /* CHFCenterFlowLayout.m */; };
+		6FA3A6D0182578900025FF90 /* at4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CA182578900025FF90 /* at4.jpg */; };
+		6FA3A6D1182578900025FF90 /* at2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CB182578900025FF90 /* at2.jpg */; };
+		6FA3A6D2182578900025FF90 /* at1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CC182578900025FF90 /* at1.jpg */; };
+		6FA3A6D3182578900025FF90 /* at5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CD182578900025FF90 /* at5.jpg */; };
+		6FA3A6D4182578900025FF90 /* at6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CE182578900025FF90 /* at6.jpg */; };
+		6FA3A6D5182578900025FF90 /* at3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CF182578900025FF90 /* at3.jpg */; };
+		6FA3A6DE1825E7520025FF90 /* CHFAbstractModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3A6DD1825E7520025FF90 /* CHFAbstractModel.m */; };
+		6FA3A6E3182606190025FF90 /* CHFStreamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3A6E2182606190025FF90 /* CHFStreamModel.m */; };
+		6FA3A6E618260ECB0025FF90 /* CHFStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3A6E518260ECB0025FF90 /* CHFStreamCell.m */; };
+		6FA5D0BE17B93787007E9649 /* CHFWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */; };
+		6FA6E6B817C45CD300FDB4E0 /* backgroundImage1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6E6B617C45CD300FDB4E0 /* backgroundImage1@2x.jpg */; };
+		6FA71D1417BC56E100611EEB /* CHFBackDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */; };
+		6FA8B9C917C946D70078EDB3 /* CHFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8B9C817C946D70078EDB3 /* CHFProfileViewController.m */; };
+		6FAF182B17B0A5170093DB5B /* CHFAbstractCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */; };
+		6FB8E5CC17B72211000DB54A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */; };
+		6FDA159C17A87322005D8D54 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDA159B17A87322005D8D54 /* libz.dylib */; };
+		F62B1B6917CAAF470048506C /* backgroundImage1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F62B1B6717CAAF470048506C /* backgroundImage1.jpg */; };
+		F62B1B6A17CAAF470048506C /* backgroundImage2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F62B1B6817CAAF470048506C /* backgroundImage2.jpg */; };
+		F64698A817CFE2830022A919 /* CHFMentionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64698A717CFE2830022A919 /* CHFMentionsViewController.m */; };
+		F65F0EF217DC068900E7513C /* CHFViewPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65F0EF117DC068900E7513C /* CHFViewPagerController.m */; };
+		F65F0EF617DC0E5800E7513C /* CHFPrivateMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65F0EF517DC0E5800E7513C /* CHFPrivateMessagesViewController.m */; };
+		F65F0EF917DC0E6500E7513C /* CHFChatFeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65F0EF817DC0E6500E7513C /* CHFChatFeedsViewController.m */; };
+		F6A0619C17C56493003CE959 /* UIColor+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A0619B17C56493003CE959 /* UIColor+FlatUI.m */; };
+		F6A061A617C58CF1003CE959 /* CHFMentionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061A517C58CF1003CE959 /* CHFMentionsModel.m */; };
+		F6A061A917C58DD2003CE959 /* CHFMentionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061A817C58DD2003CE959 /* CHFMentionCell.m */; };
+		F6A061B317C7C9A2003CE959 /* CHFPrivateMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061B217C7C9A2003CE959 /* CHFPrivateMessageCell.m */; };
+		F6A061B617C7CA27003CE959 /* CHFChatfeedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */; };
+		F6A061BB17C7CB4C003CE959 /* CHFPrivateMessagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061BA17C7CB4C003CE959 /* CHFPrivateMessagesModel.m */; };
+		F6E57C5D17E027E900F6523D /* CHFChatFeedsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E57C5C17E027E900F6523D /* CHFChatFeedsModel.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6F9F517217A476B100035E9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F9F514117A476B000035E9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F9F514817A476B000035E9F;
+			remoteInfo = ChatFeed;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3EFB3667531F4C0185AB5064 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		6F000D74181C3E4700C5AD69 /* BlackholeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackholeView.h; sourceTree = "<group>"; };
+		6F000D75181C3E4700C5AD69 /* BlackholeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackholeView.m; sourceTree = "<group>"; };
+		6F23E36B18024D60006BEA1E /* CHFSpringyFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFSpringyFlowLayout.h; sourceTree = "<group>"; };
+		6F23E36C18024D60006BEA1E /* CHFSpringyFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFSpringyFlowLayout.m; sourceTree = "<group>"; };
+		6F23E36E18024F86006BEA1E /* CHFChatStackItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatStackItem.h; sourceTree = "<group>"; };
+		6F23E36F18024F86006BEA1E /* CHFChatStackItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatStackItem.m; sourceTree = "<group>"; };
+		6F23E37018024F86006BEA1E /* CHFChatStackManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatStackManager.h; sourceTree = "<group>"; };
+		6F23E37118024F86006BEA1E /* CHFChatStackManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatStackManager.m; sourceTree = "<group>"; };
+		6F23E37418024FDA006BEA1E /* CHFBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFBlurView.h; sourceTree = "<group>"; };
+		6F23E37518024FDA006BEA1E /* CHFBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFBlurView.m; sourceTree = "<group>"; };
+		6F23E377180250B9006BEA1E /* CHFHoverMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHoverMenuCell.h; sourceTree = "<group>"; };
+		6F23E378180250B9006BEA1E /* CHFHoverMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFHoverMenuCell.m; sourceTree = "<group>"; };
+		6F23E379180250B9006BEA1E /* CHFHoverMenuHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHoverMenuHeaderView.h; sourceTree = "<group>"; };
+		6F23E37A180250B9006BEA1E /* CHFHoverMenuHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFHoverMenuHeaderView.m; sourceTree = "<group>"; };
+		6F23E37B180250B9006BEA1E /* CHFHoverMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHoverMenuViewController.h; sourceTree = "<group>"; };
+		6F23E37C180250B9006BEA1E /* CHFHoverMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFHoverMenuViewController.m; sourceTree = "<group>"; };
+		6F23E37D180250B9006BEA1E /* CHFItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFItemCollectionViewCell.h; sourceTree = "<group>"; };
+		6F23E37E180250B9006BEA1E /* CHFItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFItemCollectionViewCell.m; sourceTree = "<group>"; };
+		6F23E37F180250B9006BEA1E /* CHFItemsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFItemsCollectionViewController.h; sourceTree = "<group>"; };
+		6F23E380180250B9006BEA1E /* CHFItemsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFItemsCollectionViewController.m; sourceTree = "<group>"; };
+		6F23E381180250B9006BEA1E /* CHFKickOutBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFKickOutBehavior.h; sourceTree = "<group>"; };
+		6F23E382180250B9006BEA1E /* CHFKickOutBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFKickOutBehavior.m; sourceTree = "<group>"; };
+		6F23E383180250B9006BEA1E /* CHFStackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStackViewController.h; sourceTree = "<group>"; };
+		6F23E384180250B9006BEA1E /* CHFStackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStackViewController.m; sourceTree = "<group>"; };
+		6F23E38C18025290006BEA1E /* CHFChatStackDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatStackDeckController.h; sourceTree = "<group>"; };
+		6F23E38D18025290006BEA1E /* CHFChatStackDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatStackDeckController.m; sourceTree = "<group>"; };
+		6F23E38F180252D1006BEA1E /* CHFClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFClientManager.h; sourceTree = "<group>"; };
+		6F23E390180252D1006BEA1E /* CHFClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFClientManager.m; sourceTree = "<group>"; };
+		6F23E395180253FA006BEA1E /* CHFAppContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAppContainerViewController.m; sourceTree = "<group>"; };
+		6F23E39718025491006BEA1E /* CHFControllerCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFControllerCard.h; sourceTree = "<group>"; };
+		6F23E39818025491006BEA1E /* CHFControllerCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFControllerCard.m; sourceTree = "<group>"; };
+		6F23E39918025491006BEA1E /* CHFDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFDeckController.h; sourceTree = "<group>"; };
+		6F23E39A18025491006BEA1E /* CHFDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFDeckController.m; sourceTree = "<group>"; };
+		6F23E39D18026101006BEA1E /* CHFHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHomeViewController.h; sourceTree = "<group>"; };
+		6F23E39E18026101006BEA1E /* CHFHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFHomeViewController.m; sourceTree = "<group>"; };
+		6F23E3A01802615B006BEA1E /* CHFMainDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMainDeckController.h; sourceTree = "<group>"; };
+		6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMainDeckController.m; sourceTree = "<group>"; };
+		6F23E3A318026514006BEA1E /* CHFAppBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAppBar.h; sourceTree = "<group>"; };
+		6F23E3A418026514006BEA1E /* CHFAppBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAppBar.m; sourceTree = "<group>"; };
+		6F998881180B62A700C4B2A2 /* CHFNotificationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNotificationBar.h; sourceTree = "<group>"; };
+		6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNotificationBar.m; sourceTree = "<group>"; };
+		6F998887180B668600C4B2A2 /* CHFHoverGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHoverGridLayout.h; sourceTree = "<group>"; };
+		6F998888180B668600C4B2A2 /* CHFHoverGridLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFHoverGridLayout.m; sourceTree = "<group>"; };
+		6F9DDE6C1829F1CF00820392 /* CHFAppBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAppBarView.h; sourceTree = "<group>"; };
+		6F9DDE6D1829F1CF00820392 /* CHFAppBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAppBarView.m; sourceTree = "<group>"; };
+		6F9F50EF180E29A200944339 /* UIImage+AverageColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AverageColor.h"; sourceTree = "<group>"; };
+		6F9F50F0180E29A200944339 /* UIImage+AverageColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AverageColor.m"; sourceTree = "<group>"; };
+		6F9F514917A476B000035E9F /* ChatFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F9F514C17A476B000035E9F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6F9F514E17A476B000035E9F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6F9F515017A476B000035E9F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6F9F515417A476B000035E9F /* ChatFeed-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ChatFeed-Info.plist"; sourceTree = "<group>"; };
+		6F9F515617A476B000035E9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6F9F515817A476B000035E9F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6F9F515A17A476B000035E9F /* ChatFeed-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChatFeed-Prefix.pch"; sourceTree = "<group>"; };
+		6F9F515B17A476B000035E9F /* CHFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFAppDelegate.h; sourceTree = "<group>"; };
+		6F9F515C17A476B000035E9F /* CHFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFAppDelegate.m; sourceTree = "<group>"; };
+		6F9F515F17A476B000035E9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		6F9F516217A476B000035E9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		6F9F516717A476B000035E9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ChatFeed/Images.xcassets; sourceTree = "<group>"; };
+		6F9F516D17A476B100035E9F /* ChatFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F9F516E17A476B100035E9F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		6F9F517617A476B100035E9F /* ChatFeedTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ChatFeedTests-Info.plist"; sourceTree = "<group>"; };
+		6F9F517817A476B100035E9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6F9F517A17A476B100035E9F /* ChatFeedTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatFeedTests.m; sourceTree = "<group>"; };
+		6F9F518717A4854400035E9F /* CHFAppContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAppContainerViewController.h; sourceTree = "<group>"; };
+		6F9F519C17A4A2C000035E9F /* CHFExploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFExploreViewController.h; sourceTree = "<group>"; };
+		6F9F519D17A4A2C000035E9F /* CHFExploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFExploreViewController.m; sourceTree = "<group>"; };
+		6F9F51A417A4A2C000035E9F /* CHFMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMessagesViewController.h; sourceTree = "<group>"; };
+		6F9F51A517A4A2C000035E9F /* CHFMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMessagesViewController.m; sourceTree = "<group>"; };
+		6F9F51B317A4EE1400035E9F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6F9F51B517A4EE1C00035E9F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		6F9F51B717A4EE2400035E9F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6F9F51B917A4EE3400035E9F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6F9F51C317A4F58F00035E9F /* CHFClientStreamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFClientStreamCell.h; sourceTree = "<group>"; };
+		6F9F51C417A4F58F00035E9F /* CHFClientStreamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFClientStreamCell.m; sourceTree = "<group>"; };
+		6F9F51C917A5078E00035E9F /* CHFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFLoginViewController.h; sourceTree = "<group>"; };
+		6F9F51CA17A5078E00035E9F /* CHFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFLoginViewController.m; sourceTree = "<group>"; };
+		6F9F9C6D181A07A7007955E2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6F9FA746180D64DB0052813F /* CHFNotificationBarObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNotificationBarObject.h; sourceTree = "<group>"; };
+		6F9FA747180D64DB0052813F /* CHFNotificationBarObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNotificationBarObject.m; sourceTree = "<group>"; };
+		6F9FB3D3180CC52D00EF0948 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		6F9FD3EE1826DB3900111FF6 /* CHFChatStackItem+ClientItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CHFChatStackItem+ClientItem.h"; sourceTree = "<group>"; };
+		6F9FD3EF1826DB3900111FF6 /* CHFChatStackItem+ClientItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CHFChatStackItem+ClientItem.m"; sourceTree = "<group>"; };
+		6F9FEFCA181D593100A449C7 /* CHFNonInteractiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNonInteractiveView.h; sourceTree = "<group>"; };
+		6F9FEFCB181D593100A449C7 /* CHFNonInteractiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNonInteractiveView.m; sourceTree = "<group>"; };
+		6FA03567181C90BB00DADEC7 /* CHFWallpaperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFWallpaperView.h; sourceTree = "<group>"; };
+		6FA03568181C90BB00DADEC7 /* CHFWallpaperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFWallpaperView.m; sourceTree = "<group>"; };
+		6FA03570181CB57F00DADEC7 /* backgroundImage3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage3.jpg; sourceTree = "<group>"; };
+		6FA03571181CB57F00DADEC7 /* backgroundImage4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage4.jpg; sourceTree = "<group>"; };
+		6FA03572181CB57F00DADEC7 /* backgroundImage5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundImage5.png; sourceTree = "<group>"; };
+		6FA1E3AC182461730023C74D /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
+		6FA1E3AD182461730023C74D /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
+		6FA2EBED1813529900EFF09F /* CHFCenterFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFCenterFlowLayout.h; sourceTree = "<group>"; };
+		6FA2EBEE1813529900EFF09F /* CHFCenterFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFCenterFlowLayout.m; sourceTree = "<group>"; };
+		6FA3A6CA182578900025FF90 /* at4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at4.jpg; sourceTree = "<group>"; };
+		6FA3A6CB182578900025FF90 /* at2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at2.jpg; sourceTree = "<group>"; };
+		6FA3A6CC182578900025FF90 /* at1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at1.jpg; sourceTree = "<group>"; };
+		6FA3A6CD182578900025FF90 /* at5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at5.jpg; sourceTree = "<group>"; };
+		6FA3A6CE182578900025FF90 /* at6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at6.jpg; sourceTree = "<group>"; };
+		6FA3A6CF182578900025FF90 /* at3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at3.jpg; sourceTree = "<group>"; };
+		6FA3A6D91825D2B40025FF90 /* SparkInspector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SparkInspector.framework; path = Pods/SparkInspector.framework; sourceTree = "<group>"; };
+		6FA3A6DC1825E7520025FF90 /* CHFAbstractModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAbstractModel.h; sourceTree = "<group>"; };
+		6FA3A6DD1825E7520025FF90 /* CHFAbstractModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAbstractModel.m; sourceTree = "<group>"; };
+		6FA3A6E1182606190025FF90 /* CHFStreamModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStreamModel.h; sourceTree = "<group>"; };
+		6FA3A6E2182606190025FF90 /* CHFStreamModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStreamModel.m; sourceTree = "<group>"; };
+		6FA3A6E418260ECB0025FF90 /* CHFStreamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStreamCell.h; sourceTree = "<group>"; };
+		6FA3A6E518260ECB0025FF90 /* CHFStreamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStreamCell.m; sourceTree = "<group>"; };
+		6FA5D0BC17B93787007E9649 /* CHFWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFWebViewController.h; sourceTree = "<group>"; };
+		6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFWebViewController.m; sourceTree = "<group>"; };
+		6FA6E6B617C45CD300FDB4E0 /* backgroundImage1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "backgroundImage1@2x.jpg"; sourceTree = "<group>"; };
+		6FA71D1217BC56E100611EEB /* CHFBackDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFBackDeckController.h; sourceTree = "<group>"; };
+		6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFBackDeckController.m; sourceTree = "<group>"; };
+		6FA8B9C417C946C30078EDB3 /* CHFStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStoreViewController.h; sourceTree = "<group>"; };
+		6FA8B9C517C946C30078EDB3 /* CHFStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStoreViewController.m; sourceTree = "<group>"; };
+		6FA8B9C717C946D70078EDB3 /* CHFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFProfileViewController.h; sourceTree = "<group>"; };
+		6FA8B9C817C946D70078EDB3 /* CHFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFProfileViewController.m; sourceTree = "<group>"; };
+		6FA8B9CA17C946E20078EDB3 /* CHFSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFSettingsViewController.h; sourceTree = "<group>"; };
+		6FA8B9CB17C946E20078EDB3 /* CHFSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFSettingsViewController.m; sourceTree = "<group>"; };
+		6FAF182917B0A5170093DB5B /* CHFAbstractCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAbstractCell.h; sourceTree = "<group>"; };
+		6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAbstractCell.m; sourceTree = "<group>"; };
+		6FB8E5CA17B72211000DB54A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		6FDA159B17A87322005D8D54 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6FDA159D17A87378005D8D54 /* SparkInspector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkInspector.framework; sourceTree = "<group>"; };
+		707C21036BB74385A79EDF39 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F62B1B6717CAAF470048506C /* backgroundImage1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage1.jpg; sourceTree = "<group>"; };
+		F62B1B6817CAAF470048506C /* backgroundImage2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage2.jpg; sourceTree = "<group>"; };
+		F64698A617CFE2830022A919 /* CHFMentionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMentionsViewController.h; sourceTree = "<group>"; };
+		F64698A717CFE2830022A919 /* CHFMentionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMentionsViewController.m; sourceTree = "<group>"; };
+		F65F0EF017DC068900E7513C /* CHFViewPagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFViewPagerController.h; sourceTree = "<group>"; };
+		F65F0EF117DC068900E7513C /* CHFViewPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFViewPagerController.m; sourceTree = "<group>"; };
+		F65F0EF417DC0E5800E7513C /* CHFPrivateMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPrivateMessagesViewController.h; sourceTree = "<group>"; };
+		F65F0EF517DC0E5800E7513C /* CHFPrivateMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPrivateMessagesViewController.m; sourceTree = "<group>"; };
+		F65F0EF717DC0E6500E7513C /* CHFChatFeedsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatFeedsViewController.h; sourceTree = "<group>"; };
+		F65F0EF817DC0E6500E7513C /* CHFChatFeedsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatFeedsViewController.m; sourceTree = "<group>"; };
+		F6A0619A17C56493003CE959 /* UIColor+FlatUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FlatUI.h"; sourceTree = "<group>"; };
+		F6A0619B17C56493003CE959 /* UIColor+FlatUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatUI.m"; sourceTree = "<group>"; };
+		F6A061A417C58CF1003CE959 /* CHFMentionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMentionsModel.h; sourceTree = "<group>"; };
+		F6A061A517C58CF1003CE959 /* CHFMentionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMentionsModel.m; sourceTree = "<group>"; };
+		F6A061A717C58DD2003CE959 /* CHFMentionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMentionCell.h; sourceTree = "<group>"; };
+		F6A061A817C58DD2003CE959 /* CHFMentionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMentionCell.m; sourceTree = "<group>"; };
+		F6A061B117C7C9A2003CE959 /* CHFPrivateMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPrivateMessageCell.h; sourceTree = "<group>"; };
+		F6A061B217C7C9A2003CE959 /* CHFPrivateMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPrivateMessageCell.m; sourceTree = "<group>"; };
+		F6A061B417C7CA27003CE959 /* CHFChatfeedsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatfeedsCell.h; sourceTree = "<group>"; };
+		F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatfeedsCell.m; sourceTree = "<group>"; };
+		F6A061B917C7CB4C003CE959 /* CHFPrivateMessagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPrivateMessagesModel.h; sourceTree = "<group>"; };
+		F6A061BA17C7CB4C003CE959 /* CHFPrivateMessagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPrivateMessagesModel.m; sourceTree = "<group>"; };
+		F6E57C5B17E027E900F6523D /* CHFChatFeedsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatFeedsModel.h; sourceTree = "<group>"; };
+		F6E57C5C17E027E900F6523D /* CHFChatFeedsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatFeedsModel.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6F9F514617A476B000035E9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F9F9C6E181A07A7007955E2 /* StoreKit.framework in Frameworks */,
+				6FDA159C17A87322005D8D54 /* libz.dylib in Frameworks */,
+				6F9F51BA17A4EE3400035E9F /* QuartzCore.framework in Frameworks */,
+				6F9F51B817A4EE2400035E9F /* CoreLocation.framework in Frameworks */,
+				6F9F51B617A4EE1C00035E9F /* MobileCoreServices.framework in Frameworks */,
+				6F9F51B417A4EE1400035E9F /* SystemConfiguration.framework in Frameworks */,
+				6F9F514F17A476B000035E9F /* CoreGraphics.framework in Frameworks */,
+				6F9F515117A476B000035E9F /* UIKit.framework in Frameworks */,
+				6F9F514D17A476B000035E9F /* Foundation.framework in Frameworks */,
+				65E1EF763092449C847D2504 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F9F516A17A476B100035E9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F9F516F17A476B100035E9F /* XCTest.framework in Frameworks */,
+				6F9F517117A476B100035E9F /* UIKit.framework in Frameworks */,
+				6F9F517017A476B100035E9F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F237C4F181B1F2A003C1195 /* HoverMenu */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E377180250B9006BEA1E /* CHFHoverMenuCell.h */,
+				6F23E378180250B9006BEA1E /* CHFHoverMenuCell.m */,
+				6F23E379180250B9006BEA1E /* CHFHoverMenuHeaderView.h */,
+				6F23E37A180250B9006BEA1E /* CHFHoverMenuHeaderView.m */,
+				6F23E37B180250B9006BEA1E /* CHFHoverMenuViewController.h */,
+				6F23E37C180250B9006BEA1E /* CHFHoverMenuViewController.m */,
+			);
+			name = HoverMenu;
+			sourceTree = "<group>";
+		};
+		6F237C50181B1FA9003C1195 /* Behaviors */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E381180250B9006BEA1E /* CHFKickOutBehavior.h */,
+				6F23E382180250B9006BEA1E /* CHFKickOutBehavior.m */,
+			);
+			name = Behaviors;
+			sourceTree = "<group>";
+		};
+		6F35D72817AD6169000D99B9 /* ChatStack */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E37018024F86006BEA1E /* CHFChatStackManager.h */,
+				6F23E37118024F86006BEA1E /* CHFChatStackManager.m */,
+				6F23E36E18024F86006BEA1E /* CHFChatStackItem.h */,
+				6F23E36F18024F86006BEA1E /* CHFChatStackItem.m */,
+				6F23E38C18025290006BEA1E /* CHFChatStackDeckController.h */,
+				6F23E38D18025290006BEA1E /* CHFChatStackDeckController.m */,
+				6F23E383180250B9006BEA1E /* CHFStackViewController.h */,
+				6F23E384180250B9006BEA1E /* CHFStackViewController.m */,
+				6F23E37F180250B9006BEA1E /* CHFItemsCollectionViewController.h */,
+				6F23E380180250B9006BEA1E /* CHFItemsCollectionViewController.m */,
+				6F237C50181B1FA9003C1195 /* Behaviors */,
+			);
+			name = ChatStack;
+			sourceTree = "<group>";
+		};
+		6F998880180B625100C4B2A2 /* AppBar */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E3A318026514006BEA1E /* CHFAppBar.h */,
+				6F23E3A418026514006BEA1E /* CHFAppBar.m */,
+				6F9DDE6C1829F1CF00820392 /* CHFAppBarView.h */,
+				6F9DDE6D1829F1CF00820392 /* CHFAppBarView.m */,
+				6F9DDE6F1829F22600820392 /* NotificationBar */,
+			);
+			name = AppBar;
+			sourceTree = "<group>";
+		};
+		6F9DDE6F1829F22600820392 /* NotificationBar */ = {
+			isa = PBXGroup;
+			children = (
+				6F998881180B62A700C4B2A2 /* CHFNotificationBar.h */,
+				6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */,
+				6F9FA746180D64DB0052813F /* CHFNotificationBarObject.h */,
+				6F9FA747180D64DB0052813F /* CHFNotificationBarObject.m */,
+			);
+			name = NotificationBar;
+			sourceTree = "<group>";
+		};
+		6F9F514017A476B000035E9F = {
+			isa = PBXGroup;
+			children = (
+				6F9F515217A476B000035E9F /* ChatFeed */,
+				6F9F516717A476B000035E9F /* Images.xcassets */,
+				6F9F517417A476B100035E9F /* ChatFeedTests */,
+				6F9F514B17A476B000035E9F /* Frameworks */,
+				3EFB3667531F4C0185AB5064 /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		6F9F514A17A476B000035E9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F514917A476B000035E9F /* ChatFeed.app */,
+				6F9F516D17A476B100035E9F /* ChatFeedTests.xctest */,
+			);
+			name = Products;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		6F9F514B17A476B000035E9F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6FA3A6D91825D2B40025FF90 /* SparkInspector.framework */,
+				6F9F9C6D181A07A7007955E2 /* StoreKit.framework */,
+				6FDA159B17A87322005D8D54 /* libz.dylib */,
+				6FDA159D17A87378005D8D54 /* SparkInspector.framework */,
+				6F9F51B917A4EE3400035E9F /* QuartzCore.framework */,
+				6F9F51B717A4EE2400035E9F /* CoreLocation.framework */,
+				6F9F51B517A4EE1C00035E9F /* MobileCoreServices.framework */,
+				6F9F51B317A4EE1400035E9F /* SystemConfiguration.framework */,
+				6F9F514C17A476B000035E9F /* Foundation.framework */,
+				6F9F514E17A476B000035E9F /* CoreGraphics.framework */,
+				6F9F515017A476B000035E9F /* UIKit.framework */,
+				6F9F516E17A476B100035E9F /* XCTest.framework */,
+				707C21036BB74385A79EDF39 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6F9F515217A476B000035E9F /* ChatFeed */ = {
+			isa = PBXGroup;
+			children = (
+				6FA39C3E17AC5D95002E521B /* Interface */,
+				F62B1B6617CAAF3E0048506C /* Future Assets */,
+				6FA39C3F17AC5DBF002E521B /* App Classes */,
+				6FA39C3D17AC5D86002E521B /* Client Management */,
+				6F35D72817AD6169000D99B9 /* ChatStack */,
+				6F237C4F181B1F2A003C1195 /* HoverMenu */,
+				6F9F51AF17A4A4C800035E9F /* Abstract Classes */,
+				6F9F51BF17A4F39700035E9F /* Layouts */,
+				6FA3A6E01826012E0025FF90 /* Cells */,
+				6FA3A6DF1826010B0025FF90 /* Models */,
+				6F9F51CF17A5F53800035E9F /* Front Deck */,
+				6F9F51D017A5F57C00035E9F /* Back Deck */,
+				6F9F515317A476B000035E9F /* Supporting Files */,
+			);
+			path = ChatFeed;
+			sourceTree = "<group>";
+		};
+		6F9F515317A476B000035E9F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F515417A476B000035E9F /* ChatFeed-Info.plist */,
+				6F9F515517A476B000035E9F /* InfoPlist.strings */,
+				6F9F515817A476B000035E9F /* main.m */,
+				6F9F515A17A476B000035E9F /* ChatFeed-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F9F517417A476B100035E9F /* ChatFeedTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F514A17A476B000035E9F /* Products */,
+				6F9F517A17A476B100035E9F /* ChatFeedTests.m */,
+				6F9F517517A476B100035E9F /* Supporting Files */,
+			);
+			path = ChatFeedTests;
+			sourceTree = "<group>";
+		};
+		6F9F517517A476B100035E9F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F517617A476B100035E9F /* ChatFeedTests-Info.plist */,
+				6F9F517717A476B100035E9F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F9F51AF17A4A4C800035E9F /* Abstract Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E39718025491006BEA1E /* CHFControllerCard.h */,
+				6F23E39818025491006BEA1E /* CHFControllerCard.m */,
+				6F23E39918025491006BEA1E /* CHFDeckController.h */,
+				6F23E39A18025491006BEA1E /* CHFDeckController.m */,
+			);
+			name = "Abstract Classes";
+			sourceTree = "<group>";
+		};
+		6F9F51BF17A4F39700035E9F /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E36B18024D60006BEA1E /* CHFSpringyFlowLayout.h */,
+				6F23E36C18024D60006BEA1E /* CHFSpringyFlowLayout.m */,
+				6FA2EBED1813529900EFF09F /* CHFCenterFlowLayout.h */,
+				6FA2EBEE1813529900EFF09F /* CHFCenterFlowLayout.m */,
+				6F998887180B668600C4B2A2 /* CHFHoverGridLayout.h */,
+				6F998888180B668600C4B2A2 /* CHFHoverGridLayout.m */,
+			);
+			name = Layouts;
+			sourceTree = "<group>";
+		};
+		6F9F51CC17A5F4E900035E9F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E39D18026101006BEA1E /* CHFHomeViewController.h */,
+				6F23E39E18026101006BEA1E /* CHFHomeViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		6F9F51CD17A5F4FF00035E9F /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F519C17A4A2C000035E9F /* CHFExploreViewController.h */,
+				6F9F519D17A4A2C000035E9F /* CHFExploreViewController.m */,
+			);
+			name = Explore;
+			sourceTree = "<group>";
+		};
+		6F9F51CE17A5F51600035E9F /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F51A417A4A2C000035E9F /* CHFMessagesViewController.h */,
+				6F9F51A517A4A2C000035E9F /* CHFMessagesViewController.m */,
+				F66E8E8B1800787700A94349 /* @ Mentions */,
+				F66E8E8C1800789100A94349 /* Direct Messages */,
+				F66E8E8D1800789C00A94349 /* Chatfeeds */,
+			);
+			name = Messages;
+			sourceTree = "<group>";
+		};
+		6F9F51CF17A5F53800035E9F /* Front Deck */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E3A01802615B006BEA1E /* CHFMainDeckController.h */,
+				6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */,
+				6F9F51CD17A5F4FF00035E9F /* Explore */,
+				6F9F51CC17A5F4E900035E9F /* Home */,
+				6F9F51CE17A5F51600035E9F /* Messages */,
+			);
+			name = "Front Deck";
+			sourceTree = "<group>";
+		};
+		6F9F51D017A5F57C00035E9F /* Back Deck */ = {
+			isa = PBXGroup;
+			children = (
+				6FA71D1217BC56E100611EEB /* CHFBackDeckController.h */,
+				6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */,
+				F66E8E8E180078EC00A94349 /* Store */,
+				F66E8E8F180078FE00A94349 /* Profile */,
+				F66E8E901800790700A94349 /* Settings */,
+			);
+			name = "Back Deck";
+			sourceTree = "<group>";
+		};
+		6FA39C3D17AC5D86002E521B /* Client Management */ = {
+			isa = PBXGroup;
+			children = (
+				6F23E38F180252D1006BEA1E /* CHFClientManager.h */,
+				6F23E390180252D1006BEA1E /* CHFClientManager.m */,
+				6F9F51C917A5078E00035E9F /* CHFLoginViewController.h */,
+				6F9F51CA17A5078E00035E9F /* CHFLoginViewController.m */,
+			);
+			name = "Client Management";
+			sourceTree = "<group>";
+		};
+		6FA39C3E17AC5D95002E521B /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				6F9F515E17A476B000035E9F /* Main_iPhone.storyboard */,
+				6F9F516117A476B000035E9F /* Main_iPad.storyboard */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		6FA39C3F17AC5DBF002E521B /* App Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6FB04B9A17AEFDEB00D52895 /* Categories */,
+				6F998880180B625100C4B2A2 /* AppBar */,
+				6F9F515B17A476B000035E9F /* CHFAppDelegate.h */,
+				6F9F515C17A476B000035E9F /* CHFAppDelegate.m */,
+				6F9F518717A4854400035E9F /* CHFAppContainerViewController.h */,
+				6F23E395180253FA006BEA1E /* CHFAppContainerViewController.m */,
+				6FA5D0BC17B93787007E9649 /* CHFWebViewController.h */,
+				6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */,
+				6FA03567181C90BB00DADEC7 /* CHFWallpaperView.h */,
+				6FA03568181C90BB00DADEC7 /* CHFWallpaperView.m */,
+				F65F0EF017DC068900E7513C /* CHFViewPagerController.h */,
+				F65F0EF117DC068900E7513C /* CHFViewPagerController.m */,
+				6F000D74181C3E4700C5AD69 /* BlackholeView.h */,
+				6F000D75181C3E4700C5AD69 /* BlackholeView.m */,
+				6F9FB3D3180CC52D00EF0948 /* spark.png */,
+				6F23E37418024FDA006BEA1E /* CHFBlurView.h */,
+				6F23E37518024FDA006BEA1E /* CHFBlurView.m */,
+				6F9FEFCA181D593100A449C7 /* CHFNonInteractiveView.h */,
+				6F9FEFCB181D593100A449C7 /* CHFNonInteractiveView.m */,
+			);
+			name = "App Classes";
+			sourceTree = "<group>";
+		};
+		6FA3A6D61825789D0025FF90 /* Item Avatar Test */ = {
+			isa = PBXGroup;
+			children = (
+				6FA3A6CA182578900025FF90 /* at4.jpg */,
+				6FA3A6CB182578900025FF90 /* at2.jpg */,
+				6FA3A6CC182578900025FF90 /* at1.jpg */,
+				6FA3A6CD182578900025FF90 /* at5.jpg */,
+				6FA3A6CE182578900025FF90 /* at6.jpg */,
+				6FA3A6CF182578900025FF90 /* at3.jpg */,
+			);
+			name = "Item Avatar Test";
+			sourceTree = "<group>";
+		};
+		6FA3A6DF1826010B0025FF90 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6FA3A6DC1825E7520025FF90 /* CHFAbstractModel.h */,
+				6FA3A6DD1825E7520025FF90 /* CHFAbstractModel.m */,
+				6FA3A6E1182606190025FF90 /* CHFStreamModel.h */,
+				6FA3A6E2182606190025FF90 /* CHFStreamModel.m */,
+				F6A061B917C7CB4C003CE959 /* CHFPrivateMessagesModel.h */,
+				F6A061BA17C7CB4C003CE959 /* CHFPrivateMessagesModel.m */,
+				F6A061A417C58CF1003CE959 /* CHFMentionsModel.h */,
+				F6A061A517C58CF1003CE959 /* CHFMentionsModel.m */,
+				F6E57C5B17E027E900F6523D /* CHFChatFeedsModel.h */,
+				F6E57C5C17E027E900F6523D /* CHFChatFeedsModel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		6FA3A6E01826012E0025FF90 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6FAF182917B0A5170093DB5B /* CHFAbstractCell.h */,
+				6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */,
+				6FA3A6E418260ECB0025FF90 /* CHFStreamCell.h */,
+				6FA3A6E518260ECB0025FF90 /* CHFStreamCell.m */,
+				6F9F51C317A4F58F00035E9F /* CHFClientStreamCell.h */,
+				6F9F51C417A4F58F00035E9F /* CHFClientStreamCell.m */,
+				F6A061A717C58DD2003CE959 /* CHFMentionCell.h */,
+				F6A061A817C58DD2003CE959 /* CHFMentionCell.m */,
+				F6A061B117C7C9A2003CE959 /* CHFPrivateMessageCell.h */,
+				F6A061B217C7C9A2003CE959 /* CHFPrivateMessageCell.m */,
+				F6A061B417C7CA27003CE959 /* CHFChatfeedsCell.h */,
+				F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */,
+				6F23E37D180250B9006BEA1E /* CHFItemCollectionViewCell.h */,
+				6F23E37E180250B9006BEA1E /* CHFItemCollectionViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		6FB04B9A17AEFDEB00D52895 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				F6A0619A17C56493003CE959 /* UIColor+FlatUI.h */,
+				F6A0619B17C56493003CE959 /* UIColor+FlatUI.m */,
+				6FB8E5CA17B72211000DB54A /* UIImage+ImageEffects.h */,
+				6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */,
+				6F9F50EF180E29A200944339 /* UIImage+AverageColor.h */,
+				6F9F50F0180E29A200944339 /* UIImage+AverageColor.m */,
+				6FA1E3AC182461730023C74D /* UIView+AutoLayout.h */,
+				6FA1E3AD182461730023C74D /* UIView+AutoLayout.m */,
+				6F9FD3EE1826DB3900111FF6 /* CHFChatStackItem+ClientItem.h */,
+				6F9FD3EF1826DB3900111FF6 /* CHFChatStackItem+ClientItem.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		F62B1B6617CAAF3E0048506C /* Future Assets */ = {
+			isa = PBXGroup;
+			children = (
+				F62B1B6717CAAF470048506C /* backgroundImage1.jpg */,
+				F62B1B6817CAAF470048506C /* backgroundImage2.jpg */,
+				6FA03570181CB57F00DADEC7 /* backgroundImage3.jpg */,
+				6FA03571181CB57F00DADEC7 /* backgroundImage4.jpg */,
+				6FA03572181CB57F00DADEC7 /* backgroundImage5.png */,
+				6FA3A6D61825789D0025FF90 /* Item Avatar Test */,
+			);
+			name = "Future Assets";
+			sourceTree = "<group>";
+		};
+		F66E8E8B1800787700A94349 /* @ Mentions */ = {
+			isa = PBXGroup;
+			children = (
+				F64698A617CFE2830022A919 /* CHFMentionsViewController.h */,
+				F64698A717CFE2830022A919 /* CHFMentionsViewController.m */,
+			);
+			name = "@ Mentions";
+			sourceTree = "<group>";
+		};
+		F66E8E8C1800789100A94349 /* Direct Messages */ = {
+			isa = PBXGroup;
+			children = (
+				F65F0EF417DC0E5800E7513C /* CHFPrivateMessagesViewController.h */,
+				F65F0EF517DC0E5800E7513C /* CHFPrivateMessagesViewController.m */,
+			);
+			name = "Direct Messages";
+			sourceTree = "<group>";
+		};
+		F66E8E8D1800789C00A94349 /* Chatfeeds */ = {
+			isa = PBXGroup;
+			children = (
+				F65F0EF717DC0E6500E7513C /* CHFChatFeedsViewController.h */,
+				F65F0EF817DC0E6500E7513C /* CHFChatFeedsViewController.m */,
+			);
+			name = Chatfeeds;
+			sourceTree = "<group>";
+		};
+		F66E8E8E180078EC00A94349 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				6FA8B9C417C946C30078EDB3 /* CHFStoreViewController.h */,
+				6FA8B9C517C946C30078EDB3 /* CHFStoreViewController.m */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
+		F66E8E8F180078FE00A94349 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				6FA8B9C717C946D70078EDB3 /* CHFProfileViewController.h */,
+				6FA8B9C817C946D70078EDB3 /* CHFProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		F66E8E901800790700A94349 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6FA8B9CA17C946E20078EDB3 /* CHFSettingsViewController.h */,
+				6FA8B9CB17C946E20078EDB3 /* CHFSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6F9F514817A476B000035E9F /* ChatFeed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F9F517E17A476B100035E9F /* Build configuration list for PBXNativeTarget "ChatFeed" */;
+			buildPhases = (
+				6A5721B61075474E80C231EB /* Check Pods Manifest.lock */,
+				6F9F514517A476B000035E9F /* Sources */,
+				6F9F514617A476B000035E9F /* Frameworks */,
+				6F9F514717A476B000035E9F /* Resources */,
+				7C2CA73E705C4B50B2934817 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChatFeed;
+			productName = ChatFeed;
+			productReference = 6F9F514917A476B000035E9F /* ChatFeed.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6F9F516C17A476B100035E9F /* ChatFeedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F9F518117A476B100035E9F /* Build configuration list for PBXNativeTarget "ChatFeedTests" */;
+			buildPhases = (
+				6F9F516917A476B100035E9F /* Sources */,
+				6F9F516A17A476B100035E9F /* Frameworks */,
+				6F9F516B17A476B100035E9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F9F517317A476B100035E9F /* PBXTargetDependency */,
+			);
+			name = ChatFeedTests;
+			productName = ChatFeedTests;
+			productReference = 6F9F516D17A476B100035E9F /* ChatFeedTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6F9F514117A476B000035E9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CHF;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Thinkr LLC";
+				TargetAttributes = {
+					6F9F514817A476B000035E9F = {
+						DevelopmentTeam = E6892T589H;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
+					};
+					6F9F516C17A476B100035E9F = {
+						TestTargetID = 6F9F514817A476B000035E9F;
+					};
+				};
+			};
+			buildConfigurationList = 6F9F514417A476B000035E9F /* Build configuration list for PBXProject "ChatFeed" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6F9F514017A476B000035E9F;
+			productRefGroup = 6F9F514A17A476B000035E9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6F9F514817A476B000035E9F /* ChatFeed */,
+				6F9F516C17A476B100035E9F /* ChatFeedTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6F9F514717A476B000035E9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FA3A6D0182578900025FF90 /* at4.jpg in Resources */,
+				6FA03575181CB57F00DADEC7 /* backgroundImage5.png in Resources */,
+				6FA03573181CB57F00DADEC7 /* backgroundImage3.jpg in Resources */,
+				6F9F516317A476B000035E9F /* Main_iPad.storyboard in Resources */,
+				6FA03574181CB57F00DADEC7 /* backgroundImage4.jpg in Resources */,
+				6F9FB3D5180CC52D00EF0948 /* spark.png in Resources */,
+				6FA3A6D5182578900025FF90 /* at3.jpg in Resources */,
+				6FA3A6D3182578900025FF90 /* at5.jpg in Resources */,
+				F62B1B6A17CAAF470048506C /* backgroundImage2.jpg in Resources */,
+				6F9F516817A476B000035E9F /* Images.xcassets in Resources */,
+				F62B1B6917CAAF470048506C /* backgroundImage1.jpg in Resources */,
+				6FA3A6D4182578900025FF90 /* at6.jpg in Resources */,
+				6FA3A6D1182578900025FF90 /* at2.jpg in Resources */,
+				6FA6E6B817C45CD300FDB4E0 /* backgroundImage1@2x.jpg in Resources */,
+				6F9F516017A476B000035E9F /* Main_iPhone.storyboard in Resources */,
+				6F9F515717A476B000035E9F /* InfoPlist.strings in Resources */,
+				6FA3A6D2182578900025FF90 /* at1.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F9F516B17A476B100035E9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F9F517917A476B100035E9F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A5721B61075474E80C231EB /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7C2CA73E705C4B50B2934817 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6F9F514517A476B000035E9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F9F51A717A4A2C000035E9F /* CHFExploreViewController.m in Sources */,
+				6FA3A6E3182606190025FF90 /* CHFStreamModel.m in Sources */,
+				6F9F968A180F3E1500FB8255 /* CHFStoreViewController.m in Sources */,
+				6FA8B9C917C946D70078EDB3 /* CHFProfileViewController.m in Sources */,
+				6F9DDE6E1829F1CF00820392 /* CHFAppBarView.m in Sources */,
+				6F9F968B180F3E2200FB8255 /* CHFSettingsViewController.m in Sources */,
+				F6A061A917C58DD2003CE959 /* CHFMentionCell.m in Sources */,
+				6F23E389180250B9006BEA1E /* CHFItemsCollectionViewController.m in Sources */,
+				F64698A817CFE2830022A919 /* CHFMentionsViewController.m in Sources */,
+				6F23E387180250B9006BEA1E /* CHFHoverMenuViewController.m in Sources */,
+				6F9F50F1180E29A200944339 /* UIImage+AverageColor.m in Sources */,
+				6FA3A6DE1825E7520025FF90 /* CHFAbstractModel.m in Sources */,
+				6F23E39B18025491006BEA1E /* CHFControllerCard.m in Sources */,
+				F65F0EF617DC0E5800E7513C /* CHFPrivateMessagesViewController.m in Sources */,
+				F65F0EF917DC0E6500E7513C /* CHFChatFeedsViewController.m in Sources */,
+				6F9F51CB17A5078E00035E9F /* CHFLoginViewController.m in Sources */,
+				6F9FD3F01826DB3900111FF6 /* CHFChatStackItem+ClientItem.m in Sources */,
+				6F9FEFCC181D593100A449C7 /* CHFNonInteractiveView.m in Sources */,
+				6F23E3A21802615B006BEA1E /* CHFMainDeckController.m in Sources */,
+				6FA71D1417BC56E100611EEB /* CHFBackDeckController.m in Sources */,
+				F6A0619C17C56493003CE959 /* UIColor+FlatUI.m in Sources */,
+				6FA03569181C90BB00DADEC7 /* CHFWallpaperView.m in Sources */,
+				6F23E39F18026101006BEA1E /* CHFHomeViewController.m in Sources */,
+				6F998883180B62A700C4B2A2 /* CHFNotificationBar.m in Sources */,
+				6F23E39C18025491006BEA1E /* CHFDeckController.m in Sources */,
+				6F23E388180250B9006BEA1E /* CHFItemCollectionViewCell.m in Sources */,
+				6F000D76181C3E4700C5AD69 /* BlackholeView.m in Sources */,
+				6F23E38E18025290006BEA1E /* CHFChatStackDeckController.m in Sources */,
+				6F9F51AB17A4A2C000035E9F /* CHFMessagesViewController.m in Sources */,
+				6F9F51C517A4F58F00035E9F /* CHFClientStreamCell.m in Sources */,
+				F6A061B617C7CA27003CE959 /* CHFChatfeedsCell.m in Sources */,
+				6F9FA748180D64DB0052813F /* CHFNotificationBarObject.m in Sources */,
+				6F23E38B180250B9006BEA1E /* CHFStackViewController.m in Sources */,
+				6F23E37318024F86006BEA1E /* CHFChatStackManager.m in Sources */,
+				6FA1E3AE182461730023C74D /* UIView+AutoLayout.m in Sources */,
+				F6A061BB17C7CB4C003CE959 /* CHFPrivateMessagesModel.m in Sources */,
+				6FA3A6E618260ECB0025FF90 /* CHFStreamCell.m in Sources */,
+				6F23E386180250B9006BEA1E /* CHFHoverMenuHeaderView.m in Sources */,
+				6F23E36D18024D60006BEA1E /* CHFSpringyFlowLayout.m in Sources */,
+				6F23E396180253FA006BEA1E /* CHFAppContainerViewController.m in Sources */,
+				6FAF182B17B0A5170093DB5B /* CHFAbstractCell.m in Sources */,
+				F65F0EF217DC068900E7513C /* CHFViewPagerController.m in Sources */,
+				6F23E385180250B9006BEA1E /* CHFHoverMenuCell.m in Sources */,
+				6F23E37618024FDA006BEA1E /* CHFBlurView.m in Sources */,
+				6FA2EBEF1813529900EFF09F /* CHFCenterFlowLayout.m in Sources */,
+				6F23E38A180250B9006BEA1E /* CHFKickOutBehavior.m in Sources */,
+				6F23E3A518026514006BEA1E /* CHFAppBar.m in Sources */,
+				6F9F515D17A476B000035E9F /* CHFAppDelegate.m in Sources */,
+				F6E57C5D17E027E900F6523D /* CHFChatFeedsModel.m in Sources */,
+				6FA5D0BE17B93787007E9649 /* CHFWebViewController.m in Sources */,
+				6F23E391180252D1006BEA1E /* CHFClientManager.m in Sources */,
+				6FB8E5CC17B72211000DB54A /* UIImage+ImageEffects.m in Sources */,
+				F6A061B317C7C9A2003CE959 /* CHFPrivateMessageCell.m in Sources */,
+				F6A061A617C58CF1003CE959 /* CHFMentionsModel.m in Sources */,
+				6F9F515917A476B000035E9F /* main.m in Sources */,
+				6F998889180B668600C4B2A2 /* CHFHoverGridLayout.m in Sources */,
+				6F23E37218024F86006BEA1E /* CHFChatStackItem.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F9F516917A476B100035E9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F9F517B17A476B100035E9F /* ChatFeedTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F9F517317A476B100035E9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F9F514817A476B000035E9F /* ChatFeed */;
+			targetProxy = 6F9F517217A476B100035E9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6F9F515517A476B000035E9F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F9F515617A476B000035E9F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6F9F515E17A476B000035E9F /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F9F515F17A476B000035E9F /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		6F9F516117A476B000035E9F /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F9F516217A476B000035E9F /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		6F9F517717A476B100035E9F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F9F517817A476B100035E9F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6F9F517C17A476B100035E9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6F9F517D17A476B100035E9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6F9F517F17A476B100035E9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EFB3667531F4C0185AB5064 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+					"/Users/larryryan/Documents/Xcode\\ Projects/Chatfeed",
+					"/Users/larryryan/Documents/Xcode\\ Projects/Chatfeed-master/Pods",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ChatFeed/ChatFeed-Prefix.pch";
+				INFOPLIST_FILE = "ChatFeed/ChatFeed-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/ChatFeed",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreLocation,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+					"-ObjC",
+					"-all_load",
+				);
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6F9F518017A476B100035E9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EFB3667531F4C0185AB5064 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+					"/Users/larryryan/Documents/Xcode\\ Projects/Chatfeed",
+					"/Users/larryryan/Documents/Xcode\\ Projects/Chatfeed-master/Pods",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ChatFeed/ChatFeed-Prefix.pch";
+				INFOPLIST_FILE = "ChatFeed/ChatFeed-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/ChatFeed",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		6F9F518217A476B100035E9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChatFeed.app/ChatFeed";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ChatFeed/ChatFeed-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ChatFeedTests/ChatFeedTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		6F9F518317A476B100035E9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChatFeed.app/ChatFeed";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ChatFeed/ChatFeed-Prefix.pch";
+				INFOPLIST_FILE = "ChatFeedTests/ChatFeedTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6F9F514417A476B000035E9F /* Build configuration list for PBXProject "ChatFeed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F9F517C17A476B100035E9F /* Debug */,
+				6F9F517D17A476B100035E9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F9F517E17A476B100035E9F /* Build configuration list for PBXNativeTarget "ChatFeed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F9F517F17A476B100035E9F /* Debug */,
+				6F9F518017A476B100035E9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F9F518117A476B100035E9F /* Build configuration list for PBXNativeTarget "ChatFeedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F9F518217A476B100035E9F /* Debug */,
+				6F9F518317A476B100035E9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6F9F514117A476B000035E9F /* Project object */;
+}

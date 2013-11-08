@@ -1,4 +1,4 @@
 Chatfeed
 ========
 
-Chatfeed for Apple's iOS platform
+Chatfeed for iOS
