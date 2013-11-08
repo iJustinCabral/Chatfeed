@@ -28,6 +28,9 @@
 		6F23E39F18026101006BEA1E /* CHFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E39E18026101006BEA1E /* CHFHomeViewController.m */; };
 		6F23E3A21802615B006BEA1E /* CHFMainDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */; };
 		6F23E3A518026514006BEA1E /* CHFAppBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E3A418026514006BEA1E /* CHFAppBar.m */; };
+		6F3AEE31182C69D600C2E4AE /* CHFProfileUserCountsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AEE30182C69D600C2E4AE /* CHFProfileUserCountsCell.m */; };
+		6F3AEE34182C69E100C2E4AE /* CHFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AEE33182C69E100C2E4AE /* CHFProfileViewController.m */; };
+		6F3AEE37182C69EB00C2E4AE /* CHFIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AEE36182C69EB00C2E4AE /* CHFIAPHelper.m */; };
 		6F998883180B62A700C4B2A2 /* CHFNotificationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */; };
 		6F998889180B668600C4B2A2 /* CHFHoverGridLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F998888180B668600C4B2A2 /* CHFHoverGridLayout.m */; };
 		6F9DDE6E1829F1CF00820392 /* CHFAppBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9DDE6D1829F1CF00820392 /* CHFAppBarView.m */; };
@@ -79,7 +82,6 @@
 		6FA5D0BE17B93787007E9649 /* CHFWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */; };
 		6FA6E6B817C45CD300FDB4E0 /* backgroundImage1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6E6B617C45CD300FDB4E0 /* backgroundImage1@2x.jpg */; };
 		6FA71D1417BC56E100611EEB /* CHFBackDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */; };
-		6FA8B9C917C946D70078EDB3 /* CHFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8B9C817C946D70078EDB3 /* CHFProfileViewController.m */; };
 		6FAF182B17B0A5170093DB5B /* CHFAbstractCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */; };
 		6FB8E5CC17B72211000DB54A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */; };
 		6FDA159C17A87322005D8D54 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDA159B17A87322005D8D54 /* libz.dylib */; };
@@ -149,6 +151,12 @@
 		6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMainDeckController.m; sourceTree = "<group>"; };
 		6F23E3A318026514006BEA1E /* CHFAppBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAppBar.h; sourceTree = "<group>"; };
 		6F23E3A418026514006BEA1E /* CHFAppBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAppBar.m; sourceTree = "<group>"; };
+		6F3AEE2F182C69D600C2E4AE /* CHFProfileUserCountsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFProfileUserCountsCell.h; sourceTree = "<group>"; };
+		6F3AEE30182C69D600C2E4AE /* CHFProfileUserCountsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFProfileUserCountsCell.m; sourceTree = "<group>"; };
+		6F3AEE32182C69E100C2E4AE /* CHFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFProfileViewController.h; sourceTree = "<group>"; };
+		6F3AEE33182C69E100C2E4AE /* CHFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFProfileViewController.m; sourceTree = "<group>"; };
+		6F3AEE35182C69EB00C2E4AE /* CHFIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFIAPHelper.h; sourceTree = "<group>"; };
+		6F3AEE36182C69EB00C2E4AE /* CHFIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFIAPHelper.m; sourceTree = "<group>"; };
 		6F998881180B62A700C4B2A2 /* CHFNotificationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNotificationBar.h; sourceTree = "<group>"; };
 		6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNotificationBar.m; sourceTree = "<group>"; };
 		6F998887180B668600C4B2A2 /* CHFHoverGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHoverGridLayout.h; sourceTree = "<group>"; };
@@ -225,8 +233,6 @@
 		6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFBackDeckController.m; sourceTree = "<group>"; };
 		6FA8B9C417C946C30078EDB3 /* CHFStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStoreViewController.h; sourceTree = "<group>"; };
 		6FA8B9C517C946C30078EDB3 /* CHFStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStoreViewController.m; sourceTree = "<group>"; };
-		6FA8B9C717C946D70078EDB3 /* CHFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFProfileViewController.h; sourceTree = "<group>"; };
-		6FA8B9C817C946D70078EDB3 /* CHFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFProfileViewController.m; sourceTree = "<group>"; };
 		6FA8B9CA17C946E20078EDB3 /* CHFSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFSettingsViewController.h; sourceTree = "<group>"; };
 		6FA8B9CB17C946E20078EDB3 /* CHFSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFSettingsViewController.m; sourceTree = "<group>"; };
 		6FAF182917B0A5170093DB5B /* CHFAbstractCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAbstractCell.h; sourceTree = "<group>"; };
@@ -550,6 +556,8 @@
 			children = (
 				6FB04B9A17AEFDEB00D52895 /* Categories */,
 				6F998880180B625100C4B2A2 /* AppBar */,
+				6F3AEE35182C69EB00C2E4AE /* CHFIAPHelper.h */,
+				6F3AEE36182C69EB00C2E4AE /* CHFIAPHelper.m */,
 				6F9F515B17A476B000035E9F /* CHFAppDelegate.h */,
 				6F9F515C17A476B000035E9F /* CHFAppDelegate.m */,
 				6F9F518717A4854400035E9F /* CHFAppContainerViewController.h */,
@@ -618,6 +626,8 @@
 				F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */,
 				6F23E37D180250B9006BEA1E /* CHFItemCollectionViewCell.h */,
 				6F23E37E180250B9006BEA1E /* CHFItemCollectionViewCell.m */,
+				6F3AEE2F182C69D600C2E4AE /* CHFProfileUserCountsCell.h */,
+				6F3AEE30182C69D600C2E4AE /* CHFProfileUserCountsCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -691,8 +701,8 @@
 		F66E8E8F180078FE00A94349 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				6FA8B9C717C946D70078EDB3 /* CHFProfileViewController.h */,
-				6FA8B9C817C946D70078EDB3 /* CHFProfileViewController.m */,
+				6F3AEE32182C69E100C2E4AE /* CHFProfileViewController.h */,
+				6F3AEE33182C69E100C2E4AE /* CHFProfileViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -864,10 +874,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F3AEE31182C69D600C2E4AE /* CHFProfileUserCountsCell.m in Sources */,
 				6F9F51A717A4A2C000035E9F /* CHFExploreViewController.m in Sources */,
 				6FA3A6E3182606190025FF90 /* CHFStreamModel.m in Sources */,
 				6F9F968A180F3E1500FB8255 /* CHFStoreViewController.m in Sources */,
-				6FA8B9C917C946D70078EDB3 /* CHFProfileViewController.m in Sources */,
 				6F9DDE6E1829F1CF00820392 /* CHFAppBarView.m in Sources */,
 				6F9F968B180F3E2200FB8255 /* CHFSettingsViewController.m in Sources */,
 				F6A061A917C58DD2003CE959 /* CHFMentionCell.m in Sources */,
@@ -906,6 +916,7 @@
 				6F23E396180253FA006BEA1E /* CHFAppContainerViewController.m in Sources */,
 				6FAF182B17B0A5170093DB5B /* CHFAbstractCell.m in Sources */,
 				F65F0EF217DC068900E7513C /* CHFViewPagerController.m in Sources */,
+				6F3AEE34182C69E100C2E4AE /* CHFProfileViewController.m in Sources */,
 				6F23E385180250B9006BEA1E /* CHFHoverMenuCell.m in Sources */,
 				6F23E37618024FDA006BEA1E /* CHFBlurView.m in Sources */,
 				6FA2EBEF1813529900EFF09F /* CHFCenterFlowLayout.m in Sources */,
@@ -921,6 +932,7 @@
 				6F9F515917A476B000035E9F /* main.m in Sources */,
 				6F998889180B668600C4B2A2 /* CHFHoverGridLayout.m in Sources */,
 				6F23E37218024F86006BEA1E /* CHFChatStackItem.m in Sources */,
+				6F3AEE37182C69EB00C2E4AE /* CHFIAPHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

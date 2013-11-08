@@ -6,8 +6,12 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+
+@class ANKUser;
 
 @interface CHFProfileViewController : UIViewController
+
+@property (nonatomic, strong) ANKUser *user;
 
 @end

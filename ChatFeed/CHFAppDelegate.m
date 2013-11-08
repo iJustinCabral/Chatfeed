@@ -20,6 +20,7 @@
 #import "CHFWallpaperView.h"
 
 #import <ADNLogin.h>
+#import "CHFIAPHelper.h"
 
 @interface CHFAppDelegate () <CHFWallpaperDelegate, ADNLoginDelegate, LoginViewControllerDelegate>
 
@@ -138,6 +139,8 @@
         )
     {
         self.window.rootViewController = [CHFAppContainerViewController new];
+        
+        [CHFIAPHelper sharedInstance];
     }
     else
     {
