@@ -21,7 +21,7 @@
     NSMutableArray *modifiedLayoutAttributesArray = [NSMutableArray array];
     
     [array enumerateObjectsUsingBlock:^(UICollectionViewLayoutAttributes *layoutAttributes, NSUInteger index, BOOL *stop) {
-        layoutAttributes.center = CGPointMake([self offsetForIndex:index], self.collectionView.center.y);
+        layoutAttributes.center = CGPointMake([self offsetForIndex:index], self.collectionView.frame.size.height / 2);
         [modifiedLayoutAttributesArray addObject:layoutAttributes];
     }];
     
@@ -57,14 +57,7 @@
 {
     NSUInteger countOfItems = [self.collectionView numberOfItemsInSection:0];
     
-    if ((countOfItems % 2) == 0)
-    {
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
+    return (countOfItems % 2) == 0 ? NO : YES;
 }
 
 - (BOOL)itemCountGoesBeyondView

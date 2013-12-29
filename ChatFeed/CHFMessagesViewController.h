@@ -6,10 +6,8 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-#import "CHFViewPagerController.h"
+#import "CHFViewController.h"
 
-@import UIKit;
-
-@interface CHFMessagesViewController : CHFViewPagerController
+@interface CHFMessagesViewController : CHFViewController
 
 @end

@@ -440,6 +440,16 @@
     }
 }
 
+- (void)setAllCardsToState:(ControllerCardState)state animated:(BOOL)animated
+{
+    NSArray *cards = [self.deckController allCardsFromDeckContainingCard:self];
+    
+    for (CHFControllerCard *card in cards)
+    {
+        [card setState:state animated:animated];
+    }
+}
+
 - (void)setState:(ControllerCardState)state animated:(BOOL)animated
 {
     if (animated)

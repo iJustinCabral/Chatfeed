@@ -1,4 +1,4 @@
- //
+//
 //  CHFNotificationBar.m
 //  ChatFeed
 //
@@ -7,10 +7,6 @@
 //
 
 #import "CHFNotificationBar.h"
-#import "CHFNotificationBarObject.h"
-
-#import <QuartzCore/QuartzCore.h>
-
 
 @interface CHFNotificationBar ()
 
@@ -19,7 +15,8 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UILabel *notificationLabel;
 
-@property (nonatomic) BOOL isPaused;
+@property (nonatomic, readwrite, getter = isPaused) BOOL paused;
+@property (nonatomic, readwrite, getter = isShowingNotifications) BOOL showingNotifications;
 
 @end
 
@@ -27,7 +24,17 @@
 
 #pragma mark - Lifecycle
 
-+ (instancetype)sharedNotifcationBar
++ (instancetype)sharedTopNotificationBar
+{
+    static id instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
++ (instancetype)sharedBottomNotifcationBar
 {
     static id instance;
     static dispatch_once_t onceToken;
@@ -52,7 +59,6 @@
     if (self)
     {
         self.frame = CGRectMake(0, 0, AppDelegate.window.frame.size.width, 20);
-        
         [self initializer];
     }
     return self;
@@ -60,6 +66,8 @@
 
 - (void)initializer
 {
+    self.layer.opacity = 0.0;
+    
     if (!self.notificationQueue)
     {
         self.notificationQueue = [[NSMutableArray alloc] init];
@@ -78,30 +86,38 @@
     
     if (!self.notificationLabel)
     {
-        self.notificationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 20)];
-        self.notificationLabel.center = self.center;
-        self.notificationLabel.backgroundColor = [UIColor clearColor];
-        self.notificationLabel.textColor = [UIColor lightGrayColor];
-        self.notificationLabel.font = [UIFont boldSystemFontOfSize:13.0f];
+        self.notificationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        self.notificationLabel.textColor = [UIColor whiteColor];
+        self.notificationLabel.font = [UIFont boldSystemFontOfSize:13.0];
         self.notificationLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.notificationLabel.numberOfLines = 1;
         self.notificationLabel.textAlignment = NSTextAlignmentCenter;
-        self.notificationLabel.layer.opacity = 0.0;
         
         [self addSubview:self.notificationLabel];
     }
 }
 
+#pragma mark - Properties
+
+- (void)setShowingNotifications:(BOOL)showingNotifications
+{
+    _showingNotifications = showingNotifications;
+    
+    if (showingNotifications)
+    {
+        [self.delegate didBeginShowingNotificationsFromNotificationBar:self];
+    }
+    else
+    {
+        [self.delegate didEndShowingNotificationsFromNotificationBar:self];
+    }
+}
 
 #pragma mark - Queue Methods
 
-- (CHFNotificationBarObject *)dequeueNotification
+- (void)addNotification:(CHFNotificationBarObject *)notification
 {
-    CHFNotificationBarObject *notification = self.notificationQueue[0];
-    
-    [self.notificationQueue removeObjectAtIndex:0];
-    
-    return notification;
+    [self enqueueNotification:notification];
 }
 
 - (void)enqueueNotification:(CHFNotificationBarObject *)notification
@@ -115,95 +131,122 @@
         [self.notificationQueue insertObject:notification atIndex:self.notificationQueue.count];
     }
     
-    if (self.notificationQueue.count > 0) //  && self.statusBarIsHidden == NO
+    if (self.notificationQueue.count > 0 && self.isShowingNotifications == NO)
     {
         [self displayNextNotificationObject];
     }
 }
 
+- (CHFNotificationBarObject *)dequeueNotification
+{
+    CHFNotificationBarObject *notification = self.notificationQueue[0];
+    
+    [self.notificationQueue removeObjectAtIndex:0];
+    
+    return notification;
+}
 
 - (void)displayNextNotificationObject
 {
     if (!self.isPaused)
     {
-//        if (!self.statusBarIsHidden)
-//        {
-//            [self hideStatusBar];
-//        }
+        CHFNotificationBarObject *notification = [self dequeueNotification];
         
-        [self displayNotification:[self dequeueNotification]];
+        if (self.isShowingNotifications)
+        {
+            [self hideNotificationAnimated:YES completion:^{
+                [self displayNotification:notification
+                              shouldDelay:NO];
+            }];
+        }
+        else
+        {
+            [self displayNotification:notification
+                          shouldDelay:YES];
+        }
     }
 }
 
-- (void)displayNotification:(CHFNotificationBarObject *)notification
+- (void)displayNotification:(CHFNotificationBarObject *)notification shouldDelay:(BOOL)delay
 {
-//    [self updateFrameWidthForNotification:notification.notificationText];
+    self.showingNotifications = YES;
     
-    [UIView animateWithDuration:.68
-                          delay:0.1
+    if ([self.delegate respondsToSelector:@selector(didBeginShowingNotification:fromNotificationBar:)])
+    {
+        [self.delegate didBeginShowingNotification:notification
+                               fromNotificationBar:self];
+    }
+    
+    //    [self updateFrameWidthForNotification:notification.notificationText];
+    
+    self.notificationLabel.text = notification.messageText;
+    
+    [UIView animateWithDuration:.48
+                          delay:delay ? 0.3 : 0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.notificationLabel.layer.opacity = 1.0;
-                         
+                         self.layer.opacity = 1.0;
                          if (notification.isProgressType)
                          {
                              self.activityIndicator.layer.opacity = 1.0;
                          }
                      }
                      completion:^(BOOL finished) {
-                         
-                         [self performSelector:@selector(notificationWillEnd:) withObject:notification afterDelay:3];
+                         [self notification:notification willEndAfter:3];
                      }];
 }
 
-- (void)notificationWillEnd:(CHFNotificationBarObject *)notification
+- (void)notification:(CHFNotificationBarObject *)notification willEndAfter:(NSTimeInterval)interval // 5
 {
-    if (self.notificationQueue.count > 0)
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+                   {
+                       
+                       if ([self.delegate respondsToSelector:@selector(didEndShowingNotification:fromNotificationBar:)])
+                       {
+                           [self.delegate didEndShowingNotification:notification
+                                                fromNotificationBar:self];
+                       }
+                       
+                       // If the is still notifications in the queue display the next one
+                       if (self.notificationQueue.count > 0)
+                       {
+                           [self displayNextNotificationObject];
+                       }
+                       else
+                       {
+                           [self showStatusBar];
+                       }
+                   });
+}
+
+- (void)hideNotificationAnimated:(BOOL)animated completion:(void (^)(void))completion
+{
+    if (animated)
     {
-        CHFNotificationBarObject *notificationObject = self.notificationQueue[0];
-        
-        if (!notificationObject.isProgressType)
-        {
-            self.activityIndicator.layer.opacity = 0.0;
-        }
-        
-        [self displayNextNotificationObject];
-    }
-    else
-    {
-        
-        [UIView animateWithDuration:.68
+        [UIView animateWithDuration:.48
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-                             self.notificationLabel.layer.opacity = 0.0;
-                             self.activityIndicator.layer.opacity = 0.0;
+                             [self hideNotificationAnimated:NO completion:nil];
                          }
                          completion:^(BOOL finished) {
-                             
-                             [self showStatusBar];
-                             
+                             completion();
                          }];
     }
+    
+    self.layer.opacity = 0.0;
 }
 
 #pragma mark - Statusbar Methods
 
 - (void)showStatusBar
 {
-//    self.statusBarIsHidden = NO;
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    
-    [UIView animateWithDuration:.48
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         self.layer.opacity = 0.0;
-                     }
-                     completion:^(BOOL finished) {
-                         
-                     }];
+    [self hideNotificationAnimated:YES
+                        completion:^{
+                            
+                            self.showingNotifications = NO;
+                        }];
     
     // This is the last method called once a notification is finished. We need to check once more that there are no notifications to be displayed
     if (self.notificationQueue.count > 0 && !self.isPaused)
@@ -212,53 +255,34 @@
     }
 }
 
-- (void)hideStatusBar
-{
-//    self.statusBarIsHidden = YES;
-    
-    [UIView animateWithDuration:.48
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         self.layer.opacity = 1.0;
-                     }
-                     completion:^(BOOL finished) {
-                         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-                     }];
-}
-
 #pragma mark - Controls
 
-- (void)resumenotificationQueue
+- (void)resume
 {
     if (self.notificationQueue.count > 0)
     {
-        self.isPaused = NO;
+        self.paused = NO;
         
         [self showStatusBar];
-//        self.statusBarIsHidden = YES;
-        
-        [self displayNextNotificationObject];
     }
 }
 
-- (void)pausenotificationQueue
+- (void)pause
 {
-    self.isPaused = YES;
+    self.paused = YES;
     
-    [self hideStatusBar];
-//    self.statusBarIsHidden = NO;
+//    [self hideStatusBar];
 }
 
-- (void)stopnotificationQueue
+- (void)stop
 {
-    [self hideStatusBar];
+//    [self hideStatusBar];
     [self.notificationQueue removeAllObjects];
 }
 
 #pragma mark - Helpers
 
-- (NSUInteger)countOfNotificationsEnqueued
+- (NSUInteger)countOfEnqueuedNotifications
 {
     return self.notificationQueue.count;
 }

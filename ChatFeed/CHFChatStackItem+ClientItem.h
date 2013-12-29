@@ -10,6 +10,6 @@
 
 @interface CHFChatStackItem (ClientItem)
 
-+ (instancetype)currentClientItem;
++ (instancetype)currentClientItemWithItemType:(ItemType)type;
 
 @end

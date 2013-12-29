@@ -8,42 +8,39 @@
 
 #import "CHFAppContainerViewController.h"
 
-#import "CHFBackDeckController.h"
-#import "CHFMainDeckController.h"
-
-#import "CHFAppBar.h"
-
 #import "UIImage+ImageEffects.h"
 
 #import "CHFChatStackItem+ClientItem.h"
+#import "UIView+AutoLayout.h"
 
-//current deckcontroller
+#import "CHFBlurView.h"
 
-typedef NS_ENUM (NSUInteger, DeckControllerIndex)
+#import "CHFAppBar.h"
+
+#import "CHFViewController.h"
+#import "CHFFrontViewController.h"
+#import "CHFBackViewController.h"
+
+typedef NS_ENUM (NSUInteger, ScrollViewControllerIndex)
 {
-    DeckControllerIndexBack = 0,
-    DeckControllerIndexMain,
-    DeckControllerIndexHover
+    ScrollViewControllerIndexBack = 0,
+    ScrollViewControllerIndexFront
 };
 
-#define kToolBarHeight 60
+@interface CHFAppContainerViewController () <CHFScrollViewControllerDelegate, CHFAppBarDelegate>
 
-@interface CHFAppContainerViewController () <DeckControllerDelegate, CHFAppBarDelegate>
+//** Deck Controllers
+@property (nonatomic) CHFBackViewController *backScrollViewController;
+@property (nonatomic) CHFFrontViewController *frontScrollViewController;
+@property (nonatomic) ScrollViewControllerIndex currentScrollViewControllerIndex;
 
-@property (nonatomic, strong) UIView *deckContainer; // Holds the decks.
+//** Top AppBar
+@property (nonatomic, readwrite) CHFAppBar *topAppBar;
 
-@property (nonatomic, strong, readwrite) CHFBackDeckController *backDeckController;
-@property (nonatomic, strong, readwrite) CHFMainDeckController *mainDeckController;
-
-@property (nonatomic) DeckControllerIndex currentDeckControllerIndex;
-@property (nonatomic) NSMutableArray *deckControllers;
-
-@property (nonatomic, strong) UIButton *settingsButton;
-@property (nonatomic, strong) UISegmentedControl *deckSegmentedControl;
-@property (nonatomic, strong) UIButton *postButton;
-
-@property (nonatomic, strong) CHFBlurView *toolBarContainer;
-@property (nonatomic, strong) CHFAppBar *topAppBar;
+// - NavigationBar
+@property (nonatomic) UIButton *settingsButton;
+@property (nonatomic) UISegmentedControl *segmentedControl;
+@property (nonatomic) UIButton *postButton;
 
 @end
 
@@ -65,67 +62,34 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
 {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
     
-    self.toolBarHeight = kToolBarHeight;
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    // Set up the statusBar. The statusBar has to enabled in Settings for this method to show the statusBar
+    [AppDelegate hideStatusBar:NO withAnimation:UIStatusBarAnimationNone];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     // Start the chatstack
     ChatStackManager;
     
-    [self configureBackDeckController];
-    [self configureMainDeckController];
-    [self configureTopAppBar];
+    self.currentScrollViewControllerIndex = ScrollViewControllerIndexFront;
     
-    self.currentDeckControllerIndex = DeckControllerIndexMain;
-    self.deckSegmentedControl.selectedSegmentIndex = [self deckControllerForIndex:self.currentDeckControllerIndex].initialDeckPage;
+    // Build up views back to front, but don't wipe that way ;)
+    [self configureBackScrollViewController];
+    [self configureMainScrollViewController];
+    [self configureTopAppBar];
 }
 
-- (void)configureToolBar
+- (void)viewDidAppear:(BOOL)animated
 {
-    self.toolBarContainer = [[CHFBlurView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), self.toolBarHeight)
-                                                      blurType:BlurTypeDark
-                                                 withAnimation:NO];
-    [self.view addSubview:self.toolBarContainer];
-    [self.view bringSubviewToFront:self.toolBarContainer];
+    [super viewDidAppear:animated];
     
-    // Settings Button
-    self.settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.settingsButton.frame = CGRectMake(0, 0, 34, 34);
-    self.settingsButton.center = CGPointMake(37, self.toolBarContainer.frame.size.height / 2);
-    UIImage *tintedImage = [[UIImage imageNamed:@"bigGearIcon.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [self.settingsButton setImage:tintedImage forState:UIControlStateNormal];
-    [self.settingsButton setImage:[UIImage imageNamed:@"bigGearIconHighlighted.png"] forState:UIControlStateSelected];
-    self.settingsButton.imageView.tintColor = [UIColor chatFeedGreen];
-    [self.settingsButton addTarget:self action:@selector(toggleSettings:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.toolBarContainer addSubview:self.settingsButton];
-    
-    // Segmented Control
-    self.deckSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"M", @"H", @"E"]];
-    self.deckSegmentedControl.frame = CGRectMake(0, 0, 160, 30);
-    self.deckSegmentedControl.center = CGPointMake(self.toolBarContainer.frame.size.width / 2, self.toolBarContainer.frame.size.height / 2);
-    self.deckSegmentedControl.tintColor = [UIColor chatFeedGreen];
-    self.deckSegmentedControl.selectedSegmentIndex = 0;
-    [self.deckSegmentedControl addTarget:self
-                                  action:@selector(showDeck:)
-                        forControlEvents:UIControlEventValueChanged];
-    
-    [self.toolBarContainer addSubview:self.deckSegmentedControl];
-    
-    // Post Button
-    self.postButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.postButton.frame = CGRectMake(0, 0, 44, 44);
-    self.postButton.center = CGPointMake( self.toolBarContainer.frame.size.width - self.postButton.frame.size.width, self.toolBarContainer.frame.size.height / 2);
-    [self.postButton setTitle:@"Post" forState:UIControlStateNormal];
-    [self.postButton setTitleColor: [UIColor chatFeedGreen] forState:UIControlStateNormal];
-    
-    [self.postButton addTarget:self action:@selector(showPost:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.toolBarContainer addSubview:self.postButton];
+//    [self updateContentInsets];
+}
+
+- (void)updateContentInsetsToHeight:(CGFloat)height
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"contentInsetNotification"
+                                                        object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -134,25 +98,13 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Helpers
+#pragma mark - Properties
 
-- (CHFDeckController *)deckControllerForIndex:(DeckControllerIndex)index
+- (void)setCurrentScrollViewControllerIndex:(ScrollViewControllerIndex)currentScrollViewControllerIndex
 {
-    switch (self.currentDeckControllerIndex)
-    {
-        case DeckControllerIndexBack:
-        {
-            return self.backDeckController;
-        }
-        case DeckControllerIndexMain:
-        {
-            return self.mainDeckController;
-        }
-            break;
-        default:
-            return nil;
-            break;
-    }
+    _currentScrollViewControllerIndex = currentScrollViewControllerIndex;
+    
+    //TODO: get the currentindex from teh current controller and update the segmented control
 }
 
 #pragma mark - ChatStack helper methods
@@ -176,6 +128,24 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
 
 #pragma mark - SegmentControl
 
+- (void)configureSegmentedControlForDeck:(ScrollViewControllerIndex)index
+{
+    switch (index)
+    {
+        case ScrollViewControllerIndexBack:
+        {
+            
+        }
+        case ScrollViewControllerIndexFront:
+        {
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)showSegmentedControlAnimated:(BOOL)animated
 {
     if (animated)
@@ -188,7 +158,7 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
                          }];
     }
     
-    self.deckSegmentedControl.layer.opacity = 1.0;
+    self.segmentedControl.layer.opacity = 1.0;
 }
 
 - (void)hideSegmentedControlAnimated:(BOOL)animated
@@ -203,53 +173,46 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
                          }];
     }
     
-    self.deckSegmentedControl.layer.opacity = 0.0;
+    self.segmentedControl.layer.opacity = 0.0;
 }
 
 #pragma mark - Action Methods
 
 - (void)toggleSettings:(UIButton *)button
 {
+    [self switchScrollViewsWithAnimationOptions:UIViewAnimationOptionTransitionCrossDissolve];
+    
+    /*
+    
     if (button.selected == YES)
     {
         button.selected = NO;
         
-        // Backview
-        [self.backDeckController hideScrollViewWithAnimation:ViewTransitionAnimationScaleFade];
-        
-        // Cards view
-        [self.mainDeckController moveAllCardsToState:ControllerCardStateDefault animated:YES];
-        
-        //        [UIView animateWithDuration:0.3 animations:^{ self.backViewShadowView.layer.opacity = 0.0; }];
+        [self.backScrollViewController hideWithAnimation:TransitionAnimationScaleFade];
+        [self.frontScrollViewController showWithAnimation:TransitionAnimationScaleFade];
     }
     else
     {
         button.selected = YES;
         
-        // Backview
-        [self.backDeckController showScrollViewWithAnimation:ViewTransitionAnimationScaleFade];
-        
-        // Cards View
-        [self.mainDeckController moveAllCardsToState:ControllerCardStateHiddenBottom animated:YES];
-        
-        
-        //        [UIView animateWithDuration:0.3 animations:^{ self.backViewShadowView.layer.opacity = .8; }];
+        [self.frontScrollViewController hideWithAnimation:TransitionAnimationScaleFade];
+        [self.backScrollViewController showWithAnimation:TransitionAnimationScaleFade];
     }
+     //*/
 }
 
 - (void)showDeck:(UISegmentedControl *)segmentedControl
 {
-    switch (self.currentDeckControllerIndex)
+    switch (self.currentScrollViewControllerIndex)
     {
-            //        case DeckControllerBack:
-            //        {
-            //            [self.backDeckController moveToDeckIndex:sender.selectedSegmentIndex animated:YES];
-            //        }
-            //            break;
-        case DeckControllerIndexMain:
+        case ScrollViewControllerIndexBack:
         {
-            [self.mainDeckController moveToDeckIndex:segmentedControl.selectedSegmentIndex animated:YES];
-            [self.mainDeckController moveAllCardsToState:ControllerCardStateDefault animated:YES];
+            [self.backScrollViewController moveToIndex:segmentedControl.selectedSegmentIndex animated:YES];
+        }
+            break;
+        case ScrollViewControllerIndexFront:
+        {
+            [self.frontScrollViewController moveToIndex:segmentedControl.selectedSegmentIndex animated:YES];
         }
             break;
         default:
@@ -261,9 +224,11 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
 
 - (void)showPost:(UIButton *)button
 {
-//    CHFChatStackItem *clientItem = [CHFChatStackItem currentClientItem];
+    //    CHFChatStackItem *clientItem = [CHFChatStackItem currentClientItem];
     
-//    [ChatStackManager add]
+    //    [ChatStackManager add]
+    
+    
 }
 
 #pragma mark - TopAppBar
@@ -272,92 +237,134 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
 {
     if (!self.topAppBar)
     {
-        // Setup the navgation bar
-        self.topAppBar = [[CHFAppBar alloc] initWithHeight:self.toolBarHeight];
+        self.topAppBar = [[CHFAppBar alloc] init];
         self.topAppBar.delegate = self;
-        NSLog(@"navigation bar configureNavigationBar = %@", NSStringFromCGRect(self.topAppBar.frame));
         
-        // Setup navigation item and its content
-        UINavigationItem *navItem = [UINavigationItem new];
-        CGFloat barItemOffset = self.topAppBar.barButtonOffset;
-        CGRect frame;
-        UIView *containerView;
+        [self addChildViewController:self.topAppBar];
         
-        // Settings Button
-        self.settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.settingsButton.frame = CGRectMake(0, barItemOffset, 34, 34);
-        [self.settingsButton setImage:[[UIImage imageNamed:@"GearIcon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                             forState:UIControlStateNormal];
-        [self.settingsButton setImage:[UIImage imageNamed:@"bigGearIconHighlighted.png"] forState:UIControlStateSelected];
-        [self.settingsButton addTarget:self action:@selector(toggleSettings:) forControlEvents:UIControlEventTouchUpInside];
+        // Setup the topAppBar and give it what options it needs for the current card
+        [self.topAppBar addView:[self navigationBarView] withBarViewType:AppBarViewTypeNavigation];
         
-        frame = self.settingsButton.frame;
-        frame.origin = CGPointZero;
-        
-        containerView = [[UIView alloc] initWithFrame:frame];
-        [containerView addSubview:self.settingsButton];
-        
-        UIBarButtonItem *settingsButtonItem = [[UIBarButtonItem alloc] initWithCustomView:containerView];
-        navItem.leftBarButtonItem = settingsButtonItem;
-        
-        // Segmented Control
-        self.deckSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"M", @"H", @"E"]];
-        self.deckSegmentedControl.frame = CGRectMake(0, barItemOffset, 160, 30);
-        self.deckSegmentedControl.selectedSegmentIndex = 0;
-        [self.deckSegmentedControl addTarget:self
-                                      action:@selector(showDeck:)
-                            forControlEvents:UIControlEventValueChanged];
-        
-        frame = self.deckSegmentedControl.frame;
-        frame.origin = CGPointZero;
-        
-        containerView = [[UIView alloc] initWithFrame:frame];
-        [containerView addSubview:self.deckSegmentedControl];
-        
-        navItem.titleView = containerView;
-        
-        // Post Button
-        self.postButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        self.postButton.frame = CGRectMake(0, barItemOffset, 44, 44);
-        [self.postButton addTarget:self action:@selector(showPost:) forControlEvents:UIControlEventTouchUpInside];
-        
-        frame = self.postButton.frame;
-        frame.origin = CGPointZero;
-        
-        containerView = [[UIView alloc] initWithFrame:frame];
-        [containerView addSubview:self.postButton];
-        
-        UIBarButtonItem *postButtonItem = [[UIBarButtonItem alloc] initWithCustomView:containerView];
-        navItem.rightBarButtonItem = postButtonItem;
-        
-        
-        
-        [self.view addSubview:self.topAppBar];
-        [self.view bringSubviewToFront:self.topAppBar];
+        [self.view addSubview:self.topAppBar.view];
+        [self.view bringSubviewToFront:self.topAppBar.view];
     }
+}
+
+- (UINavigationBar *)navigationBarView
+{
+    // Setup the navgation bar
+    UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 54)];
+    navBar.barStyle = UIBarStyleBlackTranslucent;
+    [navBar setBackgroundImage:[UIImage new]
+                 forBarMetrics:UIBarMetricsDefault];
+    navBar.shadowImage = [UIImage new];
+    navBar.translucent = YES;
+    
+    // Setup navigation item and its content
+    UINavigationItem *navItem = [UINavigationItem new];
+    CGFloat barItemOffset = -5;
+    CGRect frame;
+    UIView *containerView;
+    
+    // Settings Button
+    self.settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.settingsButton.frame = CGRectMake(0, barItemOffset, 34, 34);
+    [self.settingsButton setImage:[[UIImage imageNamed:@"GearIcon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                         forState:UIControlStateNormal];
+    [self.settingsButton setImage:[UIImage imageNamed:@"bigGearIconHighlighted.png"] forState:UIControlStateSelected];
+    [self.settingsButton addTarget:self action:@selector(toggleSettings:) forControlEvents:UIControlEventTouchUpInside];
+    
+    frame = self.settingsButton.frame;
+    frame.origin = CGPointZero;
+    
+    containerView = [[UIView alloc] initWithFrame:frame];
+    [containerView addSubview:self.settingsButton];
+    
+    UIBarButtonItem *settingsButtonItem = [[UIBarButtonItem alloc] initWithCustomView:containerView];
+    navItem.leftBarButtonItem = settingsButtonItem;
+    
+    // Segmented Control
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"M", @"H", @"E"]];
+    self.segmentedControl.frame = CGRectMake(0, barItemOffset, 160, 30);
+    self.segmentedControl.selectedSegmentIndex = [self scrollViewControllerAtIndex:self.currentScrollViewControllerIndex].currentIndex;
+    [self.segmentedControl addTarget:self
+                                  action:@selector(showDeck:)
+                        forControlEvents:UIControlEventValueChanged];
+    
+    frame = self.segmentedControl.frame;
+    frame.origin = CGPointZero;
+    
+    containerView = [[UIView alloc] initWithFrame:frame];
+    [containerView addSubview:self.segmentedControl];
+    
+    navItem.titleView = containerView;
+    
+    // Post Button
+    self.postButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    self.postButton.frame = CGRectMake(0, barItemOffset, 44, 44);
+    [self.postButton addTarget:self action:@selector(showPost:) forControlEvents:UIControlEventTouchUpInside];
+    
+    frame = self.postButton.frame;
+    frame.origin = CGPointZero;
+    
+    containerView = [[UIView alloc] initWithFrame:frame];
+    [containerView addSubview:self.postButton];
+    
+    UIBarButtonItem *postButtonItem = [[UIBarButtonItem alloc] initWithCustomView:containerView];
+    navItem.rightBarButtonItem = postButtonItem;
+    
+    navBar.items = @[navItem];
+    
+    return navBar;
 }
 
 #pragma mark Delegate
 
-- (void)didEndDraggingAppBar:(UINavigationBar *)navigationBar withAppBarState:(AppBarState)state
+- (void)didUpdateAppBar:(CHFAppBar *)appBar
+               toHeight:(CGFloat)height
 {
-    if ([navigationBar isEqual:self.topAppBar] && self.topAppBar)
+    [self updateContentInsetsToHeight:height];
+}
+
+- (void)didStartDraggingAppBar:(CHFAppBar *)appBar
+                   inDirection:(PanDirection)direction
+{
+    
+}
+
+- (void)didDragAppBar:(CHFAppBar *)appBar
+       withPercentage:(CGFloat)percentage
+          inDirection:(PanDirection)direction
+{
+    
+}
+
+- (void)didEndDraggingAppBar:(CHFAppBar *)appBar
+            withAppBarAction:(AppBarAction)action
+{
+    if ([appBar isEqual:self.topAppBar])
     {
-        CHFDeckController *controller = [self deckControllerForIndex:self.currentDeckControllerIndex];
+        UIViewController *viewController = [self viewControllerInCurrentPageViewController];
         
-        switch (state)
+        switch (action)
         {
-            case AppBarStateReloadData:
+            case AppBarActionReloadData:
             {
-                
+                if ([viewController respondsToSelector:@selector(fetchDataWithCapacity:)])
+                {
+                    [(CHFViewController *)viewController fetchDataWithCapacity:20];
+                }
             }
                 break;
-            case AppBarStateBackToTop:
+            case AppBarActionBackToTop:
             {
-                
+                if ([viewController respondsToSelector:@selector(scrollToTop)])
+                {
+                    [(CHFViewController *)viewController scrollToTop];
+                }
             }
                 break;
-            case AppBarStateFullscreen:
+            case AppBarActionFullscreen:
             {
                 
             }
@@ -368,71 +375,328 @@ typedef NS_ENUM (NSUInteger, DeckControllerIndex)
     }
 }
 
-#pragma mark - DeckControllers
-
-- (void)configureMainDeckController
+- (void)willClearAuxiliaryViewForAppBar:(CHFAppBar *)appBar
 {
-    if (!self.mainDeckController)
+//    UIViewController *viewController = [self scrollViewControllerAtIndex:self.currentScrollViewControllerIndex].currentViewController;
+//    
+//    if ([viewController respondsToSelector:@selector(clearAuxiliaryView)])
+//    {
+//        [(CHFViewController *)viewController clearAuxiliaryView];
+//    }
+}
+
+- (void)didClearAuxiliaryViewForAppBar:(CHFAppBar *)appBar
+{
+//    UIViewController *viewController = [self scrollViewControllerAtIndex:self.currentScrollViewControllerIndex].currentViewController;
+//    
+//    if ([viewController respondsToSelector:@selector(clearAuxiliaryView)])
+//    {
+//        [(CHFViewController *)viewController clearAuxiliaryView];
+//    }
+}
+
+- (void)didSingleTapAppBar:(CHFAppBar *)appBar
+{
+    UIViewController *viewController = [self viewControllerInCurrentPageViewController];
+    
+    if ([viewController respondsToSelector:@selector(scrollToTop)])
     {
-        self.mainDeckController = [CHFMainDeckController new];
-        self.mainDeckController.delegate = self;
-        
-        [self addChildViewController:self.mainDeckController];
-        
-        self.mainDeckController.view.frame = self.view.frame;
-        [self.view addSubview:self.mainDeckController.view];
-        
-        [self.mainDeckController didMoveToParentViewController:self];
+        [(CHFViewController *)viewController scrollToTop];
     }
 }
 
-- (void)configureBackDeckController
+- (void)didDoubleTapAppBar:(CHFAppBar *)appBar
 {
-    if (!self.backDeckController)
+    UIViewController *viewController = [self viewControllerInCurrentPageViewController];
+    
+    if ([viewController respondsToSelector:@selector(scrollToBottom)])
     {
-        self.backDeckController = [CHFBackDeckController new];
-        self.backDeckController.delegate = self;
-        
-        [self addChildViewController:self.backDeckController];
-        
-        self.backDeckController.view.frame = self.view.frame;
-        [self.view addSubview:self.backDeckController.view];
-        
-        [self.backDeckController didMoveToParentViewController:self];
-        
-        [self.backDeckController hideScrollViewWithAnimation:ViewTransitionAnimationNone];
+        [(CHFViewController *)viewController scrollToBottom];
     }
 }
 
-#pragma mark Delegate
+#pragma mark - ScrollViewControllers
 
-- (void)deckController:(CHFDeckController *)deckController didUpdateControllerCard:(CHFControllerCard *)controllerCard toDisplayState:(ControllerCardState)toState fromDisplayState:(ControllerCardState)fromState
+- (void)configureMainScrollViewController
 {
-    NSLog(@"in delegate");
-    switch (toState)
+    if (!self.frontScrollViewController)
     {
-        case ControllerCardStateDefault:
+        self.frontScrollViewController = [CHFFrontViewController new];
+        self.frontScrollViewController.delegate = self;
+        
+        if (self.currentScrollViewControllerIndex == ScrollViewControllerIndexFront)
         {
-            NSLog(@"in state default");
-            [self.topAppBar showAppBar:YES withTransition:AppBarTransitionSlide];
+            [self configureViewController:self.frontScrollViewController];
         }
-            break;
-        case ControllerCardStateFullScreen:
+    }
+}
+
+- (void)configureBackScrollViewController
+{
+    if (!self.backScrollViewController)
+    {
+        self.backScrollViewController = [CHFBackViewController new];
+        self.backScrollViewController.delegate = self;
+        
+        if (self.currentScrollViewControllerIndex == ScrollViewControllerIndexBack)
         {
-            NSLog(@"in state fullscreen");
-            [self.topAppBar showAppBar:NO withTransition:AppBarTransitionSlide];
-            
-            //            [self showSegmentedControlAnimated:NO];
+            [self configureViewController:self.backScrollViewController];
+        }
+    }
+}
+
+- (void)configureViewController:(UIViewController *)viewController
+{
+    [self addChildViewController:viewController];
+    
+    viewController.view.frame = self.view.frame;
+    [self.view addSubview:viewController.view];
+    
+    [viewController didMoveToParentViewController:self];
+}
+
+- (void)removeViewController:(UIViewController *)viewController
+{
+    [viewController willMoveToParentViewController:nil];
+    [viewController.view removeFromSuperview];
+    [viewController removeFromParentViewController];
+}
+
+- (void)switchScrollViewsWithAnimationOptions:(UIViewAnimationOptions)options
+{
+    UIViewController *sourceViewController = [self scrollViewControllerAtIndex:self.currentScrollViewControllerIndex];
+    UIViewController *destinationViewController = nil;
+    if ([sourceViewController isEqual:self.frontScrollViewController])
+    {
+        destinationViewController = self.backScrollViewController;
+        self.currentScrollViewControllerIndex = ScrollViewControllerIndexBack;
+    }
+    else
+    {
+        destinationViewController = self.frontScrollViewController;
+        self.currentScrollViewControllerIndex = ScrollViewControllerIndexFront;
+    }
+    
+    [self addChildViewController:destinationViewController];
+    destinationViewController.view.frame = self.view.frame;
+    
+    [UIView transitionFromView:sourceViewController.view
+                        toView:destinationViewController.view
+                      duration:0.4
+                       options:options
+                    completion:^(BOOL finished) {
+                        [destinationViewController didMoveToParentViewController:self];
+                        
+                        [sourceViewController willMoveToParentViewController:nil];
+                        [sourceViewController removeFromParentViewController];
+                    }];
+    
+    
+}
+
+#pragma mark Helpers
+                         
+- (CHFScrollViewController *)scrollViewControllerAtIndex:(ScrollViewControllerIndex)index
+{
+    switch (index)
+    {
+        case ScrollViewControllerIndexBack:
+        {
+            return self.backScrollViewController;
+        }
+        case ScrollViewControllerIndexFront:
+        {
+            return self.frontScrollViewController;
         }
             break;
         default:
+            return nil;
             break;
     }
 }
 
-- (void)deckController:(CHFDeckController *)deckController didMoveToDeckIndex:(NSUInteger)index
+- (CHFViewController *)viewControllerInCurrentPageViewController
 {
-    self.deckSegmentedControl.selectedSegmentIndex = index;
+    return [self scrollViewControllerAtIndex:self.currentScrollViewControllerIndex].currentViewController;
+}
+
+//- (UIViewController *)previousViewController
+//{
+//    CHFScrollViewController *deckController = [self deckControllerAtIndex:self.currentScrollViewControllerIndex];
+//
+//    return [self viewControllerAtIndex:--deckController.currentPageInCurrentDeck
+//               inScrollViewControllerAtIndex:self.currentScrollViewControllerIndex];
+//}
+//
+//- (UIViewController *)nextViewController
+//{
+//    CHFScrollViewController *deckController = [self deckControllerAtIndex:self.currentScrollViewControllerIndex];
+//
+//    return [self viewControllerAtIndex:++deckController.currentPageInCurrentDeck
+//               inScrollViewControllerAtIndex:self.currentScrollViewControllerIndex];
+//}
+
+
+#pragma mark Delegate
+
+///*
+- (void)scrollViewController:(CHFScrollViewController *)scrollViewController
+didBeginScrollingWithPercentage:(CGFloat)percentage
+                 inDirection:(PanDirection)direction
+       towardsViewController:(UIViewController *)destinationViewController
+          fromViewController:(UIViewController *)sourceViewController
+{
+    if (![scrollViewController isEqual:self.frontScrollViewController]) return;
+    
+    NSLog(@"didStartDraggingTowardsViewController = %@", destinationViewController);
+    
+    if (destinationViewController == nil) return;
+    
+    if ([destinationViewController isKindOfClass:[CHFViewController class]])
+    {
+        if ([(CHFViewController *)destinationViewController hasAuxiliaryView])
+        {
+            // Clear the current auxiliaryview
+            [self.topAppBar.auxiliaryBarScrollView clearBarViews];
+            
+            UIView *auxiliaryView = [(CHFViewController *)destinationViewController auxiliaryView];
+            CHFAppBarView *barView = [[CHFAppBarView alloc] initWithType:AppBarViewTypeAuxiliary
+                                                                             andView:auxiliaryView];
+            
+            DestinationSide side = direction == PanDirectionLeft ? DestinationSideRight : DestinationSideLeft;
+            
+            [self.topAppBar.auxiliaryBarScrollView addBarView:barView onPageSide:side];
+            
+        }
+    }
+}
+
+- (void)scrollViewController:(CHFScrollViewController *)scrollViewController
+     didScrollWithPercentage:(CGFloat)percentage
+                 inDirection:(PanDirection)direction
+            toViewController:(UIViewController *)viewController
+{
+//    return;
+    if (![scrollViewController isEqual:self.frontScrollViewController]) return;
+    
+    NSLog(@"didScrollWithPercentage = %@", viewController);
+    
+    if ([viewController isKindOfClass:[CHFViewController class]])
+    {
+        if ([(CHFViewController *)viewController canScrollToTop])
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        if ([(CHFViewController *)viewController canFetchData])
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        if ([(CHFViewController *)viewController canScrollToBottom])
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        if ([(CHFViewController *)viewController canFetchOlderData])
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        if ([(CHFViewController *)viewController hasAuxiliaryView])
+        {
+            NSLog(@"going to");
+            [self.topAppBar interactiveTransitionToAuxiliaryViewWithPercentage:percentage];
+        }
+        else
+        {
+            NSLog(@"going from");
+            [self.topAppBar interactiveTransitionFromAuxiliaryViewWithPercentage:percentage];
+        }
+    }
+    else
+    {
+        
+    }
+}
+
+- (void)didEndScrollingScrollViewController:(CHFScrollViewController *)scrollViewController
+              withDestinationViewController:(UIViewController *)destinationViewController;
+{
+    if (![scrollViewController isEqual:self.frontScrollViewController]) return;
+    NSLog(@"didEndScrollingScrollViewController = %@", destinationViewController);
+    if (destinationViewController == nil) return;
+    
+    if ([destinationViewController isKindOfClass:[CHFViewController class]])
+    {
+        if (![(CHFViewController *)destinationViewController hasAuxiliaryView])
+        {
+            
+        }
+    }
+    else
+    {
+        [self.topAppBar.auxiliaryBarScrollView clearBarViews];
+    }
+}
+
+- (void)scrollViewController:(CHFScrollViewController *)scrollViewController
+              didMoveToIndex:(NSUInteger)index
+{
+    if (![scrollViewController isEqual:self.frontScrollViewController]) return;
+    NSLog(@"scrollViewController = %@", scrollViewController);
+    self.segmentedControl.selectedSegmentIndex = index;
+}
+//*/
+
+
+#pragma mark - ModelMinimalization Delegate
+
+// This is called from the collectionViews scrollViewDidScroll
+- (void)didScrollForCollectionViewModel:(CHFAbstractModel *)model
+                            inDirection:(PanDirection)direction
+                             withOffset:(CGFloat)offset
+                            andVelocity:(CGPoint)velocity
+{
+    [self.topAppBar interactiveTransitionToMinimalizationInDirection:direction
+                                                          withOffset:offset
+                                                         andVelocity:velocity];
+    
+//    [self.topAppBar collectionViewModel:model
+//                 didUpdateContentOffset:model.collectionView.contentOffset.y
+//                       withOffsetChange:offset];
+}
+
+
+// These are called from an added pan gesture on the collectionView
+- (void)didBeginDraggingCollectionViewModel:(CHFAbstractModel *)model
+                                inDirection:(PanDirection)direction
+                               withVelocity:(CGPoint)velocity
+{
+    [self.topAppBar beganDraggingCollectionViewModel:model inDirection:direction withVelocity:velocity];
+}
+
+- (void)didEndDraggingCollectionViewModel:(CHFAbstractModel *)model
+                              inDirection:(PanDirection)direction
+                             withVelocity:(CGPoint)velocity
+{
+    [self.topAppBar endedDraggingCollectionViewModel:model inDirection:direction withVelocity:velocity];
 }
 
 @end

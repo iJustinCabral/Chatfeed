@@ -11,15 +11,23 @@
 #endif
 
 #ifdef __OBJC__
+
+    // Frameworks
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <SystemConfiguration/SystemConfiguration.h>
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <QuartzCore/QuartzCore.h>
 
+    // Constently used classes
+    #import "UIColor+FlatUI.h"
+    #import "FrameAccessor.h"
+
+    // Singletons
     #import "CHFAppDelegate.h"
     #import "CHFAppContainerViewController.h"
     #import "CHFChatStackManager.h"
-    #import "UIColor+FlatUI.h"
     #import "CHFClientManager.h"
+    #import "CHFSettingsViewController.h"
+    #import "CHFNotificationBar.h"
 #endif

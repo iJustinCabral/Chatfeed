@@ -24,7 +24,7 @@
                   shouldCycle:(BOOL)shouldCycle
                cycleInReverse:(BOOL)cycleInReverse;
 
-@property (nonatomic, assign) id <CHFWallpaperDelegate> delegate;
+@property (nonatomic, weak) id <CHFWallpaperDelegate> delegate;
 
 @property (nonatomic, readonly) NSInteger currentIndex;
 @property (nonatomic) BOOL blurWallpaper;

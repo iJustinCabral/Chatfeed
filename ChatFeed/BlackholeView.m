@@ -108,7 +108,7 @@
 	emitterCell.name = @"blackhole";
 	emitterCell.enabled = YES;
     
-	emitterCell.contents = (id)[[UIImage imageNamed:@"spark.png"] CGImage];
+	emitterCell.contents = (id)[[UIImage imageNamed:@"spark"] CGImage];
 	emitterCell.contentsRect = CGRectMake(0.00, 0.00, 1.00, 1.00);
     
 	emitterCell.magnificationFilter = kCAFilterLinear;

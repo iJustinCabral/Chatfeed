@@ -9,7 +9,7 @@
 @import UIKit;
 #import <ANKUser.h>
 
-@interface CHFStackViewController : UIViewController
+@interface CHFChatViewController : CHFViewController
 
 @property (nonatomic, strong) NSString *userID;
 

@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-#import "CHFDeckController.h"
+#import "CHFPageViewController.h"
 
 @protocol MainDeckControllerDelegate;
 
-@interface CHFMainDeckController : CHFDeckController
+@interface CHFMainDeckController : CHFPageViewController
 
 @property (nonatomic, assign) id <MainDeckControllerDelegate> controllerDelegate;
 

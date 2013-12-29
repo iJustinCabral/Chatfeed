@@ -21,18 +21,59 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor clearColor];
-    
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                                          collectionViewLayout:[CHFSpringyFlowLayout new]];
-    collectionView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:collectionView];
     
     // Model
-    self.collectionViewModel = [[CHFMentionsModel alloc] initWithCollectionView:collectionView];
+    self.collectionViewModel = [[CHFMentionsModel alloc] initWithCollectionViewLayout:[CHFSpringyFlowLayout new]];
+    [self.view addSubview:self.collectionViewModel.collectionView];
 }
+
+#pragma mark - Subclassing Hooks
+
+- (BOOL)canFetchData
+{
+    return YES;
+}
+
+- (BOOL)canFetchOlderData
+{
+    return NO;
+}
+
+- (BOOL)canScrollToTop
+{
+    return YES;
+}
+
+- (BOOL)canScrollToBottom
+{
+    return YES;
+}
+
+- (BOOL)hasAuxiliaryView
+{
+    return NO;
+}
+
+- (void)scrollToTop
+{
+    [self.collectionViewModel scrollToTop];
+}
+
+- (void)scrollToBottom
+{
+    [self.collectionViewModel scrollToBottom];
+}
+
+- (void)fetchDataWithCapacity:(NSInteger)capacity
+{
+    [self.collectionViewModel reloadData];
+}
+
+- (void)updateContentInset:(CGFloat)inset
+{
+    [self.collectionViewModel updateContentInset:inset];
+}
+
 #pragma mark
 #pragma mark - Background Fetch Methods
 

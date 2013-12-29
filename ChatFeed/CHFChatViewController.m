@@ -6,18 +6,18 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-#import "CHFStackViewController.h"
+#import "CHFChatViewController.h"
 #import "CHFPrivateMessagesModel.h"
+#import <ANKClient+ANKUser.h>
+@interface CHFChatViewController ()
 
-@interface CHFStackViewController ()
+@property (nonatomic) BOOL initialLoad;
 
-@property (nonatomic, assign) BOOL initialLoad;
-
-@property (nonatomic, strong) CHFPrivateMessagesModel *collectionViewModel;
-
+@property (nonatomic) CHFPrivateMessagesModel *collectionViewModel;
+@property (nonatomic) ANKUser *user;
 @end
 
-@implementation CHFStackViewController
+@implementation CHFChatViewController
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,12 +33,20 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor orangeColor];
+    [[ClientManager currentClient] fetchUserWithID:self.userID completion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error) {
+        if (responseObject)
+        {
+            self.user = responseObject;
+            self.title = self.user.username;
+        }
+    }];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:1.000 green:0.500 blue:0.000 alpha:0.470];
     self.view.layer.cornerRadius = 8.0f;
     
-    self.title = self.userID;
+    self.title = self.user.username;
     
-    UIBarButtonItem *addToStackButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(addToStack)];
+    UIBarButtonItem *addToStackButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToStack)];
     
     self.navigationItem.rightBarButtonItem = addToStackButton;
     
@@ -52,7 +60,7 @@
     [self.view addSubview:collectionView];
     
     // Model
-    self.collectionViewModel = [[CHFPrivateMessagesModel alloc] initWithCollectionView:collectionView];
+//    self.collectionViewModel = [[CHFPrivateMessagesModel alloc] initWithCollectionView:collectionView];
 }
 
 - (void)didReceiveMemoryWarning

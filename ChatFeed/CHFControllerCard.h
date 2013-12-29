@@ -22,7 +22,7 @@ typedef NS_ENUM (NSUInteger, ControllerCardState)
 
 @property (nonatomic, strong) UIViewController *viewController;
 @property (nonatomic, weak) CHFDeckController *deckController;
-@property (nonatomic, assign) id <ControllerCardDelegate> delegate;
+@property (nonatomic, weak) id <ControllerCardDelegate> delegate;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
@@ -40,6 +40,7 @@ typedef NS_ENUM (NSUInteger, ControllerCardState)
 - (void)toggleStateAnimated:(BOOL)animated;
 - (void)setState:(ControllerCardState)state animated:(BOOL)animated;
 - (void)mimickState:(ControllerCardState)state animated:(BOOL)animated;
+- (void)setAllCardsToState:(ControllerCardState)state animated:(BOOL)animated;
 
 - (void)setYCoordinate:(CGFloat)yValue;
 - (CGFloat)percentageDistanceTravelled;

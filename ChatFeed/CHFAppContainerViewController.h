@@ -8,16 +8,18 @@
 
 @import UIKit;
 
-#import "CHFBlurView.h"
+// Imported to become the minimalizationDelegate
+#import "CHFAbstractModel.h"
+
+@class CHFAppBar;
 
 #define AppContainer \
 ((CHFAppContainerViewController *)[UIApplication sharedApplication].delegate.window.rootViewController)
 
-@interface CHFAppContainerViewController : UIViewController
+@interface CHFAppContainerViewController : UIViewController <CHFModelMinimalizationDelegate>
 
-@property (nonatomic, strong) CHFBlurView *blurView;
-
-@property (nonatomic) CGFloat toolBarHeight;
+@property (nonatomic, getter = isFullScreen) BOOL fullScreen;
+@property (nonatomic, readonly, strong) CHFAppBar *topAppBar;
 
 // Helper methods for the ChatStack
 - (void)userInteraction:(BOOL)interaction; // stops all touches inside the container

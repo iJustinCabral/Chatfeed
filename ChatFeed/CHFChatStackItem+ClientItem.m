@@ -14,7 +14,7 @@
 
 @implementation CHFChatStackItem (ClientItem)
 
-+ (instancetype)currentClientItem
++ (instancetype)currentClientItemWithItemType:(ItemType)type
 {
     CHFChatStackItem *clientItem = [[CHFChatStackItem alloc] initWithType:ItemTypeStandAlone];
     ANKUser *user = [[ANKClient sharedClient] authenticatedUser];

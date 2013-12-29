@@ -58,8 +58,8 @@ typedef void (^transitionStateBlock)(UIViewController *viewController, Controlle
 
 #pragma mark - Properties
 @property (nonatomic, copy) transitionStateBlock stateTransitionBlock;
-@property (nonatomic, assign) id <DeckControllerDataSource> dataSource;
-@property (nonatomic, assign) id <DeckControllerDelegate> delegate;
+@property (nonatomic, weak) id <DeckControllerDataSource> dataSource;
+@property (nonatomic, weak) id <DeckControllerDelegate> delegate;
 
 // Navigation bar properties
 @property (nonatomic, strong) Class cardNavigationBarClass; //Use a custom class for the card navigation bar
@@ -104,7 +104,7 @@ typedef void (^transitionStateBlock)(UIViewController *viewController, Controlle
 
 // Deck properties
 @property (nonatomic) NSUInteger initialDeckPage;
-@property (nonatomic) NSInteger currentDeckPage;
+@property (nonatomic) NSInteger currentPageInCurrentDeck;
 @property (nonatomic) BOOL embedViewControllersInNavigationController;
 
 //** ScrollView
@@ -118,7 +118,7 @@ typedef void (^transitionStateBlock)(UIViewController *viewController, Controlle
 @property (nonatomic) ScrollViewPagingStyle pagingStyle;
 @property (nonatomic) ViewTransitionAnimation transitionAnimation;
 // Dynamic Properties
-@property (nonatomic, getter = isSpringsEnabled)BOOL springsEnabled;
+@property (nonatomic, getter = isSpringsEnabled) BOOL springsEnabled;
 
 
 // Holds the decks in the scrollview
@@ -161,7 +161,7 @@ didUpdateControllerCard:(CHFControllerCard *)controllerCard
          toDisplayState:(ControllerCardState)toState
        fromDisplayState:(ControllerCardState)fromState;
 
-- (void)mimickCardState:(ControllerCardState)state animated:(BOOL)animated;
+//- (void)mimickCardState:(ControllerCardState)state animated:(BOOL)animated;
 - (void)moveAllCardsToState:(ControllerCardState)theState animated:(BOOL)animated;
 - (void)moveCards:(NSArray *)cards toState:(ControllerCardState)theState animated:(BOOL)animated;
 
@@ -173,7 +173,8 @@ didUpdateControllerCard:(CHFControllerCard *)controllerCard
 
 //
 - (void)moveCardToFront:(CHFControllerCard *)card;
-- (void)deckController:(CHFDeckController *)deckController didMoveCardToFront:(CHFControllerCard *)card;
+- (void)deckController:(CHFDeckController *)deckController
+    didMoveCardToFront:(CHFControllerCard *)card;
 
 @end
 
@@ -197,14 +198,44 @@ didUpdateControllerCard:(CHFControllerCard *)controllerCard
 @protocol DeckControllerDelegate <NSObject>
 
 @optional
+
+- (void)deckController:(CHFDeckController *)deckController
+didStartDraggingTowardsViewController:(UIViewController *)destinationViewController
+    fromViewController:(UIViewController *)sourceViewController
+        withPercentage:(CGFloat)percentage;
+
+- (void)deckController:(CHFDeckController *)deckController
+didScrollWithPercentage:(CGFloat)percentage
+           inDirection:(PanDirection)direction
+      toViewController:(UIViewController *)viewController;
+
+- (void)didStartDraggingDeckController:(CHFDeckController *)deckController
+                   inDirection:(PanDirection)direction;
+
+- (void)didDragDeckController:(CHFDeckController *)deckController
+       withPercentage:(CGFloat)percentage
+          inDirection:(PanDirection)direction;
+
+- (void)deckController:(CHFDeckController *)deckController didHitCenterOfDeckViewController:(UIViewController *)viewController;
+
+// Not being used
+- (void)deckController:(CHFDeckController *)deckController
+didChangeToDestinationViewController:(UIViewController *)destinationViewController;
+
+
+- (void)didEndScrollingDeckController:(CHFDeckController *)deckController withDestinationViewController:(UIViewController *)destinationViewController;
+
 // Called on any time a state change has occured - even if a state has changed to itself - (i.e. from ControllerCardStateDefault to ControllerCardStateDefault)
 - (void)deckController:(CHFDeckController *)deckController
 didUpdateControllerCard:(CHFControllerCard *)controllerCard
         toDisplayState:(ControllerCardState)toState
       fromDisplayState:(ControllerCardState)fromState;
 
-- (void)deckController:(CHFDeckController*)deckController didMoveToDeckIndex:(NSUInteger)index;
-- (void)deckController:(CHFDeckController *)deckController didMoveCardToFront:(CHFControllerCard *)card;
+- (void)deckController:(CHFDeckController*)deckController
+    didMoveToDeckIndex:(NSUInteger)index;
+
+- (void)deckController:(CHFDeckController *)deckController
+    didMoveCardToFront:(CHFControllerCard *)card;
 
 @end
 

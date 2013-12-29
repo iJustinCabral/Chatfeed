@@ -14,21 +14,16 @@
 
 @interface CHFItemsCollectionViewController : UIViewController
 
-- (instancetype)initWithItems:(NSArray *)items;
-
 #pragma mark -
 @property (nonatomic, strong, readonly) UICollectionView *collectionView;
 
-@property (nonatomic, assign) id <ItemsCollectionViewControllerDataSource> dataSource;
-@property (nonatomic, assign) id <ItemsCollectionViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <ItemsCollectionViewControllerDataSource> dataSource;
+@property (nonatomic, weak) id <ItemsCollectionViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) NSArray *itemArray;
 
 #pragma mark - Helpers
-- (CGPoint)pointForCellAtIndex:(NSUInteger)index inSection:(NSUInteger)section;
 - (CHFChatStackItem *)itemForCellAtIndex:(NSUInteger)index inSection:(NSUInteger)section;
-- (CHFItemCollectionViewCell *)cellAtIndex:(NSUInteger)index inSection:(NSUInteger)section;
-- (NSArray *)allCellsFromSection:(NSUInteger)section;
 
 @end
 

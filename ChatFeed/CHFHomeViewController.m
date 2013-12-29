@@ -26,15 +26,70 @@
 {
     [super viewDidLoad];
     
-    // Collection View
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                             collectionViewLayout:[CHFSpringyFlowLayout new]];
-    collectionView.backgroundColor = [UIColor clearColor];
-    collectionView.contentInset = UIEdgeInsetsMake(AppContainer.toolBarHeight, 0, 0, 0);
-    [self.view addSubview:collectionView];
-    
     // Model
-    self.collectionViewModel = [[CHFStreamModel alloc] initWithCollectionView:collectionView];
+    self.collectionViewModel = [CHFStreamModel new];
+    [self.view addSubview:self.collectionViewModel.collectionView];
+}
+
+#pragma mark - Subclassing Hooks
+
+- (BOOL)canFetchData
+{
+    return YES;
+}
+
+- (BOOL)canFetchOlderData
+{
+    return YES;
+}
+
+- (BOOL)canScrollToTop
+{
+    return YES;
+}
+
+- (BOOL)canScrollToBottom
+{
+    return YES;
+}
+
+- (BOOL)hasAuxiliaryView
+{
+    return YES; // NO
+}
+
+- (UIView *)auxiliaryView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [self.view addSubview:view];
+    
+    UIStepper *stepper = [UIStepper new];
+    stepper.center = view.center;
+    stepper.minimumValue = 0;
+    stepper.maximumValue = 30;
+    [view addSubview:stepper];
+    
+    return view;
+}
+
+- (void)scrollToTop
+{
+    [self.collectionViewModel scrollToTop];
+}
+
+- (void)scrollToBottom
+{
+    [self.collectionViewModel scrollToBottom];
+}
+
+- (void)fetchDataWithCapacity:(NSInteger)capacity
+{
+    [self.collectionViewModel reloadData];
+}
+
+- (void)updateContentInset:(CGFloat)inset
+{
+    [self.collectionViewModel updateContentInset:inset];
 }
 
 #pragma mark - Background Refresh Methods

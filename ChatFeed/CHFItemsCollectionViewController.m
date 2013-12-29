@@ -12,7 +12,7 @@
 
 #import "CHFChatStackManager.h"
 
-#define kCell @"friendCell"
+#define kCell @"Cell"
 
 @interface CHFItemsCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -44,36 +44,19 @@
 {
     [super viewDidLoad];
     
-    // Layout
-    CGFloat itemSize = ChatStackManager.stackItemSize;
-    CGFloat margin = 10.0f;
-    
-    CHFCenterFlowLayout *layout = [[CHFCenterFlowLayout alloc] init];
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.itemSize = CGSizeMake(itemSize, itemSize);
-    layout.minimumInteritemSpacing = margin;
-    layout.minimumLineSpacing = margin;
-    layout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
-    //    layout.sectionInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.frame) - ( itemSize + (margin * 2)), margin, margin, margin);
-    
-    // CollectionView
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
-    self.collectionView.backgroundView = nil;
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    self.collectionView.clipsToBounds = NO;
-    self.collectionView.layer.masksToBounds = NO;
-    
-    [self.view addSubview:self.collectionView];
+    [self configureCollectionView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     // This is called here since we need the collectionview to be populated, then we can get the cells position.
     [self.delegate passItems:[self.dataSource itemsToPassToItemsCollectionViewController:self] toItemsCollectionViewController:self];
+}
+
+- (void)viewWillLayoutSubviews
+{
+//    self.collectionView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,7 +64,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - Properties
 
@@ -93,6 +75,37 @@
 //}
 
 #pragma mark - Collection View
+
+- (void)configureCollectionView
+{
+    // Layout
+    CGFloat itemSize = ChatStackManager.stackItemSize;
+    CGFloat margin = 10.0f;
+    
+    
+    CHFCenterFlowLayout *layout = [[CHFCenterFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.itemSize = CGSizeMake(itemSize, itemSize);
+    layout.minimumInteritemSpacing = margin;
+    layout.minimumLineSpacing = margin;
+    layout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
+    //    layout.sectionInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.frame) - ( itemSize + (margin * 2)), margin, margin, margin);
+    
+    // CollectionView
+    // Had the frame set to the views frame. Something messes up so its hard coded for now
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 320, 80) collectionViewLayout:layout];
+    NSLog(@"self frame = %@, self bounds = %@, collection frame = %@, collection bounds = %@", NSStringFromCGRect(self.view.frame), NSStringFromCGRect(self.view.bounds), NSStringFromCGRect(self.collectionView.frame), NSStringFromCGRect(self.collectionView.bounds));
+    self.collectionView.backgroundView = nil;
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    self.collectionView.clipsToBounds = NO;
+    self.collectionView.layer.masksToBounds = NO;
+    
+    [self.view addSubview:self.collectionView];
+}
+
+#pragma mark DataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -118,29 +131,18 @@
     
     cell.clipsToBounds = NO;
     cell.item = [self.dataSource itemsToPassToItemsCollectionViewController:self][indexPath.item];
-    cell.backgroundColor = [UIColor blueColor];
     
     NSLog(@"making cell with item %@", cell.item);
     
     return cell;
 }
 
-#pragma mark – UICollectionViewDelegateFlowLayout
-
 
 #pragma mark - Helpers
 
-- (CGPoint)pointForCellAtIndex:(NSUInteger)index inSection:(NSUInteger)section
-{
-    CHFItemCollectionViewCell *cell = [self cellAtIndex:index inSection:section];
-    CGPoint pointOfCellInView = [self.collectionView convertPoint:cell.center toView:ChatStackManager.window];
-    
-    return pointOfCellInView;
-}
-
 - (CHFChatStackItem *)itemForCellAtIndex:(NSUInteger)index inSection:(NSUInteger)section
 {
-    CHFItemCollectionViewCell *cell = [self cellAtIndex:index inSection:section];
+    CHFItemCollectionViewCell *cell = (CHFItemCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:section]];
     
     for (CHFChatStackItem *item in cell.contentView.subviews)
     {
@@ -151,26 +153,6 @@
     }
     
     return nil;
-}
-
-- (CHFItemCollectionViewCell *)cellAtIndex:(NSUInteger)index inSection:(NSUInteger)section
-{
-    return (CHFItemCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:section]];
-}
-
-- (NSArray *)allCellsFromSection:(NSUInteger)section
-{
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    
-    for (CHFChatStackItem *item in self.collectionView.subviews)
-    {
-        if ([item isKindOfClass:[CHFChatStackItem class]])
-        {
-            [array addObject:item];
-        }
-    }
-    
-    return array;
 }
 
 @end

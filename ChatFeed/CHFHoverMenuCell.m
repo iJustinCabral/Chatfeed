@@ -41,12 +41,13 @@
         CAShapeLayer *cornerMaskLayer = [CAShapeLayer layer];
         [cornerMaskLayer setPath:path.CGPath];
         self.layer.mask = cornerMaskLayer;
+        self.layer.allowsEdgeAntialiasing = YES;
         
         // Make a transparent, stroked layer which will dispay the stroke.
         CAShapeLayer *strokeLayer = [CAShapeLayer layer];
         strokeLayer.path = path.CGPath;
         strokeLayer.fillColor = [UIColor clearColor].CGColor;
-        strokeLayer.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
+        strokeLayer.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.5].CGColor;
         strokeLayer.lineWidth = 4; // the stroke splits the width evenly inside and outside,
         // but the outside part will be clipped by the containerView’s mask.
         
@@ -105,7 +106,7 @@
     // User
     if (menuOption == HoverMenuOptionUserProfile) // 1
     {
-        self.optionLabel.text = @"UserProfile";
+        self.optionLabel.text = @"Profile";
     }
     if (menuOption == HoverMenuOptionUserFollow) // 2
     {
@@ -151,7 +152,7 @@
     }
     if (menuOption == HoverMenuOptionMessageReportSpam)
     {
-        self.optionLabel.text = @"ReportSpam";
+        self.optionLabel.text = @"Spam";
     }
     
     // Chat

@@ -8,6 +8,6 @@
 
 #import "CHFAbstractModel.h"
 
-@interface CHFMentionsModel : CHFAbstractModel
+@interface CHFMentionsModel : CHFAbstractModel <CHFModelDataSource, CHFModelDelegate>
 
 @end

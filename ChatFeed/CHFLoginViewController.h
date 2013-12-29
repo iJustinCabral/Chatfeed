@@ -23,6 +23,6 @@
 
 @interface CHFLoginViewController : UIViewController
 
-@property (nonatomic, assign) id <LoginViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <LoginViewControllerDelegate> delegate;
 
 @end

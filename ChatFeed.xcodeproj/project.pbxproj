@@ -19,7 +19,7 @@
 		6F23E388180250B9006BEA1E /* CHFItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E37E180250B9006BEA1E /* CHFItemCollectionViewCell.m */; };
 		6F23E389180250B9006BEA1E /* CHFItemsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E380180250B9006BEA1E /* CHFItemsCollectionViewController.m */; };
 		6F23E38A180250B9006BEA1E /* CHFKickOutBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E382180250B9006BEA1E /* CHFKickOutBehavior.m */; };
-		6F23E38B180250B9006BEA1E /* CHFStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E384180250B9006BEA1E /* CHFStackViewController.m */; };
+		6F23E38B180250B9006BEA1E /* CHFChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E384180250B9006BEA1E /* CHFChatViewController.m */; };
 		6F23E38E18025290006BEA1E /* CHFChatStackDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E38D18025290006BEA1E /* CHFChatStackDeckController.m */; };
 		6F23E391180252D1006BEA1E /* CHFClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E390180252D1006BEA1E /* CHFClientManager.m */; };
 		6F23E396180253FA006BEA1E /* CHFAppContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E395180253FA006BEA1E /* CHFAppContainerViewController.m */; };
@@ -28,9 +28,16 @@
 		6F23E39F18026101006BEA1E /* CHFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E39E18026101006BEA1E /* CHFHomeViewController.m */; };
 		6F23E3A21802615B006BEA1E /* CHFMainDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */; };
 		6F23E3A518026514006BEA1E /* CHFAppBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F23E3A418026514006BEA1E /* CHFAppBar.m */; };
+		6F2F8F82186B56EF00E554A5 /* CHFAppBarScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F8F81186B56EF00E554A5 /* CHFAppBarScrollView.m */; };
+		6F2F8F89186B694000E554A5 /* ScrollViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F8F86186B694000E554A5 /* ScrollViewFrameAccessor.m */; };
+		6F2F8F8A186B694000E554A5 /* ViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F8F88186B694000E554A5 /* ViewFrameAccessor.m */; };
 		6F3AEE31182C69D600C2E4AE /* CHFProfileUserCountsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AEE30182C69D600C2E4AE /* CHFProfileUserCountsCell.m */; };
 		6F3AEE34182C69E100C2E4AE /* CHFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AEE33182C69E100C2E4AE /* CHFProfileViewController.m */; };
 		6F3AEE37182C69EB00C2E4AE /* CHFIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AEE36182C69EB00C2E4AE /* CHFIAPHelper.m */; };
+		6F42A8161842972000642F05 /* SparkInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDA159D17A87378005D8D54 /* SparkInspector.framework */; };
+		6F48AD45186A1A54004ECA5E /* CHFCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F48AD44186A1A54004ECA5E /* CHFCollectionView.m */; };
+		6F4FCDF7184B74EC00B159AB /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4FCDF6184B74EC00B159AB /* ILTranslucentView.m */; };
+		6F4FCDFA184B7A8A00B159AB /* CHFHolyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4FCDF9184B7A8A00B159AB /* CHFHolyView.m */; };
 		6F998883180B62A700C4B2A2 /* CHFNotificationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */; };
 		6F998889180B668600C4B2A2 /* CHFHoverGridLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F998888180B668600C4B2A2 /* CHFHoverGridLayout.m */; };
 		6F9DDE6E1829F1CF00820392 /* CHFAppBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9DDE6D1829F1CF00820392 /* CHFAppBarView.m */; };
@@ -55,20 +62,33 @@
 		6F9F51B617A4EE1C00035E9F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B517A4EE1C00035E9F /* MobileCoreServices.framework */; };
 		6F9F51B817A4EE2400035E9F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B717A4EE2400035E9F /* CoreLocation.framework */; };
 		6F9F51BA17A4EE3400035E9F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F51B917A4EE3400035E9F /* QuartzCore.framework */; };
-		6F9F51C517A4F58F00035E9F /* CHFClientStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F51C417A4F58F00035E9F /* CHFClientStreamCell.m */; };
 		6F9F51CB17A5078E00035E9F /* CHFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F51CA17A5078E00035E9F /* CHFLoginViewController.m */; };
+		6F9F5AA918535D710058E685 /* CHFTriangleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F5AA818535D710058E685 /* CHFTriangleLayer.m */; };
+		6F9F71E9184782C200E6FC93 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F71E8184782C200E6FC93 /* AudioToolbox.framework */; };
 		6F9F968A180F3E1500FB8255 /* CHFStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8B9C517C946C30078EDB3 /* CHFStoreViewController.m */; };
 		6F9F968B180F3E2200FB8255 /* CHFSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8B9CB17C946E20078EDB3 /* CHFSettingsViewController.m */; };
 		6F9F9C6E181A07A7007955E2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9F9C6D181A07A7007955E2 /* StoreKit.framework */; };
 		6F9FA748180D64DB0052813F /* CHFNotificationBarObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FA747180D64DB0052813F /* CHFNotificationBarObject.m */; };
 		6F9FB3D5180CC52D00EF0948 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9FB3D3180CC52D00EF0948 /* spark.png */; };
+		6F9FCF1F1846A4C200E6A060 /* CHFPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FCF1E1846A4C200E6A060 /* CHFPostViewController.m */; };
 		6F9FD3F01826DB3900111FF6 /* CHFChatStackItem+ClientItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD3EF1826DB3900111FF6 /* CHFChatStackItem+ClientItem.m */; };
+		6F9FDB4418481E6A00CC7A09 /* avatarPlaceholder@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6F9FDB4318481E6A00CC7A09 /* avatarPlaceholder@2x.jpg */; };
+		6F9FDFAB1858FE3A004D9F90 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FDFAA1858FE3A004D9F90 /* UIImage+Additions.m */; };
+		6F9FDFAE18596AAC004D9F90 /* CHFPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FDFAD18596AAC004D9F90 /* CHFPageViewController.m */; };
 		6F9FEFCC181D593100A449C7 /* CHFNonInteractiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FEFCB181D593100A449C7 /* CHFNonInteractiveView.m */; };
 		6FA03569181C90BB00DADEC7 /* CHFWallpaperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA03568181C90BB00DADEC7 /* CHFWallpaperView.m */; };
-		6FA03573181CB57F00DADEC7 /* backgroundImage3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03570181CB57F00DADEC7 /* backgroundImage3.jpg */; };
-		6FA03574181CB57F00DADEC7 /* backgroundImage4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03571181CB57F00DADEC7 /* backgroundImage4.jpg */; };
-		6FA03575181CB57F00DADEC7 /* backgroundImage5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03572181CB57F00DADEC7 /* backgroundImage5.png */; };
+		6FA03573181CB57F00DADEC7 /* backgroundImage3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03570181CB57F00DADEC7 /* backgroundImage3@2x.jpg */; };
+		6FA03574181CB57F00DADEC7 /* backgroundImage4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03571181CB57F00DADEC7 /* backgroundImage4@2x.jpg */; };
+		6FA03575181CB57F00DADEC7 /* backgroundImage5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FA03572181CB57F00DADEC7 /* backgroundImage5@2x.png */; };
+		6FA101C118527E1A00EB9DC1 /* CHFChatStackItemBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA101C018527E1A00EB9DC1 /* CHFChatStackItemBase.m */; };
+		6FA101C31852A40F00EB9DC1 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA101C21852A40F00EB9DC1 /* placeholder.jpg */; };
+		6FA142221849550500C39D7D /* Ideas in Resources */ = {isa = PBXBuildFile; fileRef = 6FA142211849550500C39D7D /* Ideas */; };
+		6FA1D369183943E900417CB0 /* CHFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1D368183943E900417CB0 /* CHFViewController.m */; };
 		6FA1E3AE182461730023C74D /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1E3AD182461730023C74D /* UIView+AutoLayout.m */; };
+		6FA1F4DC18484953005E93DF /* CHFTimeStampLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1F4DB18484953005E93DF /* CHFTimeStampLabel.m */; };
+		6FA269AC18615E1B00C9A189 /* CHFBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA269AB18615E1B00C9A189 /* CHFBackViewController.m */; };
+		6FA274D31863BA5300B4EA05 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA274D21863BA5300B4EA05 /* NSArray+Additions.m */; };
+		6FA293A81848563700768BD8 /* NSDate+NVTimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA293A71848563700768BD8 /* NSDate+NVTimeAgo.m */; };
 		6FA2EBEF1813529900EFF09F /* CHFCenterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA2EBEE1813529900EFF09F /* CHFCenterFlowLayout.m */; };
 		6FA3A6D0182578900025FF90 /* at4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CA182578900025FF90 /* at4.jpg */; };
 		6FA3A6D1182578900025FF90 /* at2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CB182578900025FF90 /* at2.jpg */; };
@@ -78,24 +98,23 @@
 		6FA3A6D5182578900025FF90 /* at3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3A6CF182578900025FF90 /* at3.jpg */; };
 		6FA3A6DE1825E7520025FF90 /* CHFAbstractModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3A6DD1825E7520025FF90 /* CHFAbstractModel.m */; };
 		6FA3A6E3182606190025FF90 /* CHFStreamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3A6E2182606190025FF90 /* CHFStreamModel.m */; };
-		6FA3A6E618260ECB0025FF90 /* CHFStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3A6E518260ECB0025FF90 /* CHFStreamCell.m */; };
+		6FA47B9518303900006EDB6D /* UICollectionView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA47B9418303900006EDB6D /* UICollectionView+Additions.m */; };
 		6FA5D0BE17B93787007E9649 /* CHFWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */; };
 		6FA6E6B817C45CD300FDB4E0 /* backgroundImage1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6E6B617C45CD300FDB4E0 /* backgroundImage1@2x.jpg */; };
 		6FA71D1417BC56E100611EEB /* CHFBackDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */; };
 		6FAF182B17B0A5170093DB5B /* CHFAbstractCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */; };
 		6FB8E5CC17B72211000DB54A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */; };
+		6FC08860185AA4EB003BBF1C /* CHFScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC0885F185AA4EB003BBF1C /* CHFScrollViewController.m */; };
+		6FC08863185ABFF8003BBF1C /* CHFFrontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC08862185ABFF8003BBF1C /* CHFFrontViewController.m */; };
 		6FDA159C17A87322005D8D54 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDA159B17A87322005D8D54 /* libz.dylib */; };
-		F62B1B6917CAAF470048506C /* backgroundImage1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F62B1B6717CAAF470048506C /* backgroundImage1.jpg */; };
-		F62B1B6A17CAAF470048506C /* backgroundImage2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F62B1B6817CAAF470048506C /* backgroundImage2.jpg */; };
+		6FF764FC1842D30900F800F5 /* UIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF764FB1842D30900F800F5 /* UIView+Hierarchy.m */; };
+		F62B1B6917CAAF470048506C /* backgroundImage1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F62B1B6717CAAF470048506C /* backgroundImage1@2x.jpg */; };
+		F62B1B6A17CAAF470048506C /* backgroundImage2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F62B1B6817CAAF470048506C /* backgroundImage2@2x.jpg */; };
 		F64698A817CFE2830022A919 /* CHFMentionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64698A717CFE2830022A919 /* CHFMentionsViewController.m */; };
-		F65F0EF217DC068900E7513C /* CHFViewPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65F0EF117DC068900E7513C /* CHFViewPagerController.m */; };
 		F65F0EF617DC0E5800E7513C /* CHFPrivateMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65F0EF517DC0E5800E7513C /* CHFPrivateMessagesViewController.m */; };
 		F65F0EF917DC0E6500E7513C /* CHFChatFeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65F0EF817DC0E6500E7513C /* CHFChatFeedsViewController.m */; };
 		F6A0619C17C56493003CE959 /* UIColor+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A0619B17C56493003CE959 /* UIColor+FlatUI.m */; };
 		F6A061A617C58CF1003CE959 /* CHFMentionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061A517C58CF1003CE959 /* CHFMentionsModel.m */; };
-		F6A061A917C58DD2003CE959 /* CHFMentionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061A817C58DD2003CE959 /* CHFMentionCell.m */; };
-		F6A061B317C7C9A2003CE959 /* CHFPrivateMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061B217C7C9A2003CE959 /* CHFPrivateMessageCell.m */; };
-		F6A061B617C7CA27003CE959 /* CHFChatfeedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */; };
 		F6A061BB17C7CB4C003CE959 /* CHFPrivateMessagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A061BA17C7CB4C003CE959 /* CHFPrivateMessagesModel.m */; };
 		F6E57C5D17E027E900F6523D /* CHFChatFeedsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E57C5C17E027E900F6523D /* CHFChatFeedsModel.m */; };
 /* End PBXBuildFile section */
@@ -134,8 +153,8 @@
 		6F23E380180250B9006BEA1E /* CHFItemsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFItemsCollectionViewController.m; sourceTree = "<group>"; };
 		6F23E381180250B9006BEA1E /* CHFKickOutBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFKickOutBehavior.h; sourceTree = "<group>"; };
 		6F23E382180250B9006BEA1E /* CHFKickOutBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFKickOutBehavior.m; sourceTree = "<group>"; };
-		6F23E383180250B9006BEA1E /* CHFStackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStackViewController.h; sourceTree = "<group>"; };
-		6F23E384180250B9006BEA1E /* CHFStackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStackViewController.m; sourceTree = "<group>"; };
+		6F23E383180250B9006BEA1E /* CHFChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatViewController.h; sourceTree = "<group>"; };
+		6F23E384180250B9006BEA1E /* CHFChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatViewController.m; sourceTree = "<group>"; };
 		6F23E38C18025290006BEA1E /* CHFChatStackDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatStackDeckController.h; sourceTree = "<group>"; };
 		6F23E38D18025290006BEA1E /* CHFChatStackDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatStackDeckController.m; sourceTree = "<group>"; };
 		6F23E38F180252D1006BEA1E /* CHFClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFClientManager.h; sourceTree = "<group>"; };
@@ -151,12 +170,25 @@
 		6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMainDeckController.m; sourceTree = "<group>"; };
 		6F23E3A318026514006BEA1E /* CHFAppBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAppBar.h; sourceTree = "<group>"; };
 		6F23E3A418026514006BEA1E /* CHFAppBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAppBar.m; sourceTree = "<group>"; };
+		6F2F8F80186B56EF00E554A5 /* CHFAppBarScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFAppBarScrollView.h; sourceTree = "<group>"; };
+		6F2F8F81186B56EF00E554A5 /* CHFAppBarScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAppBarScrollView.m; sourceTree = "<group>"; };
+		6F2F8F84186B694000E554A5 /* FrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameAccessor.h; sourceTree = "<group>"; };
+		6F2F8F85186B694000E554A5 /* ScrollViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewFrameAccessor.h; sourceTree = "<group>"; };
+		6F2F8F86186B694000E554A5 /* ScrollViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewFrameAccessor.m; sourceTree = "<group>"; };
+		6F2F8F87186B694000E554A5 /* ViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewFrameAccessor.h; sourceTree = "<group>"; };
+		6F2F8F88186B694000E554A5 /* ViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewFrameAccessor.m; sourceTree = "<group>"; };
 		6F3AEE2F182C69D600C2E4AE /* CHFProfileUserCountsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFProfileUserCountsCell.h; sourceTree = "<group>"; };
 		6F3AEE30182C69D600C2E4AE /* CHFProfileUserCountsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFProfileUserCountsCell.m; sourceTree = "<group>"; };
 		6F3AEE32182C69E100C2E4AE /* CHFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFProfileViewController.h; sourceTree = "<group>"; };
 		6F3AEE33182C69E100C2E4AE /* CHFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFProfileViewController.m; sourceTree = "<group>"; };
 		6F3AEE35182C69EB00C2E4AE /* CHFIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFIAPHelper.h; sourceTree = "<group>"; };
 		6F3AEE36182C69EB00C2E4AE /* CHFIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFIAPHelper.m; sourceTree = "<group>"; };
+		6F48AD43186A1A54004ECA5E /* CHFCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFCollectionView.h; sourceTree = "<group>"; };
+		6F48AD44186A1A54004ECA5E /* CHFCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFCollectionView.m; sourceTree = "<group>"; };
+		6F4FCDF5184B74EC00B159AB /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
+		6F4FCDF6184B74EC00B159AB /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		6F4FCDF8184B7A8A00B159AB /* CHFHolyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHolyView.h; sourceTree = "<group>"; };
+		6F4FCDF9184B7A8A00B159AB /* CHFHolyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFHolyView.m; sourceTree = "<group>"; };
 		6F998881180B62A700C4B2A2 /* CHFNotificationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNotificationBar.h; sourceTree = "<group>"; };
 		6F998882180B62A700C4B2A2 /* CHFNotificationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNotificationBar.m; sourceTree = "<group>"; };
 		6F998887180B668600C4B2A2 /* CHFHoverGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFHoverGridLayout.h; sourceTree = "<group>"; };
@@ -192,25 +224,47 @@
 		6F9F51B517A4EE1C00035E9F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6F9F51B717A4EE2400035E9F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6F9F51B917A4EE3400035E9F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		6F9F51C317A4F58F00035E9F /* CHFClientStreamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFClientStreamCell.h; sourceTree = "<group>"; };
-		6F9F51C417A4F58F00035E9F /* CHFClientStreamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFClientStreamCell.m; sourceTree = "<group>"; };
 		6F9F51C917A5078E00035E9F /* CHFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFLoginViewController.h; sourceTree = "<group>"; };
 		6F9F51CA17A5078E00035E9F /* CHFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFLoginViewController.m; sourceTree = "<group>"; };
+		6F9F5AA718535D710058E685 /* CHFTriangleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFTriangleLayer.h; sourceTree = "<group>"; };
+		6F9F5AA818535D710058E685 /* CHFTriangleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFTriangleLayer.m; sourceTree = "<group>"; };
+		6F9F71E8184782C200E6FC93 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6F9F9C6D181A07A7007955E2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6F9FA746180D64DB0052813F /* CHFNotificationBarObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNotificationBarObject.h; sourceTree = "<group>"; };
 		6F9FA747180D64DB0052813F /* CHFNotificationBarObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNotificationBarObject.m; sourceTree = "<group>"; };
 		6F9FB3D3180CC52D00EF0948 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		6F9FCF1D1846A4C200E6A060 /* CHFPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPostViewController.h; sourceTree = "<group>"; };
+		6F9FCF1E1846A4C200E6A060 /* CHFPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPostViewController.m; sourceTree = "<group>"; };
 		6F9FD3EE1826DB3900111FF6 /* CHFChatStackItem+ClientItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CHFChatStackItem+ClientItem.h"; sourceTree = "<group>"; };
 		6F9FD3EF1826DB3900111FF6 /* CHFChatStackItem+ClientItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CHFChatStackItem+ClientItem.m"; sourceTree = "<group>"; };
+		6F9FDB4318481E6A00CC7A09 /* avatarPlaceholder@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avatarPlaceholder@2x.jpg"; sourceTree = "<group>"; };
+		6F9FDFA91858FE3A004D9F90 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
+		6F9FDFAA1858FE3A004D9F90 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
+		6F9FDFAC18596AAC004D9F90 /* CHFPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPageViewController.h; sourceTree = "<group>"; };
+		6F9FDFAD18596AAC004D9F90 /* CHFPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPageViewController.m; sourceTree = "<group>"; };
 		6F9FEFCA181D593100A449C7 /* CHFNonInteractiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFNonInteractiveView.h; sourceTree = "<group>"; };
 		6F9FEFCB181D593100A449C7 /* CHFNonInteractiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFNonInteractiveView.m; sourceTree = "<group>"; };
 		6FA03567181C90BB00DADEC7 /* CHFWallpaperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFWallpaperView.h; sourceTree = "<group>"; };
 		6FA03568181C90BB00DADEC7 /* CHFWallpaperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFWallpaperView.m; sourceTree = "<group>"; };
-		6FA03570181CB57F00DADEC7 /* backgroundImage3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage3.jpg; sourceTree = "<group>"; };
-		6FA03571181CB57F00DADEC7 /* backgroundImage4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage4.jpg; sourceTree = "<group>"; };
-		6FA03572181CB57F00DADEC7 /* backgroundImage5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundImage5.png; sourceTree = "<group>"; };
+		6FA03570181CB57F00DADEC7 /* backgroundImage3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "backgroundImage3@2x.jpg"; sourceTree = "<group>"; };
+		6FA03571181CB57F00DADEC7 /* backgroundImage4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "backgroundImage4@2x.jpg"; sourceTree = "<group>"; };
+		6FA03572181CB57F00DADEC7 /* backgroundImage5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundImage5@2x.png"; sourceTree = "<group>"; };
+		6FA101BF18527E1A00EB9DC1 /* CHFChatStackItemBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatStackItemBase.h; sourceTree = "<group>"; };
+		6FA101C018527E1A00EB9DC1 /* CHFChatStackItemBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatStackItemBase.m; sourceTree = "<group>"; };
+		6FA101C21852A40F00EB9DC1 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
+		6FA142211849550500C39D7D /* Ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ideas; sourceTree = "<group>"; };
+		6FA1D367183943E900417CB0 /* CHFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFViewController.h; sourceTree = "<group>"; };
+		6FA1D368183943E900417CB0 /* CHFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFViewController.m; sourceTree = "<group>"; };
 		6FA1E3AC182461730023C74D /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
 		6FA1E3AD182461730023C74D /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
+		6FA1F4DA18484953005E93DF /* CHFTimeStampLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFTimeStampLabel.h; sourceTree = "<group>"; };
+		6FA1F4DB18484953005E93DF /* CHFTimeStampLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFTimeStampLabel.m; sourceTree = "<group>"; };
+		6FA269AA18615E1B00C9A189 /* CHFBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFBackViewController.h; sourceTree = "<group>"; };
+		6FA269AB18615E1B00C9A189 /* CHFBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFBackViewController.m; sourceTree = "<group>"; };
+		6FA274D11863BA5300B4EA05 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
+		6FA274D21863BA5300B4EA05 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
+		6FA293A61848563700768BD8 /* NSDate+NVTimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+NVTimeAgo.h"; sourceTree = "<group>"; };
+		6FA293A71848563700768BD8 /* NSDate+NVTimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+NVTimeAgo.m"; sourceTree = "<group>"; };
 		6FA2EBED1813529900EFF09F /* CHFCenterFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFCenterFlowLayout.h; sourceTree = "<group>"; };
 		6FA2EBEE1813529900EFF09F /* CHFCenterFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFCenterFlowLayout.m; sourceTree = "<group>"; };
 		6FA3A6CA182578900025FF90 /* at4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = at4.jpg; sourceTree = "<group>"; };
@@ -224,8 +278,8 @@
 		6FA3A6DD1825E7520025FF90 /* CHFAbstractModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAbstractModel.m; sourceTree = "<group>"; };
 		6FA3A6E1182606190025FF90 /* CHFStreamModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStreamModel.h; sourceTree = "<group>"; };
 		6FA3A6E2182606190025FF90 /* CHFStreamModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStreamModel.m; sourceTree = "<group>"; };
-		6FA3A6E418260ECB0025FF90 /* CHFStreamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFStreamCell.h; sourceTree = "<group>"; };
-		6FA3A6E518260ECB0025FF90 /* CHFStreamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFStreamCell.m; sourceTree = "<group>"; };
+		6FA47B9318303900006EDB6D /* UICollectionView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+Additions.h"; sourceTree = "<group>"; };
+		6FA47B9418303900006EDB6D /* UICollectionView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+Additions.m"; sourceTree = "<group>"; };
 		6FA5D0BC17B93787007E9649 /* CHFWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFWebViewController.h; sourceTree = "<group>"; };
 		6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFWebViewController.m; sourceTree = "<group>"; };
 		6FA6E6B617C45CD300FDB4E0 /* backgroundImage1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "backgroundImage1@2x.jpg"; sourceTree = "<group>"; };
@@ -239,15 +293,19 @@
 		6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFAbstractCell.m; sourceTree = "<group>"; };
 		6FB8E5CA17B72211000DB54A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		6FC0885E185AA4EB003BBF1C /* CHFScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFScrollViewController.h; sourceTree = "<group>"; };
+		6FC0885F185AA4EB003BBF1C /* CHFScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFScrollViewController.m; sourceTree = "<group>"; };
+		6FC08861185ABFF8003BBF1C /* CHFFrontViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFFrontViewController.h; sourceTree = "<group>"; };
+		6FC08862185ABFF8003BBF1C /* CHFFrontViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFFrontViewController.m; sourceTree = "<group>"; };
 		6FDA159B17A87322005D8D54 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6FDA159D17A87378005D8D54 /* SparkInspector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkInspector.framework; sourceTree = "<group>"; };
+		6FF764FA1842D30900F800F5 /* UIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Hierarchy.h"; sourceTree = "<group>"; };
+		6FF764FB1842D30900F800F5 /* UIView+Hierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Hierarchy.m"; sourceTree = "<group>"; };
 		707C21036BB74385A79EDF39 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F62B1B6717CAAF470048506C /* backgroundImage1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage1.jpg; sourceTree = "<group>"; };
-		F62B1B6817CAAF470048506C /* backgroundImage2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImage2.jpg; sourceTree = "<group>"; };
+		F62B1B6717CAAF470048506C /* backgroundImage1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "backgroundImage1@2x.jpg"; sourceTree = "<group>"; };
+		F62B1B6817CAAF470048506C /* backgroundImage2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "backgroundImage2@2x.jpg"; sourceTree = "<group>"; };
 		F64698A617CFE2830022A919 /* CHFMentionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMentionsViewController.h; sourceTree = "<group>"; };
 		F64698A717CFE2830022A919 /* CHFMentionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMentionsViewController.m; sourceTree = "<group>"; };
-		F65F0EF017DC068900E7513C /* CHFViewPagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFViewPagerController.h; sourceTree = "<group>"; };
-		F65F0EF117DC068900E7513C /* CHFViewPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFViewPagerController.m; sourceTree = "<group>"; };
 		F65F0EF417DC0E5800E7513C /* CHFPrivateMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPrivateMessagesViewController.h; sourceTree = "<group>"; };
 		F65F0EF517DC0E5800E7513C /* CHFPrivateMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPrivateMessagesViewController.m; sourceTree = "<group>"; };
 		F65F0EF717DC0E6500E7513C /* CHFChatFeedsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatFeedsViewController.h; sourceTree = "<group>"; };
@@ -256,12 +314,6 @@
 		F6A0619B17C56493003CE959 /* UIColor+FlatUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatUI.m"; sourceTree = "<group>"; };
 		F6A061A417C58CF1003CE959 /* CHFMentionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMentionsModel.h; sourceTree = "<group>"; };
 		F6A061A517C58CF1003CE959 /* CHFMentionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMentionsModel.m; sourceTree = "<group>"; };
-		F6A061A717C58DD2003CE959 /* CHFMentionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFMentionCell.h; sourceTree = "<group>"; };
-		F6A061A817C58DD2003CE959 /* CHFMentionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFMentionCell.m; sourceTree = "<group>"; };
-		F6A061B117C7C9A2003CE959 /* CHFPrivateMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPrivateMessageCell.h; sourceTree = "<group>"; };
-		F6A061B217C7C9A2003CE959 /* CHFPrivateMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPrivateMessageCell.m; sourceTree = "<group>"; };
-		F6A061B417C7CA27003CE959 /* CHFChatfeedsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatfeedsCell.h; sourceTree = "<group>"; };
-		F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFChatfeedsCell.m; sourceTree = "<group>"; };
 		F6A061B917C7CB4C003CE959 /* CHFPrivateMessagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFPrivateMessagesModel.h; sourceTree = "<group>"; };
 		F6A061BA17C7CB4C003CE959 /* CHFPrivateMessagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFPrivateMessagesModel.m; sourceTree = "<group>"; };
 		F6E57C5B17E027E900F6523D /* CHFChatFeedsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFChatFeedsModel.h; sourceTree = "<group>"; };
@@ -273,15 +325,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F9F515117A476B000035E9F /* UIKit.framework in Frameworks */,
+				6F9F51B817A4EE2400035E9F /* CoreLocation.framework in Frameworks */,
+				6F9F71E9184782C200E6FC93 /* AudioToolbox.framework in Frameworks */,
 				6F9F9C6E181A07A7007955E2 /* StoreKit.framework in Frameworks */,
 				6FDA159C17A87322005D8D54 /* libz.dylib in Frameworks */,
 				6F9F51BA17A4EE3400035E9F /* QuartzCore.framework in Frameworks */,
-				6F9F51B817A4EE2400035E9F /* CoreLocation.framework in Frameworks */,
 				6F9F51B617A4EE1C00035E9F /* MobileCoreServices.framework in Frameworks */,
 				6F9F51B417A4EE1400035E9F /* SystemConfiguration.framework in Frameworks */,
 				6F9F514F17A476B000035E9F /* CoreGraphics.framework in Frameworks */,
-				6F9F515117A476B000035E9F /* UIKit.framework in Frameworks */,
 				6F9F514D17A476B000035E9F /* Foundation.framework in Frameworks */,
+				6F42A8161842972000642F05 /* SparkInspector.framework in Frameworks */,
 				65E1EF763092449C847D2504 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,6 +375,18 @@
 			name = Behaviors;
 			sourceTree = "<group>";
 		};
+		6F2F8F83186B694000E554A5 /* FrameAccessor */ = {
+			isa = PBXGroup;
+			children = (
+				6F2F8F84186B694000E554A5 /* FrameAccessor.h */,
+				6F2F8F87186B694000E554A5 /* ViewFrameAccessor.h */,
+				6F2F8F88186B694000E554A5 /* ViewFrameAccessor.m */,
+				6F2F8F85186B694000E554A5 /* ScrollViewFrameAccessor.h */,
+				6F2F8F86186B694000E554A5 /* ScrollViewFrameAccessor.m */,
+			);
+			path = FrameAccessor;
+			sourceTree = "<group>";
+		};
 		6F35D72817AD6169000D99B9 /* ChatStack */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,10 +394,12 @@
 				6F23E37118024F86006BEA1E /* CHFChatStackManager.m */,
 				6F23E36E18024F86006BEA1E /* CHFChatStackItem.h */,
 				6F23E36F18024F86006BEA1E /* CHFChatStackItem.m */,
+				6FA101BF18527E1A00EB9DC1 /* CHFChatStackItemBase.h */,
+				6FA101C018527E1A00EB9DC1 /* CHFChatStackItemBase.m */,
 				6F23E38C18025290006BEA1E /* CHFChatStackDeckController.h */,
 				6F23E38D18025290006BEA1E /* CHFChatStackDeckController.m */,
-				6F23E383180250B9006BEA1E /* CHFStackViewController.h */,
-				6F23E384180250B9006BEA1E /* CHFStackViewController.m */,
+				6F23E383180250B9006BEA1E /* CHFChatViewController.h */,
+				6F23E384180250B9006BEA1E /* CHFChatViewController.m */,
 				6F23E37F180250B9006BEA1E /* CHFItemsCollectionViewController.h */,
 				6F23E380180250B9006BEA1E /* CHFItemsCollectionViewController.m */,
 				6F237C50181B1FA9003C1195 /* Behaviors */,
@@ -346,6 +414,8 @@
 				6F23E3A418026514006BEA1E /* CHFAppBar.m */,
 				6F9DDE6C1829F1CF00820392 /* CHFAppBarView.h */,
 				6F9DDE6D1829F1CF00820392 /* CHFAppBarView.m */,
+				6F2F8F80186B56EF00E554A5 /* CHFAppBarScrollView.h */,
+				6F2F8F81186B56EF00E554A5 /* CHFAppBarScrollView.m */,
 				6F9DDE6F1829F22600820392 /* NotificationBar */,
 			);
 			name = AppBar;
@@ -386,6 +456,7 @@
 		6F9F514B17A476B000035E9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F9F71E8184782C200E6FC93 /* AudioToolbox.framework */,
 				6FA3A6D91825D2B40025FF90 /* SparkInspector.framework */,
 				6F9F9C6D181A07A7007955E2 /* StoreKit.framework */,
 				6FDA159B17A87322005D8D54 /* libz.dylib */,
@@ -406,8 +477,9 @@
 		6F9F515217A476B000035E9F /* ChatFeed */ = {
 			isa = PBXGroup;
 			children = (
+				6FA142211849550500C39D7D /* Ideas */,
 				6FA39C3E17AC5D95002E521B /* Interface */,
-				F62B1B6617CAAF3E0048506C /* Future Assets */,
+				F62B1B6617CAAF3E0048506C /* FutureAssets */,
 				6FA39C3F17AC5DBF002E521B /* App Classes */,
 				6FA39C3D17AC5D86002E521B /* Client Management */,
 				6F35D72817AD6169000D99B9 /* ChatStack */,
@@ -512,6 +584,8 @@
 			children = (
 				6F23E3A01802615B006BEA1E /* CHFMainDeckController.h */,
 				6F23E3A11802615B006BEA1E /* CHFMainDeckController.m */,
+				6FC08861185ABFF8003BBF1C /* CHFFrontViewController.h */,
+				6FC08862185ABFF8003BBF1C /* CHFFrontViewController.m */,
 				6F9F51CD17A5F4FF00035E9F /* Explore */,
 				6F9F51CC17A5F4E900035E9F /* Home */,
 				6F9F51CE17A5F51600035E9F /* Messages */,
@@ -524,6 +598,8 @@
 			children = (
 				6FA71D1217BC56E100611EEB /* CHFBackDeckController.h */,
 				6FA71D1317BC56E100611EEB /* CHFBackDeckController.m */,
+				6FA269AA18615E1B00C9A189 /* CHFBackViewController.h */,
+				6FA269AB18615E1B00C9A189 /* CHFBackViewController.m */,
 				F66E8E8E180078EC00A94349 /* Store */,
 				F66E8E8F180078FE00A94349 /* Profile */,
 				F66E8E901800790700A94349 /* Settings */,
@@ -566,15 +642,31 @@
 				6FA5D0BD17B93787007E9649 /* CHFWebViewController.m */,
 				6FA03567181C90BB00DADEC7 /* CHFWallpaperView.h */,
 				6FA03568181C90BB00DADEC7 /* CHFWallpaperView.m */,
-				F65F0EF017DC068900E7513C /* CHFViewPagerController.h */,
-				F65F0EF117DC068900E7513C /* CHFViewPagerController.m */,
 				6F000D74181C3E4700C5AD69 /* BlackholeView.h */,
 				6F000D75181C3E4700C5AD69 /* BlackholeView.m */,
 				6F9FB3D3180CC52D00EF0948 /* spark.png */,
 				6F23E37418024FDA006BEA1E /* CHFBlurView.h */,
 				6F23E37518024FDA006BEA1E /* CHFBlurView.m */,
+				6F4FCDF5184B74EC00B159AB /* ILTranslucentView.h */,
+				6F4FCDF6184B74EC00B159AB /* ILTranslucentView.m */,
 				6F9FEFCA181D593100A449C7 /* CHFNonInteractiveView.h */,
 				6F9FEFCB181D593100A449C7 /* CHFNonInteractiveView.m */,
+				6F9FCF1D1846A4C200E6A060 /* CHFPostViewController.h */,
+				6F9FCF1E1846A4C200E6A060 /* CHFPostViewController.m */,
+				6FA1F4DA18484953005E93DF /* CHFTimeStampLabel.h */,
+				6FA1F4DB18484953005E93DF /* CHFTimeStampLabel.m */,
+				6FA1D367183943E900417CB0 /* CHFViewController.h */,
+				6FA1D368183943E900417CB0 /* CHFViewController.m */,
+				6F9FDFAC18596AAC004D9F90 /* CHFPageViewController.h */,
+				6F9FDFAD18596AAC004D9F90 /* CHFPageViewController.m */,
+				6FC0885E185AA4EB003BBF1C /* CHFScrollViewController.h */,
+				6FC0885F185AA4EB003BBF1C /* CHFScrollViewController.m */,
+				6F48AD43186A1A54004ECA5E /* CHFCollectionView.h */,
+				6F48AD44186A1A54004ECA5E /* CHFCollectionView.m */,
+				6F4FCDF8184B7A8A00B159AB /* CHFHolyView.h */,
+				6F4FCDF9184B7A8A00B159AB /* CHFHolyView.m */,
+				6F9F5AA718535D710058E685 /* CHFTriangleLayer.h */,
+				6F9F5AA818535D710058E685 /* CHFTriangleLayer.m */,
 			);
 			name = "App Classes";
 			sourceTree = "<group>";
@@ -614,16 +706,6 @@
 			children = (
 				6FAF182917B0A5170093DB5B /* CHFAbstractCell.h */,
 				6FAF182A17B0A5170093DB5B /* CHFAbstractCell.m */,
-				6FA3A6E418260ECB0025FF90 /* CHFStreamCell.h */,
-				6FA3A6E518260ECB0025FF90 /* CHFStreamCell.m */,
-				6F9F51C317A4F58F00035E9F /* CHFClientStreamCell.h */,
-				6F9F51C417A4F58F00035E9F /* CHFClientStreamCell.m */,
-				F6A061A717C58DD2003CE959 /* CHFMentionCell.h */,
-				F6A061A817C58DD2003CE959 /* CHFMentionCell.m */,
-				F6A061B117C7C9A2003CE959 /* CHFPrivateMessageCell.h */,
-				F6A061B217C7C9A2003CE959 /* CHFPrivateMessageCell.m */,
-				F6A061B417C7CA27003CE959 /* CHFChatfeedsCell.h */,
-				F6A061B517C7CA27003CE959 /* CHFChatfeedsCell.m */,
 				6F23E37D180250B9006BEA1E /* CHFItemCollectionViewCell.h */,
 				6F23E37E180250B9006BEA1E /* CHFItemCollectionViewCell.m */,
 				6F3AEE2F182C69D600C2E4AE /* CHFProfileUserCountsCell.h */,
@@ -641,25 +723,38 @@
 				6FB8E5CB17B72211000DB54A /* UIImage+ImageEffects.m */,
 				6F9F50EF180E29A200944339 /* UIImage+AverageColor.h */,
 				6F9F50F0180E29A200944339 /* UIImage+AverageColor.m */,
+				6F9FDFA91858FE3A004D9F90 /* UIImage+Additions.h */,
+				6F9FDFAA1858FE3A004D9F90 /* UIImage+Additions.m */,
 				6FA1E3AC182461730023C74D /* UIView+AutoLayout.h */,
 				6FA1E3AD182461730023C74D /* UIView+AutoLayout.m */,
+				6FF764FA1842D30900F800F5 /* UIView+Hierarchy.h */,
+				6FF764FB1842D30900F800F5 /* UIView+Hierarchy.m */,
+				6F2F8F83186B694000E554A5 /* FrameAccessor */,
 				6F9FD3EE1826DB3900111FF6 /* CHFChatStackItem+ClientItem.h */,
 				6F9FD3EF1826DB3900111FF6 /* CHFChatStackItem+ClientItem.m */,
+				6FA47B9318303900006EDB6D /* UICollectionView+Additions.h */,
+				6FA47B9418303900006EDB6D /* UICollectionView+Additions.m */,
+				6FA293A61848563700768BD8 /* NSDate+NVTimeAgo.h */,
+				6FA293A71848563700768BD8 /* NSDate+NVTimeAgo.m */,
+				6FA274D11863BA5300B4EA05 /* NSArray+Additions.h */,
+				6FA274D21863BA5300B4EA05 /* NSArray+Additions.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		F62B1B6617CAAF3E0048506C /* Future Assets */ = {
+		F62B1B6617CAAF3E0048506C /* FutureAssets */ = {
 			isa = PBXGroup;
 			children = (
-				F62B1B6717CAAF470048506C /* backgroundImage1.jpg */,
-				F62B1B6817CAAF470048506C /* backgroundImage2.jpg */,
-				6FA03570181CB57F00DADEC7 /* backgroundImage3.jpg */,
-				6FA03571181CB57F00DADEC7 /* backgroundImage4.jpg */,
-				6FA03572181CB57F00DADEC7 /* backgroundImage5.png */,
+				F62B1B6717CAAF470048506C /* backgroundImage1@2x.jpg */,
+				F62B1B6817CAAF470048506C /* backgroundImage2@2x.jpg */,
+				6FA03570181CB57F00DADEC7 /* backgroundImage3@2x.jpg */,
+				6FA03571181CB57F00DADEC7 /* backgroundImage4@2x.jpg */,
+				6FA03572181CB57F00DADEC7 /* backgroundImage5@2x.png */,
+				6FA101C21852A40F00EB9DC1 /* placeholder.jpg */,
+				6F9FDB4318481E6A00CC7A09 /* avatarPlaceholder@2x.jpg */,
 				6FA3A6D61825789D0025FF90 /* Item Avatar Test */,
 			);
-			name = "Future Assets";
+			name = FutureAssets;
 			sourceTree = "<group>";
 		};
 		F66E8E8B1800787700A94349 /* @ Mentions */ = {
@@ -773,7 +868,7 @@
 								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -807,16 +902,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FA3A6D0182578900025FF90 /* at4.jpg in Resources */,
-				6FA03575181CB57F00DADEC7 /* backgroundImage5.png in Resources */,
-				6FA03573181CB57F00DADEC7 /* backgroundImage3.jpg in Resources */,
+				6FA03575181CB57F00DADEC7 /* backgroundImage5@2x.png in Resources */,
+				6FA03573181CB57F00DADEC7 /* backgroundImage3@2x.jpg in Resources */,
 				6F9F516317A476B000035E9F /* Main_iPad.storyboard in Resources */,
-				6FA03574181CB57F00DADEC7 /* backgroundImage4.jpg in Resources */,
+				6FA03574181CB57F00DADEC7 /* backgroundImage4@2x.jpg in Resources */,
 				6F9FB3D5180CC52D00EF0948 /* spark.png in Resources */,
 				6FA3A6D5182578900025FF90 /* at3.jpg in Resources */,
+				6F9FDB4418481E6A00CC7A09 /* avatarPlaceholder@2x.jpg in Resources */,
 				6FA3A6D3182578900025FF90 /* at5.jpg in Resources */,
-				F62B1B6A17CAAF470048506C /* backgroundImage2.jpg in Resources */,
+				F62B1B6A17CAAF470048506C /* backgroundImage2@2x.jpg in Resources */,
+				6FA142221849550500C39D7D /* Ideas in Resources */,
 				6F9F516817A476B000035E9F /* Images.xcassets in Resources */,
-				F62B1B6917CAAF470048506C /* backgroundImage1.jpg in Resources */,
+				F62B1B6917CAAF470048506C /* backgroundImage1@2x.jpg in Resources */,
+				6FA101C31852A40F00EB9DC1 /* placeholder.jpg in Resources */,
 				6FA3A6D4182578900025FF90 /* at6.jpg in Resources */,
 				6FA3A6D1182578900025FF90 /* at2.jpg in Resources */,
 				6FA6E6B817C45CD300FDB4E0 /* backgroundImage1@2x.jpg in Resources */,
@@ -874,65 +972,79 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FA1D369183943E900417CB0 /* CHFViewController.m in Sources */,
 				6F3AEE31182C69D600C2E4AE /* CHFProfileUserCountsCell.m in Sources */,
+				6F48AD45186A1A54004ECA5E /* CHFCollectionView.m in Sources */,
 				6F9F51A717A4A2C000035E9F /* CHFExploreViewController.m in Sources */,
 				6FA3A6E3182606190025FF90 /* CHFStreamModel.m in Sources */,
+				6F4FCDF7184B74EC00B159AB /* ILTranslucentView.m in Sources */,
 				6F9F968A180F3E1500FB8255 /* CHFStoreViewController.m in Sources */,
 				6F9DDE6E1829F1CF00820392 /* CHFAppBarView.m in Sources */,
+				6FF764FC1842D30900F800F5 /* UIView+Hierarchy.m in Sources */,
 				6F9F968B180F3E2200FB8255 /* CHFSettingsViewController.m in Sources */,
-				F6A061A917C58DD2003CE959 /* CHFMentionCell.m in Sources */,
 				6F23E389180250B9006BEA1E /* CHFItemsCollectionViewController.m in Sources */,
+				6F4FCDFA184B7A8A00B159AB /* CHFHolyView.m in Sources */,
+				6F2F8F89186B694000E554A5 /* ScrollViewFrameAccessor.m in Sources */,
 				F64698A817CFE2830022A919 /* CHFMentionsViewController.m in Sources */,
+				6FA293A81848563700768BD8 /* NSDate+NVTimeAgo.m in Sources */,
 				6F23E387180250B9006BEA1E /* CHFHoverMenuViewController.m in Sources */,
 				6F9F50F1180E29A200944339 /* UIImage+AverageColor.m in Sources */,
 				6FA3A6DE1825E7520025FF90 /* CHFAbstractModel.m in Sources */,
 				6F23E39B18025491006BEA1E /* CHFControllerCard.m in Sources */,
 				F65F0EF617DC0E5800E7513C /* CHFPrivateMessagesViewController.m in Sources */,
 				F65F0EF917DC0E6500E7513C /* CHFChatFeedsViewController.m in Sources */,
+				6F9FCF1F1846A4C200E6A060 /* CHFPostViewController.m in Sources */,
 				6F9F51CB17A5078E00035E9F /* CHFLoginViewController.m in Sources */,
 				6F9FD3F01826DB3900111FF6 /* CHFChatStackItem+ClientItem.m in Sources */,
+				6FA274D31863BA5300B4EA05 /* NSArray+Additions.m in Sources */,
 				6F9FEFCC181D593100A449C7 /* CHFNonInteractiveView.m in Sources */,
 				6F23E3A21802615B006BEA1E /* CHFMainDeckController.m in Sources */,
 				6FA71D1417BC56E100611EEB /* CHFBackDeckController.m in Sources */,
 				F6A0619C17C56493003CE959 /* UIColor+FlatUI.m in Sources */,
 				6FA03569181C90BB00DADEC7 /* CHFWallpaperView.m in Sources */,
 				6F23E39F18026101006BEA1E /* CHFHomeViewController.m in Sources */,
+				6F9FDFAB1858FE3A004D9F90 /* UIImage+Additions.m in Sources */,
 				6F998883180B62A700C4B2A2 /* CHFNotificationBar.m in Sources */,
 				6F23E39C18025491006BEA1E /* CHFDeckController.m in Sources */,
 				6F23E388180250B9006BEA1E /* CHFItemCollectionViewCell.m in Sources */,
+				6FA47B9518303900006EDB6D /* UICollectionView+Additions.m in Sources */,
 				6F000D76181C3E4700C5AD69 /* BlackholeView.m in Sources */,
 				6F23E38E18025290006BEA1E /* CHFChatStackDeckController.m in Sources */,
 				6F9F51AB17A4A2C000035E9F /* CHFMessagesViewController.m in Sources */,
-				6F9F51C517A4F58F00035E9F /* CHFClientStreamCell.m in Sources */,
-				F6A061B617C7CA27003CE959 /* CHFChatfeedsCell.m in Sources */,
 				6F9FA748180D64DB0052813F /* CHFNotificationBarObject.m in Sources */,
-				6F23E38B180250B9006BEA1E /* CHFStackViewController.m in Sources */,
+				6F23E38B180250B9006BEA1E /* CHFChatViewController.m in Sources */,
 				6F23E37318024F86006BEA1E /* CHFChatStackManager.m in Sources */,
 				6FA1E3AE182461730023C74D /* UIView+AutoLayout.m in Sources */,
 				F6A061BB17C7CB4C003CE959 /* CHFPrivateMessagesModel.m in Sources */,
-				6FA3A6E618260ECB0025FF90 /* CHFStreamCell.m in Sources */,
 				6F23E386180250B9006BEA1E /* CHFHoverMenuHeaderView.m in Sources */,
 				6F23E36D18024D60006BEA1E /* CHFSpringyFlowLayout.m in Sources */,
 				6F23E396180253FA006BEA1E /* CHFAppContainerViewController.m in Sources */,
 				6FAF182B17B0A5170093DB5B /* CHFAbstractCell.m in Sources */,
-				F65F0EF217DC068900E7513C /* CHFViewPagerController.m in Sources */,
 				6F3AEE34182C69E100C2E4AE /* CHFProfileViewController.m in Sources */,
 				6F23E385180250B9006BEA1E /* CHFHoverMenuCell.m in Sources */,
+				6F2F8F82186B56EF00E554A5 /* CHFAppBarScrollView.m in Sources */,
+				6FA269AC18615E1B00C9A189 /* CHFBackViewController.m in Sources */,
+				6FC08860185AA4EB003BBF1C /* CHFScrollViewController.m in Sources */,
 				6F23E37618024FDA006BEA1E /* CHFBlurView.m in Sources */,
 				6FA2EBEF1813529900EFF09F /* CHFCenterFlowLayout.m in Sources */,
+				6F9F5AA918535D710058E685 /* CHFTriangleLayer.m in Sources */,
+				6F2F8F8A186B694000E554A5 /* ViewFrameAccessor.m in Sources */,
 				6F23E38A180250B9006BEA1E /* CHFKickOutBehavior.m in Sources */,
 				6F23E3A518026514006BEA1E /* CHFAppBar.m in Sources */,
 				6F9F515D17A476B000035E9F /* CHFAppDelegate.m in Sources */,
 				F6E57C5D17E027E900F6523D /* CHFChatFeedsModel.m in Sources */,
 				6FA5D0BE17B93787007E9649 /* CHFWebViewController.m in Sources */,
+				6FA101C118527E1A00EB9DC1 /* CHFChatStackItemBase.m in Sources */,
 				6F23E391180252D1006BEA1E /* CHFClientManager.m in Sources */,
 				6FB8E5CC17B72211000DB54A /* UIImage+ImageEffects.m in Sources */,
-				F6A061B317C7C9A2003CE959 /* CHFPrivateMessageCell.m in Sources */,
 				F6A061A617C58CF1003CE959 /* CHFMentionsModel.m in Sources */,
 				6F9F515917A476B000035E9F /* main.m in Sources */,
 				6F998889180B668600C4B2A2 /* CHFHoverGridLayout.m in Sources */,
 				6F23E37218024F86006BEA1E /* CHFChatStackItem.m in Sources */,
 				6F3AEE37182C69EB00C2E4AE /* CHFIAPHelper.m in Sources */,
+				6FC08863185ABFF8003BBF1C /* CHFFrontViewController.m in Sources */,
+				6FA1F4DC18484953005E93DF /* CHFTimeStampLabel.m in Sources */,
+				6F9FDFAE18596AAC004D9F90 /* CHFPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

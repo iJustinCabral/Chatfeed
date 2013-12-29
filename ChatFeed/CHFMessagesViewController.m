@@ -7,147 +7,306 @@
 //
 
 #import "CHFMessagesViewController.h"
+
 #import "CHFMentionsViewController.h"
 #import "CHFPrivateMessagesViewController.h"
 #import "CHFChatFeedsViewController.h"
 
-#import "CHFViewPagerController.h"
 
+#define kInitialPage PageMentions
 
-@interface CHFMessagesViewController () <ViewPagerDataSource, ViewPagerDelegate>
+typedef NS_ENUM (NSUInteger, Page)
+{
+    PageMentions = 0,
+    PagePrivateMessages = 1,
+    PageChatFeeds = 2
+};
+
+@interface CHFMessagesViewController () <UITabBarDelegate>
+
+@property (nonatomic) NSUInteger currentPage;
+
+@property (nonatomic) CHFMentionsViewController *mentionsViewController;
+@property (nonatomic) CHFPrivateMessagesViewController *privateMessagesViewController;
+@property (nonatomic) CHFChatFeedsViewController *chatFeedsViewController;
 
 @end
 
 @implementation CHFMessagesViewController
 
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    if (self)
+    {
+        self.currentPage = kInitialPage;
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
-	// Do any additional setup after loading the view, typically from a nib.
-    //
-    
-    self.delegate = self;
-    self.dataSource = self;
-    
-    self.view.backgroundColor = [UIColor clearColor];
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
-    {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
-    
     [super viewDidLoad];
-
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    self.navigationController.navigationBarHidden = YES;
-}
-
-
-#pragma mark - ViewPagerDataSource
-- (NSUInteger)numberOfTabsForViewPager:(CHFViewPagerController *)viewPager {
-    return 3;
-}
-- (UIView *)viewPager:(CHFViewPagerController *)viewPager viewForTabAtIndex:(NSUInteger)index {
     
-    switch (index) {
-        case 0:
-        {
-            UILabel *label = [UILabel new];
-            label.backgroundColor = [UIColor clearColor];
-//          label.font = [UIFont systemFontOfSize:16.0];
-            label.font = [UIFont fontWithName:@"helvetica-neue" size:16.0];
-            label.text = [NSString stringWithFormat:@"Mentions"];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = [UIColor whiteColor];
-            [label sizeToFit];
-            
-            return label;
-        }
-            break;
-            
-        case 1:
-        {
-            UILabel *label = [UILabel new];
-            label.backgroundColor = [UIColor clearColor];
-            label.font = [UIFont fontWithName:@"helvetica-neue" size:16.0];
-            label.text = [NSString stringWithFormat:@"Messages"];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = [UIColor whiteColor];
-            [label sizeToFit];
-            
-            return label;
-        }
-            break;
-            
-        case 2:
-        {
-            UILabel *label = [UILabel new];
-            label.backgroundColor = [UIColor clearColor];
-            label.font = [UIFont fontWithName:@"helvetica-neue" size:16.0];
-            label.text = [NSString stringWithFormat:@"ChatFeeds"];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = [UIColor whiteColor];
-            [label sizeToFit];
-            
-            return label;
-        }
-            
-        default:
-            break;
+    self.mentionsViewController = [CHFMentionsViewController new];
+    self.privateMessagesViewController = [CHFPrivateMessagesViewController new];
+    self.chatFeedsViewController = [CHFChatFeedsViewController new];
+    
+    [self configureViewController:[self viewControllerAtIndex:self.currentPage]];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - View Transition Methods
+
+- (void)configureViewController:(UIViewController *)viewController
+{
+    [self addChildViewController:viewController];
+    
+    viewController.view.frame = self.view.frame;
+    [self.view addSubview:viewController.view];
+    
+    [viewController didMoveToParentViewController:self];
+}
+
+- (void)removeViewController:(UIViewController *)viewController
+{
+    [viewController willMoveToParentViewController:nil];
+    [viewController.view removeFromSuperview];
+    [viewController removeFromParentViewController];
+}
+
+- (void)transitionToIndex:(NSUInteger)index
+{
+    UIViewController *sourceViewController = [self viewControllerAtIndex:self.currentPage];
+    UIViewController *destinationViewController = [self viewControllerAtIndex:index];
+    
+    [self addChildViewController:destinationViewController];
+    destinationViewController.view.frame = self.view.frame;
+    
+    [UIView transitionFromView:sourceViewController.view
+                        toView:destinationViewController.view
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    completion:^(BOOL finished) {
+                        [destinationViewController didMoveToParentViewController:self];
+                        
+                        [sourceViewController willMoveToParentViewController:nil];
+                        [sourceViewController removeFromParentViewController];
+                    }];
+}
+
+#pragma mark - CHFViewController Hooks
+
+// Here we need to relay all the hooks to the CHFViewController subviews
+
+- (BOOL)canScrollToTop
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(canScrollToTop)])
+    {
+        return [(CHFViewController *)viewController canScrollToTop];
     }
     
-    return nil;
+    return NO;
 }
 
-- (UIViewController *)viewPager:(CHFViewPagerController *)viewPager contentViewControllerForTabAtIndex:(NSUInteger)index {
+- (void)scrollToTop
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
     
+    if ([viewController respondsToSelector:@selector(scrollToTop)])
+    {
+        return [(CHFViewController *)viewController scrollToTop];
+    }
+}
+
+//
+- (BOOL)canScrollToBottom
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(canScrollToBottom)])
+    {
+        return [(CHFViewController *)viewController canScrollToBottom];
+    }
+    
+    return NO;
+}
+
+- (void)scrollToBottom
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(scrollToBottom)])
+    {
+        return [(CHFViewController *)viewController scrollToBottom];
+    }
+}
+
+//
+- (BOOL)canFetchData
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(canFetchData)])
+    {
+        return [(CHFViewController *)viewController canFetchData];
+    }
+    
+    return NO;
+}
+
+- (void)fetchDataWithCapacity:(NSInteger)capacity
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(fetchDataWithCapacity:)])
+    {
+        return [(CHFViewController *)viewController fetchDataWithCapacity:capacity];
+    }
+}
+
+//
+- (BOOL)canFetchOlderData
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(canFetchOlderData)])
+    {
+        return [(CHFViewController *)viewController canFetchOlderData];
+    }
+    
+    return NO;
+}
+
+- (void)fetchOlderDataWithCapacity:(NSInteger)capacity
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(fetchOlderDataWithCapacity:)])
+    {
+        return [(CHFViewController *)viewController fetchOlderDataWithCapacity:capacity];
+    }
+}
+
+//
+- (void)updateContentInset:(CGFloat)inset
+{
+    UIViewController *viewController = [self viewControllerAtIndex:self.currentPage];
+    
+    if ([viewController respondsToSelector:@selector(updateContentInset:)])
+    {
+        return [(CHFViewController *)viewController updateContentInset:inset];
+    }
+}
+
+// For the Auxiliary view we keep for THIS class, we do not pass on. At this time I don't see a need to support another auxiliary view in the app bar for the subviews
+- (BOOL)hasAuxiliaryView
+{
+    return YES;
+}
+
+- (UIView *)auxiliaryView
+{
+    return [self configureTabBar];
+}
+
+- (void)clearAuxiliaryView
+{
+}
+
+#pragma mark Hook Helpers
+
+
+
+#pragma mark - UITabBar
+
+- (UIView *)configureTabBar
+{
+    UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tabBar.delegate = self;
+    tabBar.barStyle = UIBarStyleBlack;
+    tabBar.backgroundImage = [UIImage new];
+    tabBar.shadowImage = [UIImage new];
+    tabBar.translucent = YES;
+    
+    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
+    
+    UITabBarItem *mentionsItem = [[UITabBarItem alloc] initWithTitle:@"Mentions" image:[UIImage new] tag:PageMentions];
+    UITabBarItem *privateMessagesItem = [[UITabBarItem alloc] initWithTitle:@"PMs" image:[UIImage new] tag:PagePrivateMessages];
+    UITabBarItem *chatFeedsItem = [[UITabBarItem alloc] initWithTitle:@"ChatFeeds" image:[UIImage new] tag:PageChatFeeds];
+    
+    [tabBarItems addObject:mentionsItem];
+    [tabBarItems addObject:privateMessagesItem];
+    [tabBarItems addObject:chatFeedsItem];
+    
+    tabBar.items = tabBarItems;
+    tabBar.selectedItem = [tabBarItems objectAtIndex:self.currentPage];
+    
+    return tabBar;
+}
+
+#pragma mark Delegate
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if (item.tag == self.currentPage) return;
+    
+    [self transitionToIndex:item.tag];
+    
+    // Update the current index
+    self.currentPage = item.tag;
+}
+
+- (UIViewController *)viewControllerAtIndex:(NSUInteger)index
+{
     switch (index)
     {
-        case 0:
+        case PageMentions:
         {
-            CHFMentionsViewController *mvc = [CHFMentionsViewController new];
-            return mvc;
-        }
-            break;
-        
-        case 1:
-        {
-            CHFPrivateMessagesViewController *pmvc = [CHFPrivateMessagesViewController new];
-            return pmvc;
-        }
-            break;
-        case 2:
-        {
-            CHFChatFeedsViewController *cfvc = [CHFChatFeedsViewController new];
+            if (!self.mentionsViewController)
+            {
+                self.mentionsViewController = [CHFMentionsViewController new];
+            }
             
-            return cfvc;
-
+            return self.mentionsViewController;
         }
-            
-        default:
             break;
-    }
-    
-    return nil;
-}
-
-#pragma mark - ViewPagerDelegate
-- (CGFloat)viewPager:(CHFViewPagerController *)viewPager valueForOption:(ViewPagerOption)option withDefault:(CGFloat)value {
-    
-    switch (option) {
-        case ViewPagerOptionStartFromSecondTab:
-            return 1.0;
+        case PagePrivateMessages:
+        {
+            if (!self.privateMessagesViewController)
+            {
+                self.privateMessagesViewController = [CHFPrivateMessagesViewController new];
+            }
+            
+            return self.privateMessagesViewController;
+        }
+            break;
+        case PageChatFeeds:
+        {
+            if (!self.chatFeedsViewController)
+            {
+                self.chatFeedsViewController = [CHFChatFeedsViewController new];
+            }
+            
+            return self.chatFeedsViewController;
+        }
             break;
         default:
+            return nil;
             break;
     }
-    
-    return value;
 }
-
-
-
 
 @end

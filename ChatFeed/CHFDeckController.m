@@ -52,6 +52,12 @@
 // UIMotion Effect
 #define kMotionEffectEnabled NO
 
+typedef NS_ENUM (NSUInteger, PageSide)
+{
+    PageSideLeft = 0,
+    PageSideMiddle,
+    PageSideRight
+};
 
 @interface CHFDeckController ()
 
@@ -65,6 +71,15 @@
 // UIDynamic Properties
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic) CGFloat oldScrollBounds;
+
+// UIScrollView Helpers
+@property (nonatomic) CGFloat lastPercentageScrolled;
+@property (nonatomic) NSUInteger currentPage;
+@property (nonatomic) NSUInteger destinationPage;
+
+@property (nonatomic, strong) NSIndexPath *sourceIndexPath;
+@property (nonatomic, strong) NSIndexPath *destinationIndexPath;
+
 
 @end
 
@@ -127,7 +142,7 @@
     self.cardShadowOpacity = kDefaultShadowOpacity;
     
     self.cardGestureOptions = CardGestureOptionAll;
-//    self.cardEnablePressGesture = YES;
+    //    self.cardEnablePressGesture = YES;
     self.cardMinimumTapsRequired = kDefaultNumberOfTapsRequired;
     
     self.cardAutoresizingMask = (UIViewAutoresizingFlexibleBottomMargin |
@@ -159,7 +174,7 @@
     [self updateData];
     
     [super viewDidLoad]; // TODO: switch viewdidload and update data
-
+    
     self.view.backgroundColor = [UIColor clearColor];
     self.view.opaque = NO;
     self.view.layer.allowsEdgeAntialiasing = YES;
@@ -174,6 +189,11 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (BOOL)shouldShowNavigationBarWhenAuxiliaryBarIsShowing
+{
+    return YES;
 }
 
 #pragma mark - Property Setters
@@ -208,6 +228,23 @@
     
     // Let the scrollview know
     self.scrollView.cardVerticalOrigin = cardVerticalOrigin;
+}
+
+//- (void)setDestinationPage:(NSUInteger)destinationPage
+//{
+//    _destinationPage = destinationPage >= self.hierarchyArray.count ? self.currentPage : destinationPage;
+//}
+
+- (void)setDestinationIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    if (destinationIndexPath.section >= self.hierarchyArray.count)
+    {
+        _destinationIndexPath = [NSIndexPath indexPathForRow:0 inSection:self.currentPage];
+    }
+    else
+    {
+        _destinationIndexPath = destinationIndexPath;
+    }
 }
 
 #pragma mark - ControllerCard Delegate
@@ -432,17 +469,17 @@
 
 - (CHFControllerCard *)cardAtIndexPath:(NSIndexPath *)indexPath inDeckAtIndex:(NSUInteger)deckIndex
 {
-        NSArray *deckArray = self.hierarchyArray[deckIndex];
+    NSArray *deckArray = self.hierarchyArray[deckIndex];
+    
+    for (NSUInteger cardIndex = 0; cardIndex < deckArray.count; cardIndex++)
+    {
+        CHFControllerCard *controllerCard = deckArray[cardIndex];
         
-        for (NSUInteger cardIndex = 0; cardIndex < deckArray.count; cardIndex++)
+        if ([[NSIndexPath indexPathForRow:cardIndex inSection:deckIndex] isEqual:indexPath])
         {
-            CHFControllerCard *controllerCard = deckArray[cardIndex];
-            
-            if ([[NSIndexPath indexPathForRow:cardIndex inSection:deckIndex] isEqual:indexPath])
-            {
-                return controllerCard;
-            }
+            return controllerCard;
         }
+    }
     
     return nil;
 }
@@ -462,7 +499,7 @@
     return cardsArray;
 }
 
-- (NSInteger)currentDeckPage
+- (NSInteger)currentDeck
 {
     CGFloat pageWidth = self.scrollView.frame.size.width;
     NSInteger deckPage = ((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
@@ -472,8 +509,8 @@
 
 //- (UIViewController *)viewControllerForCurrentCardInCurrentDeck
 //{
-//    CHFControllerCard *card = [self cardAtIndexPath:0 inDeckAtIndex:[self currentDeckPage]];
-//    
+//    CHFControllerCard *card = [self cardAtIndexPath:0 inDeckAtIndex:[self currentPageInCurrentDeck]];
+//
 //    return [self ]
 //}
 
@@ -511,6 +548,7 @@
             if ([self deckController:self embedCardInNavigationControllerAtIndexPath:[NSIndexPath indexPathForRow:cardIndex inSection:deckIndex]])
             {
                 viewController = [[UINavigationController alloc] initWithRootViewController:viewController];
+                NSLog(@"NAVIGATOIN ROOT == %@", viewController);
             }
             
             CHFControllerCard *controllerCard = [[CHFControllerCard alloc] initWithDeckController:self
@@ -532,6 +570,8 @@
             
             [controllerCard setState:ControllerCardStateDefault
                             animated:NO];
+            
+            
         }
         
         [hierarchy addObject:deckArray];
@@ -587,11 +627,11 @@
     // Add the navigation controllers to the view
     [self.hierarchyArray enumerateObjectsUsingBlock:^(NSArray *deckArray, NSUInteger deckIndex, BOOL *stop)
      {
-        for (CHFControllerCard *controllerCard in deckArray)
-        {
-            [[self sectionContainerViewAtIndex:deckIndex] addSubview:controllerCard];
-        }
-    }];
+         for (CHFControllerCard *controllerCard in deckArray)
+         {
+             [[self sectionContainerViewAtIndex:deckIndex] addSubview:controllerCard];
+         }
+     }];
 }
 
 - (void)moveAllCardsToState:(ControllerCardState)theState animated:(BOOL)animated
@@ -768,10 +808,13 @@
 
 #pragma mark - DeckController Delegate
 #pragma mark Optional
-- (void)deckController:(CHFDeckController *)deckController didUpdateControllerCard:(CHFControllerCard *)controllerCard toDisplayState:(ControllerCardState)toState fromDisplayState:(ControllerCardState)fromState
+- (void)deckController:(CHFDeckController *)deckController
+didUpdateControllerCard:(CHFControllerCard *)controllerCard
+        toDisplayState:(ControllerCardState)toState
+      fromDisplayState:(ControllerCardState)fromState
 {
     // Make the other cards take the same action
-//    [self mimickCard:controllerCard toState:toState animated:YES];
+    //    [self mimickCard:controllerCard toState:toState animated:YES];
     
     if ([self.delegate respondsToSelector:@selector(deckController:didUpdateControllerCard:toDisplayState:fromDisplayState:)])
     {
@@ -784,7 +827,7 @@
 
 - (void)deckController:(CHFDeckController *)deckController didMoveToDeckIndex:(NSUInteger)index
 {
-    self.currentDeckPage = index;
+    self.currentPageInCurrentDeck = index;
     
     if ([self.delegate respondsToSelector:@selector(deckController:didMoveToDeckIndex:)])
     {
@@ -870,7 +913,7 @@
     }
 }
 
-- (void) moveToDeckIndex:(NSUInteger)deckIndex animated:(BOOL)animated
+- (void)moveToDeckIndex:(NSUInteger)deckIndex animated:(BOOL)animated
 {
     // Update the scroll view to the appropriate page
     CGRect frame;
@@ -881,10 +924,183 @@
     [self.scrollView scrollRectToVisible:frame animated:animated];
 }
 
+- (PanDirection)panningDirectionFromVelocity:(CGPoint)velocity
+{
+    return 0 < velocity.x ? PanDirectionRight : PanDirectionLeft;
+}
+
+- (CGFloat)percentageToEdgeOfScrollView:(UIScrollView *)scrollView
+{
+    //    CGFloat width = scrollView.frame.size.width;
+    //    CGFloat contentOffset = scrollView.contentOffset.x;
+    //    CGFloat endOfContent = scrollView.contentSize.width;
+    //    NSInteger numberOfPages = endOfContent / width;
+    //    CGFloat offset = contentOffset / width;
+    //
+    
+    
+    return 0;
+}
+
 #pragma mark Delegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)sender
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    CGFloat width = scrollView.frame.size.width;
+    CGFloat contentOffset = scrollView.contentOffset.x;
+    //    CGFloat endOfContent = scrollView.contentSize.width;
+    CGFloat offset = contentOffset / width;
+    //    NSInteger numberOfPages = endOfContent / width;
+//    NSUInteger currentPageFromCenter = floor((offset - width / 2) / width) + 1;
+    CGFloat currentPageFromOrigin;
+    CGFloat percentage;
+    
+    percentage = modff(offset, &currentPageFromOrigin);
+    
+    // Direction of scrolling
+    PanDirection direction = percentage < self.lastPercentageScrolled ? PanDirectionRight: PanDirectionLeft;
+    
+    // Set the current page once the page is at its content offset
+    if ((int)contentOffset % (int)width == 0)
+    {
+        int page = contentOffset / width;
+        
+        if (self.currentPage != page)
+        {
+            self.currentPage = page;
+        }
+    }
+    
+    // Let the delegate know we did move to new deck index
+    if ([self.delegate respondsToSelector:@selector(deckController:didMoveToDeckIndex:)])
+    {
+        [self deckController:self didMoveToDeckIndex:self.currentPage];
+    }
+    
+    // Get which side of the current page you are on. ### Would be real cool if there was an "Unless" operator
+    PageSide nearestDestinationSide;
+    
+    if (offset == (float)self.currentPage)
+    {
+        nearestDestinationSide = PageSideMiddle;
+    }
+    else
+    {
+        if (offset < (float)self.currentPage)
+        {
+            nearestDestinationSide = PageSideLeft;
+        }
+        else
+        {
+            nearestDestinationSide = PageSideRight;
+        }
+    }
+    
+    NSLog(@"the heirarcy count = %i", self.hierarchyArray.count);
+    
+    switch (nearestDestinationSide)
+    {
+        case PageSideMiddle:
+        {
+            if (self.destinationPage != self.currentPage)
+            {
+                self.destinationPage = self.currentPage;
+            }
+        }
+            break;
+            
+        case PageSideLeft:
+        {
+            percentage = 1 - percentage;
+            
+            NSLog(@"in case left");
+            
+            if (self.currentPage == 0)
+            {
+                NSLog(@"on the left side of first page");
+                self.destinationPage = self.currentPage;
+            }
+            else if (self.destinationPage != self.currentPage - 1)
+            {
+                NSLog(@"in else if left");
+                self.destinationPage = self.currentPage - 1;
+            }
+        }
+            break;
+            
+        case PageSideRight:
+        {
+            NSLog(@"in case right");
+            if (self.currentPage == self.hierarchyArray.count - 1)
+            {
+                NSLog(@"on the right side of last page");
+                self.destinationPage = self.currentPage;
+            }
+            else if (self.destinationPage != self.currentPage + 1)
+            {
+                NSLog(@"in else if");
+                self.destinationPage = self.currentPage + 1;
+            }
+        }
+            break;
+    }
+    
+    // Set the destinationIndexPath if needed.
+    NSIndexPath *sourceIndexPath = [NSIndexPath indexPathForRow:0 inSection:self.currentPage];
+    NSIndexPath *destinationIndexPath = [NSIndexPath indexPathForRow:0 inSection:self.destinationPage];
+    
+    // If the destinationIndexPath is not already the destination, update
+    if (self.destinationPage != self.currentPage)
+    {
+        // Let the delegate know the scrollview scrolled
+        if ([self.delegate respondsToSelector:@selector(deckController:didScrollWithPercentage:inDirection:toViewController:)])
+        {
+            [self.delegate deckController:self
+                  didScrollWithPercentage:percentage
+                              inDirection:direction
+                         toViewController:[self deckController:self viewControllerForDeckAtIndexPath:destinationIndexPath]];
+        }
+        
+        //
+        if (![self.destinationIndexPath isEqual:destinationIndexPath])
+        {
+            self.destinationIndexPath = destinationIndexPath;
+            NSLog(@"self.destinationIndexPath = %@", self.destinationIndexPath);
+            UIViewController *destinationViewController = [self deckController:self viewControllerForDeckAtIndexPath:destinationIndexPath];
+            
+            // Tell the delegate that the DestinationViewController has changed
+            if ([self.delegate respondsToSelector:@selector(deckController:didChangeToDestinationViewController:)])
+            {
+                [self.delegate deckController:self didChangeToDestinationViewController:destinationViewController];
+            }
+            
+            
+            if ([self.delegate respondsToSelector:@selector(deckController:didStartDraggingTowardsViewController:fromViewController:withPercentage:)])
+            {
+                UIViewController *sourceViewController = [self deckController:self viewControllerForDeckAtIndexPath:sourceIndexPath];
+                
+                [self.delegate deckController:self
+        didStartDraggingTowardsViewController:destinationViewController
+                           fromViewController:sourceViewController
+                               withPercentage:percentage];
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+//    NSLog(@"Current Page = %i, directin = %i, Percentage = %f, destination page = %i, nearest side = %i, current page form origin = %f, offset = %f", self.currentPage, direction, percentage, self.destinationPage, nearestDestinationSide, currentPageFromOrigin, offset);
+    
+    // Update the last percentage scrolled, which is used to calculate scrolling direction
+    self.lastPercentageScrolled = percentage;
+    
+    // Apply the paging trasitions
     switch (self.pagingStyle)
     {
         case ScrollViewPagingStyleNone:
@@ -906,11 +1122,14 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    CGFloat pageWidth = scrollView.frame.size.width;
-    NSUInteger deckIndex = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    
-    // Let the delegate know we did move to new deck index
-    [self deckController:self didMoveToDeckIndex:deckIndex];
+    if ([self.delegate respondsToSelector:@selector(didEndScrollingDeckController:withDestinationViewController:)])
+    {
+        NSIndexPath *destinationIndexPath = [NSIndexPath indexPathForRow:0 inSection:self.destinationPage];
+        
+        [self.delegate didEndScrollingDeckController:self
+                       withDestinationViewController:[self deckController:self
+                                         viewControllerForDeckAtIndexPath:destinationIndexPath]];
+    }
 }
 
 #pragma mark Show/Hide Methods
@@ -985,7 +1204,8 @@
     self.scrollViewHidden = NO;
 }
 
-- (void)hideView:(UIView *)view withAnimation:(ViewTransitionAnimation)transitionAnimation
+- (void)hideView:(UIView *)view
+   withAnimation:(ViewTransitionAnimation)transitionAnimation
 {
     switch (transitionAnimation)
     {
@@ -1021,8 +1241,8 @@
                                  self.scrollView.layer.transform = CATransform3DMakeScale(0.9, 0.9, 1.0f);
                              }
                              completion:^(BOOL finished) {
-                 
-             }];
+                                 
+                             }];
         }
             
             break;
@@ -1037,8 +1257,8 @@
                                  self.scrollView.layer.transform = CATransform3DMakeScale(0.9, 0.9, 1.0f);
                              }
                              completion:^(BOOL finished) {
-                 
-             }];
+                                 
+                             }];
         }
             break;
     }
@@ -1061,15 +1281,15 @@
         CGFloat offset = self.scrollView.contentOffset.x;
         
         // Do some initial calculations to see how far off it is from being the center card
-        CGFloat currentPage = (offset / scrollViewWidth);
-        CGFloat pageDifference = (sectionIndex - currentPage);
+        CGFloat nearestToCenterPage = (offset / scrollViewWidth);
+        CGFloat pageDifference = (sectionIndex - nearestToCenterPage);
         
         // And the default values
         CGFloat scale = 1.0f;
         
         if (sectionIndex == 0) // First Section
         {
-            if (currentPage > 0)
+            if (nearestToCenterPage > 0)
             {
                 scale = 1 + (pageDifference / 10);
             }
@@ -1080,7 +1300,7 @@
         }
         else if (sectionIndex == numberOfSections - 1) // Last Section
         {
-            if (currentPage > numberOfSections - 1)
+            if (nearestToCenterPage > numberOfSections - 1)
             {
                 
             }
@@ -1091,7 +1311,7 @@
         }
         else // Between Cards
         {
-            if (currentPage > sectionIndex)
+            if (nearestToCenterPage > sectionIndex)
             {
                 scale = 1 + (pageDifference / 10);
             }
@@ -1256,12 +1476,12 @@
     
     [self removeGestureRecognizer:self.pinchGestureRecognizer];
     
-//    if (!self.pinchRecognizer)
-//    {
-//        self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
-//                                                                         action:@selector(pinch:)];
-//        [self addGestureRecognizer:self.pinchRecognizer];
-//    }
+    //    if (!self.pinchRecognizer)
+    //    {
+    //        self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
+    //                                                                         action:@selector(pinch:)];
+    //        [self addGestureRecognizer:self.pinchRecognizer];
+    //    }
 }
 
 - (void)pinch:(UIPinchGestureRecognizer *)recognizer

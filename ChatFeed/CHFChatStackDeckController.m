@@ -7,7 +7,7 @@
 //
 
 #import "CHFChatStackDeckController.h"
-#import "CHFStackViewController.h"
+#import "CHFChatViewController.h"
 
 @interface CHFChatStackDeckController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
@@ -32,7 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+    
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                             options:nil];
@@ -40,18 +40,20 @@
     self.pageViewController.dataSource = self;
     self.pageViewController.delegate = self;
     
-    CHFStackViewController *viewController = [self viewControllerAtIndex:0];
+    [self addChildViewController:self.pageViewController];
+    [self.view addSubview:self.pageViewController.view];
+    [self.pageViewController didMoveToParentViewController:self];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    CHFChatViewController *viewController = [self viewControllerAtIndex:0];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    
+    navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     [self.pageViewController setViewControllers:@[navigationController]
                                       direction:UIPageViewControllerNavigationDirectionForward
                                        animated:NO
                                      completion:nil];
-    
-    [self addChildViewController:self.pageViewController];
-    [self.view addSubview:self.pageViewController.view];
-    [self.pageViewController didMoveToParentViewController:self];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,7 +66,7 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSUInteger index = [self.dataSource indexForUserID:[(CHFStackViewController *)viewController userID]];
+    NSUInteger index = [self.dataSource indexForUserID:[(CHFChatViewController *)viewController userID]];
     
     if (index == 0) return nil;
     
@@ -87,8 +89,6 @@
         
     }
     
-   
-    
     if (index == [self.dataSource numberOfIndexes]) return nil;
     
     index++;
@@ -98,19 +98,17 @@
 
 #pragma mark - Helpers
 
-- (UIViewController *)viewControllerAtIndex:(NSUInteger)index
+- (CHFChatViewController *)viewControllerAtIndex:(NSUInteger)index
 {
-    
-    UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-    NSLog(@"the count o fuseridarray = %u, index ===== %i", [self.dataSource numberOfIndexes], index);
-    viewController.view.tag = [self.dataSource userIDForItemAtIndex:index];
+    CHFChatViewController *viewController = [[CHFChatViewController alloc] initWithNibName:nil bundle:nil];
+    viewController.userID = [self.dataSource userIDForItemAtIndex:index];
     
     return viewController;
 }
 
 - (NSString *)viewControllerUserIDFromNavigationController:(UINavigationController *)navigationBarController
 {
-    CHFStackViewController *viewController = (CHFStackViewController *)navigationBarController.topViewController;
+    CHFChatViewController *viewController = (CHFChatViewController *)navigationBarController.topViewController;
     
     return viewController.userID;
 }

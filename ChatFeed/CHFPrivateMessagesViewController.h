@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHFViewController.h"
 
-@interface CHFPrivateMessagesViewController : UIViewController
+@interface CHFPrivateMessagesViewController : CHFViewController
 
 @end

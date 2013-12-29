@@ -14,6 +14,16 @@
 
 @implementation CHFMentionsModel
 
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewFlowLayout *)layout
+{
+    self.dataSource = self;
+    self.delegate = self;
+    
+    return [super initWithCollectionViewLayout:layout];
+}
+
+#pragma mark - Model Delegate
+
 - (void)fetchResponseObjectWithCompletion:(FetchResponseObjectCompletionHandler)completion
 {
     [[ClientManager currentClient] fetchCurrentUserWithCompletion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error)

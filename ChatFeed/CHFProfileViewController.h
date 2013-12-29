@@ -10,7 +10,7 @@
 
 @class ANKUser;
 
-@interface CHFProfileViewController : UIViewController
+@interface CHFProfileViewController : CHFViewController
 
 @property (nonatomic, strong) ANKUser *user;
 

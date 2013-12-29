@@ -34,6 +34,10 @@
 
 + (UIColor *) chatFeedGreen;
 
++ (UIColor *) randomColor;
+
++ (UIColor *) appColor;
+
 + (UIColor *) blendedColorWithForegroundColor:(UIColor *)foregroundColor
                               backgroundColor:(UIColor *)backgroundColor
                                  percentBlend:(CGFloat) percentBlend;

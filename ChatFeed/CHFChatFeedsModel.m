@@ -16,6 +16,16 @@
 
 @implementation CHFChatFeedsModel
 
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewFlowLayout *)layout
+{
+    self.dataSource = self;
+    self.delegate = self;
+    
+    return [super initWithCollectionViewLayout:layout];
+}
+
+#pragma mark - Model Delegate
+
 - (void)fetchResponseObjectWithCompletion:(FetchResponseObjectCompletionHandler)completion
 {
     [[ClientManager currentClient] fetchCurrentUserPrivateMessageChannelsWithCompletion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error)
@@ -34,6 +44,23 @@
      }];
 }
 
+- (void)configureCell:(CHFAbstractCell *)cell
+          atIndexPath:(NSIndexPath *)indexPath
+   withResponseObject:(id)responseObject
+          andTextView:(UITextView *)textView
+{
+    ANKMessage *message = responseObject;
+    
+    [cell setUsername:message.user.username
+               userID:message.user.userID
+            avatarURL:message.user.avatarImage.URL
+            createdAt:message.createdAt
+              content:message.text
+          annotations:message.annotations
+          andTextView:textView];
+}
+
+#pragma mark - Methods
 - (void)fetchMessagesFromChannels:(NSArray *)channels
                    withCompletion:(FetchResponseObjectCompletionHandler)completion
 {
@@ -57,22 +84,6 @@
               }
           }];
      }];
-}
-
-- (void)configureCell:(CHFAbstractCell *)cell
-          atIndexPath:(NSIndexPath *)indexPath
-   withResponseObject:(id)responseObject
-          andTextView:(UITextView *)textView
-{
-    ANKMessage *message = responseObject;
-    
-    [cell setUsername:message.user.username
-               userID:message.user.userID
-            avatarURL:message.user.avatarImage.URL
-            createdAt:message.createdAt
-              content:message.text
-          annotations:message.annotations
-          andTextView:textView];
 }
  
 @end

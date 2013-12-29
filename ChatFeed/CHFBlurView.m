@@ -29,7 +29,7 @@
 - (instancetype)initWithFrame:(CGRect)frame blurType:(BlurType)blurtype withAnimation:(BOOL)animated
 {
     // Adjust the frame to make sure it fills up the window
-    frame = CGRectMake(frame.origin.x - 5, frame.origin.y - 5, frame.size.width + 10, frame.size.height + 10);
+//    frame = CGRectMake(frame.origin.x - 5, frame.origin.y - 5, frame.size.width + 10, frame.size.height + 10);
     
     self = [super initWithFrame:frame];
     
@@ -58,9 +58,7 @@
     
     [self insertSubview:blurView atIndex:0];
     
-    [self showBlurViewAnimated:animated withCompletion:^{
-        
-    }];
+    [self showBlurViewAnimated:animated];
 }
 
 #pragma mark - Properties
@@ -92,7 +90,7 @@
 
 #pragma mark - Methods
 
-- (void)showBlurViewAnimated:(BOOL)animated withCompletion:(void (^)(void))completion
+- (void)showBlurViewAnimated:(BOOL)animated
 {
     if (animated)
     {
@@ -103,11 +101,9 @@
                             options:UIViewAnimationOptionAllowAnimatedContent |
                                     UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-                             [self showBlurViewAnimated:NO withCompletion:completion];
+                             [self showBlurViewAnimated:NO];
                          }
                          completion:^(BOOL finished) {
-                             
-                             completion();
                          }];
     }
     

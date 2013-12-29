@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-@import UIKit;
+#import "CHFViewController.h"
 
 typedef void(^FetchPostsCompletionHandler)(BOOL success, NSError *error);
 
-@interface CHFChatFeedsViewController : UIViewController
+@interface CHFChatFeedsViewController : CHFViewController
 
--(void)refreshWithCompletionHandler:(FetchPostsCompletionHandler)completionHandler;
+- (void)refreshWithCompletionHandler:(FetchPostsCompletionHandler)completionHandler;
 
 
 @end

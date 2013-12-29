@@ -9,6 +9,15 @@
 @import UIKit;
 
 
+@protocol StackDeckControllerDelegate, StackDeckControllerDataSource;
+
+@interface CHFChatStackDeckController : UIViewController
+
+@property (nonatomic, weak) id <StackDeckControllerDelegate> delegate;
+@property (nonatomic, weak) id <StackDeckControllerDataSource> dataSource;
+
+@end
+
 @protocol StackDeckControllerDelegate <NSObject>
 
 @end
@@ -19,11 +28,4 @@
 - (NSInteger)indexForUserID:(NSString *)userID;
 @end
 
-
-@interface CHFChatStackDeckController : UIViewController
-
-@property (nonatomic, strong) id <StackDeckControllerDelegate> delegate;
-@property (nonatomic, strong) id <StackDeckControllerDataSource> dataSource;
-
-@end
 

@@ -21,7 +21,7 @@
 @implementation CHFSpringyFlowLayout
 
 #define kScrollRefreshThreshold         30.0f
-#define kScrollResistanceCoefficient    1 / 4500.0f
+#define kScrollResistanceCoefficient    1 / 2500.0f
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -96,8 +96,8 @@
      {
          UIAttachmentBehavior *spring = [[UIAttachmentBehavior alloc] initWithItem:attribute attachedToAnchor:attribute.center];
          spring.length = 0;
-         spring.frequency = 0.7;
-         spring.damping = 0.5;
+         spring.frequency = 0.8;
+         spring.damping = 0.6;
          
          // If our touchLocation is not (0,0), we need to adjust our item's center
          if (self.lastScrollDelta != 0)

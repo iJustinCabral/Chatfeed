@@ -19,6 +19,8 @@ typedef NS_ENUM (NSUInteger, ItemLayout)
 //    ItemLayoutHover = 3
 };
 
+NSString * NSStringFromItemLayout(ItemLayout layout);
+
 #define ChatStackManager \
 ((CHFChatStackManager *)[CHFChatStackManager sharedChatStackManager])
 
@@ -28,7 +30,7 @@ typedef NS_ENUM (NSUInteger, ItemLayout)
 
 @interface CHFChatStackManager : NSObject <CHFChatStackItemDelegate>
 
-@property (nonatomic, assign) id <CHFChatStackManagerDelegate> delegate;
+@property (nonatomic, weak) id <CHFChatStackManagerDelegate> delegate;
 
 @property (nonatomic, strong, readonly) UIWindow *window;
 
@@ -66,22 +68,11 @@ typedef NS_ENUM (NSUInteger, ItemLayout)
 - (CGRect)snapBackBounds;
 
 #pragma mark - Item Methods
-// If the user pans either a "standAlone" we hand over the item to the Managers window along with the pan gesture. Once the panning is done or an action occurs with the item, the item will return to its original view.
-- (void)passPanningItem:(CHFChatStackItem *)item withPanGesture:(UIPanGestureRecognizer *)panGesture andCompletionBlock:(void (^)(BOOL finished))completion;
 
-// If the user taps ANY kind of item, we will add the item to the Manager. The manager will determine what to do with the item by the "itemType" property of the item.
-- (void)addItem:(CHFChatStackItem *)item fromPoint:(CGPoint)fromPoint animated:(BOOL)animated withCompletionBlock:(void (^)(BOOL finished))completion;
-
+- (void)addItemToStack:(CHFChatStackItem *)item;
+- (void)addItemToStack:(CHFChatStackItem *)item fromView:(UIView *)view;
+- (void)addItemToPending:(CHFChatStackItem *)item;
 - (void)removeItem:(CHFChatStackItem *)item animated:(BOOL)animated randomAnimation:(BOOL)random withCompletionBlock:(void (^)(BOOL finished))completion;
-
-// Methods to send the item view to view or back to the original view
-- (void)snapItemBackToOrigin:(CHFChatStackItem *)item
-                  completion:(void (^)(void))completion;
-
-- (void)snapItem:(CHFChatStackItem *)item
-         toPoint:(CGPoint)toPoint
-          inView:(UIView *)toView
-      completion:(void (^)(void))completion;
 
 @end
 

@@ -8,25 +8,45 @@
 
 #import <UIKit/UIKit.h>
 
-@class CHFNotificationBarObject;
+#import "CHFNotificationBarObject.h"
+
+#define TopNotificationBar \
+((CHFNotificationBar *)[CHFNotificationBar sharedTopNotificationBar])
+
+#define BottomNotificationBar \
+((CHFNotificationBar *)[CHFNotificationBar sharedBottomNotifcationBar])
+
+@protocol CHFNotificationBarDelegate;
 
 @interface CHFNotificationBar : UIView
 
-+ (instancetype)sharedNotifcationBar;
++ (instancetype)sharedTopNotificationBar;
++ (instancetype)sharedBottomNotifcationBar;
 
-- (CHFNotificationBarObject *)dequeueNotification;
-- (void)enqueueNotification:(CHFNotificationBarObject *)notification;
+@property (nonatomic, weak) id <CHFNotificationBarDelegate> delegate;
 
-- (NSUInteger)countOfNotificationsEnqueued;
+@property (nonatomic, readonly, getter = isPaused) BOOL paused;
+@property (nonatomic, readonly, getter = isShowingNotifications) BOOL showingNotifications;
 
-- (void)resumeNotificationQueue;
-- (void)pauseNotificationQueue;
-- (void)stopNotificationQueue;
+- (void)addNotification:(CHFNotificationBarObject *)notification;
+
+- (NSUInteger)countOfEnqueuedNotifications;
+
+- (void)resume;
+- (void)pause;
+- (void)stop;
 
 @end
 
 @protocol CHFNotificationBarDelegate <NSObject>
 
+- (void)didBeginShowingNotificationsFromNotificationBar:(CHFNotificationBar *)notificationBar;
+- (void)didEndShowingNotificationsFromNotificationBar:(CHFNotificationBar *)notificationBar;
 
+@optional
+- (void)didBeginShowingNotification:(CHFNotificationBarObject *)notification
+                fromNotificationBar:(CHFNotificationBar *)notificationBar;
+- (void)didEndShowingNotification:(CHFNotificationBarObject *)notification
+              fromNotificationBar:(CHFNotificationBar *)notificationBar;
 
 @end

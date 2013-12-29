@@ -8,10 +8,13 @@
 
 #import "CHFWallpaperView.h"
 #import "UIImage+AverageColor.h"
+#import "CHFBlurView.h"
+#import "UIImage+Additions.h"
 
 #define kTransitionInterval 10
 #define kTransitionDuration 0.4
 #define kBlurViewFadeDuration 0.3
+#define kDefaultIndex 2
 
 @interface CHFWallpaperView ()
 
@@ -65,10 +68,10 @@
 - (void)initialize
 {
     // Setup the image array
-    self.imageURLArray = @[@"backgroundImage1.jpg", @"backgroundImage2.jpg", @"backgroundImage3.jpg", @"backgroundImage4.jpg", @"backgroundImage5.png"];
+    self.imageURLArray = @[@"backgroundImage1@2x.jpg", @"backgroundImage2@2x.jpg", @"backgroundImage3@2x.jpg", @"backgroundImage4@2x.jpg", @"backgroundImage5@2x.png"];
     
     // Set the default image index
-    self.currentIndex = self.randomStart ? (arc4random() % self.imageURLArray.count) : 0;
+    self.currentIndex = self.randomStart ? (arc4random() % self.imageURLArray.count) : kDefaultIndex;
     
     // Setup the image view
     [self configureImageView];
@@ -121,7 +124,7 @@
 
 - (UIImage *)imageAtIndex:(NSInteger)index
 {
-    return [UIImage imageNamed:self.imageURLArray[index]];
+    return [UIImage imageNamedWithoutCaching:self.imageURLArray[index]];
 }
 
 #pragma mark - TransitionTimer
@@ -135,14 +138,16 @@
 {
     if (!self.transitionTimer)
     {
-        //FIXME: Busy main thread delays transition timer
         SEL transitionTo = self.cycleInReverse ? @selector(transitionToPreviousImage) : @selector(transitionToNextImage);
         
-        self.transitionTimer = [NSTimer scheduledTimerWithTimeInterval:kTransitionInterval
-                                                                target:self
-                                                              selector:transitionTo
-                                                              userInfo:nil
-                                                               repeats:YES];
+        self.transitionTimer = [NSTimer timerWithTimeInterval:kTransitionInterval
+                                                       target:self
+                                                     selector:transitionTo
+                                                     userInfo:nil
+                                                      repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:self.transitionTimer
+                                     forMode:NSRunLoopCommonModes];
     }
 }
 
@@ -158,7 +163,8 @@
 {
     if (!self.imageView)
     {
-        self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.imageURLArray[self.currentIndex]]];
+        
+        self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedWithoutCaching:self.imageURLArray[self.currentIndex]]];
         self.imageView.frame = self.frame;
         
         [self addSubview:self.imageView];

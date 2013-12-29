@@ -26,6 +26,25 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     RectEdgeLeft = 3
 };
 
+NSString * NSStringFromItemType(ItemType type)
+{
+    switch (type)
+    {
+        case ItemTypeStack:
+            return @"ItemType Stack";
+            break;
+        case ItemTypePending:
+            return @"ItemType Pending";
+            break;
+        case ItemTypeStandAlone:
+            return @"ItemType StandAlone";
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
 @interface CHFChatStackItem ()
 
 @property (nonatomic, strong) CALayer *contentLayer;
@@ -72,13 +91,13 @@ typedef NS_ENUM (NSUInteger, RectEdge)
         self.layer.shouldRasterize = YES;
         self.layer.backgroundColor = [UIColor clearColor].CGColor;
         self.layer.cornerRadius = ChatStackManager.stackItemSize / 2;
-        self.layer.masksToBounds = YES;
         self.layer.allowsEdgeAntialiasing = YES;
         self.layer.allowsGroupOpacity = YES;
-//        [self drawShadowOnLayer:self.layer];
         
         self.avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
         self.avatarImageView.center = self.center;
+        self.avatarImageView.layer.cornerRadius = ChatStackManager.stackItemSize / 2;
+        self.avatarImageView.layer.masksToBounds = YES;
         [self addSubview:self.avatarImageView];
         
         // Apply tap gesture
@@ -110,177 +129,17 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     return item;
 }
 
+#pragma mark - Overrides
 
-
-#pragma mark - View Controller
-/*
-- (void)presentNavigationControllerAnimated:(BOOL)animated
+- (NSString *)description
 {
-    if (!self.navigationController)
-    {
-        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-        
-        UIViewController *viewController = [board instantiateViewControllerWithIdentifier:@"HoverCardViewController"];
-        
-        self.navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-        self.navigationController.view.layer.cornerRadius = 8.0f;
-        self.navigationController.view.layer.masksToBounds = YES;
-        self.navigationController.view.frame = [self frameForNavigationController];
-        self.navigationController.view.tintColor = [UIColor redColor];
-    }
-    
-    
-    self.navigationController.view.transform = CGAffineTransformMakeScale(0, 0);
-    
-    
-    CHFChatStackItem *lastStackItem = [ChatStackManager.itemArray lastObject];
-    
-    [ChatStackManager.window insertSubview:self.navigationController.view
-                                       belowSubview:lastStackItem];
-    
-    // Background View
-    CGFloat padding = 10.0;
-    CGRect frameRect = AppDelegate.window.screen.bounds;
-    frameRect.origin = CGPointMake(-padding, -padding);
-    frameRect.size = CGSizeMake(frameRect.size.width + (padding * 2), frameRect.size.height + (padding * 2));
-    
-    self.backgroundView = [[CHFBlurView alloc] initWithFrame:frameRect blurType:BlurTypeDark withAnimation:YES];
-    
-    //    [[self backgroundView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    //    self.backgroundView.blurType = BlurTypeDark;
-    self.backgroundView.alpha = 0.0f;
-    
-    // Get the snapshot of the container view and apply a blur effect to it
-    //    UIImage *appContainerSnapshotImage = AppContainer.snapshotImage;
-    //    appContainerSnapshotImage = [appContainerSnapshotImage applyBlurWithRadius:30
-    //                                                                     tintColor:[UIColor colorWithWhite:1.0
-    //                                                                                                 alpha:0.1]
-    //                                                         saturationDeltaFactor:2.8
-    //                                                                     maskImage:nil];
-    //
-    //    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:appContainerSnapshotImage];
-    //    backgroundImageView.frame = self.backgroundView.frame;
-    //    [self.backgroundView addSubview:backgroundImageView];
-    
-    [ChatStackManager.window insertSubview:self.backgroundView
-                                       belowSubview:self.navigationController.view];
-    
-    if (animated)
-    {
-        [self showNavigationControllerAnimated:animated
-                                withCompletion:^{
-                                    
-                                }];
-    }
-    else
-    {
-        self.navigationController.view.transform = CGAffineTransformIdentity;
-        self.backgroundView.alpha = 1.0f;
-    }
-    
-    if (ChatStackManager.motionEffectEnabled)
-    {
-        float maximumTilt = 15;
-        
-        UIInterpolatingMotionEffect *xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-        xAxis.minimumRelativeValue = [NSNumber numberWithFloat:-maximumTilt];
-        xAxis.maximumRelativeValue = [NSNumber numberWithFloat:maximumTilt];
-        
-        UIInterpolatingMotionEffect *yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-        yAxis.minimumRelativeValue = [NSNumber numberWithFloat:-maximumTilt];
-        yAxis.maximumRelativeValue = [NSNumber numberWithFloat:maximumTilt];
-        
-        UIMotionEffectGroup *group = [[UIMotionEffectGroup alloc] init];
-        group.motionEffects = @[xAxis, yAxis];
-        
-        [self.navigationController.view addMotionEffect:group];
-    }
+    return [NSString stringWithFormat:@"%@, frame = %@, username = %@, userID = %@, type = %@", self.class, NSStringFromCGRect(self.frame), self.username, self.userID, NSStringFromItemType(self.itemtype)];
 }
 
-- (void)dismissNavigationControllerAnimated:(BOOL)animated
+- (BOOL)isEqual:(CHFChatStackItem *)item
 {
-    if (self.navigationController)
-    {
-        if (animated)
-        {
-            [self hideNavigationControllerAnimated:animated
-                                    withCompletion:^{
-                                        [self.navigationController.view removeFromSuperview];
-                                        self.navigationController = nil;
-                                        
-                                        [self.backgroundView removeFromSuperview];
-                                        self.backgroundView = nil;
-                                    }];
-        }
-        else
-        {
-            [self.navigationController.view removeFromSuperview];
-            self.navigationController = nil;
-            
-            [self.backgroundView removeFromSuperview];
-            self.backgroundView = nil;
-        }
-    }
+    return [item.userID isEqualToString:self.userID];
 }
-
-- (CGRect)frameForNavigationController
-{
-    return CGRectInset(ChatStackManager.deckControllerArea, 10, 10);
-}
-
-- (void)showNavigationControllerAnimated:(BOOL)animated withCompletion:(void (^)(void))completion
-{
-    self.navigationControllerIsHidden = NO;
-    
-    self.navigationController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.001, 0.001);
-    
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                         self.backgroundView.alpha = 1.0;
-                     }];
-    
-    [UIView animateWithDuration:1.0
-                          delay:0.0
-         usingSpringWithDamping:0.4
-          initialSpringVelocity:1.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         self.navigationController.view.transform = CGAffineTransformIdentity;
-                     }
-                     completion:^(BOOL finished) {
-                         completion();
-                     }];
-    
-}
-
-- (void)hideNavigationControllerAnimated:(BOOL)animated withCompletion:(void (^)(void))completion
-{
-    self.navigationControllerIsHidden = YES;
-    
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                         self.backgroundView.alpha = 0.0;
-                     }];
-    
-    [UIView animateWithDuration:0.3/1.5
-                          delay:0.0
-                        options: UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         self.navigationController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
-                     }
-                     completion:^(BOOL finished) {
-                         [UIView animateWithDuration:0.3/2
-                                               delay:0.0
-                                             options: UIViewAnimationOptionBeginFromCurrentState
-                                          animations:^{
-                                              self.navigationController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
-                                          }
-                                          completion:^(BOOL finished) {
-                                              completion();
-                                          }];
-                     }];
-}
- */
 
 #pragma mark - Camera
 
@@ -323,7 +182,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
         
         [viewLayer addSublayer:newCaptureVideoPreviewLayer];
         
-//        AVCaptureVideoPreviewLayer *previewLayer = newCaptureVideoPreviewLayer;
+        //        AVCaptureVideoPreviewLayer *previewLayer = newCaptureVideoPreviewLayer;
         
         [self addSubview:view];
         
@@ -332,7 +191,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
 }
 
 
- 
+
 #pragma mark - Dynamic Behaviors
 
 - (void)snapToPoint:(CGPoint)point withCompletion:(void (^)(void))completion
@@ -350,7 +209,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     }
     
     
-//    __weak UISnapBehavior *snap = snapBehavior;
+    //    __weak UISnapBehavior *snap = snapBehavior;
     
     __block CGPoint observingPoint = CGPointZero;
     
@@ -359,7 +218,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
         if (CGPointEqualToPoint(self.center, observingPoint) && !CGPointEqualToPoint(self.center, point))
         {
             
-//            [ChatStackManager.animator removeBehavior:snap];
+            //            [ChatStackManager.animator removeBehavior:snap];
             
             completion();
         }
@@ -374,14 +233,14 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     
 }
 
-#pragma mark
+#pragma mark KickOut
 
 - (void)kickOutWithRandomAnimation:(BOOL)random
 {
     [CHFKickOutBehavior kickOutItem:self withRandomDirection:random];
 }
 
-#pragma mark
+#pragma mark Attach/Detach
 
 - (void)attachToPrecedentItem
 {
@@ -418,7 +277,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     self.precedentItemAttachmentBehavior.length = velocitySum;
 }
 
-#pragma mark
+#pragma mark Gravity
 
 - (void)applyGravity
 {
@@ -483,7 +342,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     
 }
 
-#pragma mark
+#pragma mark Flick
 
 - (void)applyFlickBehaviorWithPanGesture:(UIPanGestureRecognizer *)panGesture
 {
@@ -505,7 +364,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     }
 }
 
-#pragma mark
+#pragma mark Bounds Observing
 
 - (void)beginObservingBoundsCrossing
 {
@@ -737,8 +596,200 @@ typedef NS_ENUM (NSUInteger, RectEdge)
                 }];
             }];
         }
+            break;
+        case ItemEffectFadeIn:
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                view.layer.opacity = 1.0;
+            }];
+        }
+            break;
+        case ItemEffectFadeOut:
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                view.layer.opacity = 0.0;
+            }];
+        }
+            break;
         default:
             break;
+    }
+}
+
+- (void)addShadow:(BOOL)addShadow animated:(BOOL)animated
+{
+    if (self.itemtype == ItemTypeStack) return;
+    
+    if (addShadow)
+    {
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowRadius = 4;
+        
+        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.layer.bounds
+                                                        cornerRadius:self.layer.cornerRadius];
+        
+        self.layer.shadowPath = path.CGPath;
+    }
+    else
+    {
+        self.layer.shadowColor = [UIColor clearColor].CGColor;
+        self.layer.shadowRadius = 0;
+        self.layer.shadowPath = NULL;
+    }
+    
+    CGFloat minOpacity = 0.0;
+    CGFloat maxOpacity = 0.5;
+    NSNumber *toValue = addShadow ? @(maxOpacity) : @(minOpacity);
+    
+    if (animated)
+    {
+        NSString *key = @"shadowOpacity";
+        NSNumber *fromValue = addShadow ? @(minOpacity) : @(maxOpacity);
+        
+        CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
+        anim.fromValue = fromValue;
+        anim.toValue = toValue;
+        anim.duration = 0.5;
+        [self.layer addAnimation:anim forKey:key];
+    }
+    
+    self.layer.shadowOpacity = toValue.floatValue;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
+}
+
+#pragma mark - Snapping Methods
+// Going from point A to point B is SLOWER than going (From (Point A) to window(Point A) to window(Point B) then converting to (Point B))
+
+- (void)addCoordinates:(ItemCoordinates *)coordinates
+{
+    NSLog(@"IN ADD COORDINATES, coor = %@, array = %@", coordinates, self.journeyArray);
+    
+    NSMutableArray *journey = self.journeyArray ? [self.journeyArray mutableCopy] : [NSMutableArray array];
+    [journey addObject:coordinates];
+    self.journeyArray = [journey copy];
+    
+    NSLog(@"COORDINATES after array = %@", self.journeyArray);
+}
+
+// For snapping the item we always need to to animate on the chatstacks window, not the destination or the source view.
+- (void)snapToOrigin
+{
+    if (self.journeyArray) [self snapToItemCoordinates:self.journeyArray.firstObject];
+//    self.journeyArray = nil;
+}
+
+- (void)snapToPreviousCoordinates
+{
+    if (self.journeyArray.count <= 1) return;
+    
+    // The current itemCoordinates is always the last one in the array
+    ItemCoordinates *previousCoordinates = self.journeyArray[self.journeyArray.count - 2];
+    
+    [self snapToItemCoordinates:previousCoordinates];
+}
+
+- (void)snapToItemCoordinatesAtIndex:(NSUInteger)index
+{
+    if (index < self.journeyArray.count) [self snapToItemCoordinates:self.journeyArray[index]];
+}
+
+- (void)snapToItemCoordinates:(ItemCoordinates *)coordinates
+{
+    [self snapToPoint:coordinates.point inView:coordinates.view];
+}
+
+- (void)snapToPoint:(CGPoint)toPoint inView:(UIView *)toView
+{
+    // Prepare the item by giving the item to the window coordinates. Preparing the item gets the item to window(Point A)
+    [self prepareToSnap];
+    
+    // Add the destination coordinates
+    ItemCoordinates *destinationCoordinate = [ItemCoordinates coordinateWithPoint:toPoint inView:toView withScale:1.0];
+    
+    if (![self.journeyArray containsObject:destinationCoordinate])
+    {
+        NSMutableArray *coordinates = [self.journeyArray mutableCopy];
+        [coordinates addObject:destinationCoordinate];
+        self.journeyArray = coordinates;
+    }
+    else // Already contains this coordinate
+    {
+        NSUInteger index = [self.journeyArray indexOfObject:destinationCoordinate];
+        
+        if (index == 0)
+        {
+            // If the destination is going back to the origin then set the array to nil
+//             self.journeyArray = nil;
+            
+            NSLog(@"SET IT TO NILL NIGGA");
+        }
+        else
+        {
+            NSMutableArray *coordinates = [self.journeyArray mutableCopy];
+            [coordinates removeObjectsInRange:NSMakeRange(index, coordinates.count - 1)];
+            self.journeyArray = coordinates;
+        }
+    }
+    
+    // Get the point in the window which to animate to. window(Point B)
+    CGPoint windowToPoint = [toView isEqual:AppDelegate.window] ? toPoint : [toView convertPoint:toPoint
+                                                                                   toView:nil];
+    NSLog(@"CHECKING toveiw = %@, topoint = %@", toView, NSStringFromCGPoint(toPoint));
+    
+    NSLog(@"windowtopoint = %@", NSStringFromCGPoint(windowToPoint));
+    // Animate the item in the window
+    [UIView animateWithDuration:0.5
+                          delay:0.0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:0.6
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.center = windowToPoint;
+                     }
+                     completion:^(BOOL finished) {
+                         // Now that the item finished animating give it to the destination view. (Point B)
+                         NSLog(@"DESTINATION point = %@, view = %@", NSStringFromCGPoint(toPoint), toView);
+                         
+                         if (![toView isEqual:AppDelegate.window])
+                         {
+                             self.center = toPoint;
+                             [toView addSubview:self];
+                             [toView bringSubviewToFront:self];
+                         }
+                         
+                         
+                     }];
+}
+
+- (void)prepareToSnap
+{
+    // This method is used where some views go over the tapped item when animating the view in for example. It gives the item to the window which will keep the item above all views.
+    NSLog(@"RUNNNNN");
+    
+    UIView *fromView = self.superview;
+    CGPoint fromPoint = self.center;
+    
+    if (self.journeyArray.count == 0)
+    {
+        NSLog(@"the FIRST journey array = %@", self.journeyArray);
+        
+        NSLog(@"in first and center = %@, and superview = %@", NSStringFromCGPoint(fromPoint), fromView);
+        // Add the original coordinates
+        ItemCoordinates *originalCoordinate = [ItemCoordinates coordinateWithPoint:fromPoint inView:fromView withScale:1.0];
+        
+        self.journeyArray = @[originalCoordinate];
+        NSLog(@"LBAHAHAHHAHAH");
+    }
+    
+    
+    if (![fromView isEqual:AppDelegate.window])
+    {
+        // Convert the items original point from its original view, to the window so we can animate the item.
+        CGPoint windowFromPoint = [fromView convertPoint:fromPoint toView:nil];
+        
+        self.center = windowFromPoint;
+        [AppDelegate.window addSubview:self];
+        [AppDelegate.window bringSubviewToFront:self];
     }
 }
 
@@ -772,35 +823,6 @@ typedef NS_ENUM (NSUInteger, RectEdge)
 - (BOOL)isOnLeftSide
 {
     return self.center.x < CGRectGetMidX(ChatStackManager.window.frame) ? YES: NO;
-}
-
-- (UIColor *)randomColor
-{
-    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
-    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
-    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
-    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
-}
-
-- (void)drawShadowOnLayer:(CALayer *)layer
-{
-    layer.shadowColor = [UIColor blackColor].CGColor;
-    layer.shadowOffset = CGSizeMake(0, 0);
-    layer.shadowRadius = 2;
-    layer.shadowOpacity = 0.5f;
-    
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:layer.bounds cornerRadius:layer.cornerRadius];
-    
-    layer.shadowPath = path.CGPath;
-}
-
-- (void)removeShadowOnLayer:(CALayer *)layer
-{
-    layer.shadowColor = [UIColor clearColor].CGColor;
-    layer.shadowOffset = CGSizeMake(0, 0);
-    layer.shadowRadius = 0;
-    layer.shadowOpacity = 0.0f;
-    layer.shadowPath = nil;
 }
 
 - (CGPoint)pointForDefaultLayoutFromSourcePoint:(CGPoint)point
@@ -891,7 +913,7 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     
     [ChatStackManager.animator removeAllBehaviors];
     
-//    [self applyEffect:ItemEffectTouchDown];
+    //    [self applyEffect:ItemEffectTouchDown];
 }
 
 #pragma mark Tap
@@ -910,13 +932,13 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     {
         case UIGestureRecognizerStateBegan:
         {
-                [self drawShadowOnLayer:self.layer];
+            [self addShadow:YES animated:YES];
         }
             break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateFailed:
         {
-                [self removeShadowOnLayer:self.layer];
+            [self addShadow:NO animated:YES];
         }
         default:
             break;
@@ -926,6 +948,13 @@ typedef NS_ENUM (NSUInteger, RectEdge)
     {
         [self.delegate didPanItem:self withGesture:panGesture];
     }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    [self addCoordinates:[ItemCoordinates coordinateWithPoint:self.center inView:self.superview withScale:1.0]];
+    
+    return YES;
 }
 
 /*
@@ -1011,5 +1040,35 @@ typedef NS_ENUM (NSUInteger, RectEdge)
  return YES;
  }
  */
+
+@end
+
+@implementation ItemCoordinates
+
++ (instancetype)coordinateWithPoint:(CGPoint)point inView:(UIView *)view withScale:(CGFloat)scale
+{
+    return [[ItemCoordinates alloc] initWithPoint:point inView:view withScale:scale];
+}
+
+- (instancetype)initWithPoint:(CGPoint)point inView:(UIView *)view withScale:(CGFloat)scale
+{
+    self = [super init];
+    if (self) {
+        self.point = point;
+        self.view = view;
+        self.scale = scale;
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(ItemCoordinates *)coordinates
+{
+    return CGPointEqualToPoint(self.point, coordinates.point) && [self.view isEqual:coordinates.view] && self.scale == coordinates.scale;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@, point = %@, view = %@, scale = %f", [super description], NSStringFromCGPoint(self.point), self.view, self.scale];
+}
 
 @end

@@ -42,7 +42,7 @@ typedef NS_OPTIONS (NSUInteger, HoverMenuOptions)
 #pragma mark - Methods
 - (void)performActionOnCellAtPoint:(CGPoint)point
                  withChatStackItem:(CHFChatStackItem *)item
-                     andCompletion:(void (^)(void))completion;
+                     andCompletion:(HoverActionCompletionHandler)completion;
 
 - (void)pannedItemPoint:(CGPoint)point;
 

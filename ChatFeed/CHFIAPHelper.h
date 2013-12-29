@@ -18,11 +18,11 @@ typedef void (^RequestProductsCompletionHandler)(BOOL success, NSArray * product
 
 + (CHFIAPHelper *)sharedInstance;
 
-- (id)initWithProductIdentifiers:(NSSet *)productIdentifiers;
+- (instancetype)initWithProductIdentifiers:(NSSet *)productIdentifiers;
 - (void)requestProductsWithCompletionHandler:(RequestProductsCompletionHandler)completionHandler;
 
--(void)buyProduct:(SKProduct *)product;
--(BOOL)productPurchased:(NSString *)productIdentifer;
+- (void)buyProduct:(SKProduct *)product;
+- (BOOL)productPurchased:(NSString *)productIdentifer;
 - (void)restoreCompletedTransactions;
 
 

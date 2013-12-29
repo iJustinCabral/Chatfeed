@@ -23,21 +23,22 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor clearColor];
-    
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                                          collectionViewLayout:[CHFSpringyFlowLayout new]];
-    collectionView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:collectionView];
-    
     // Model
-    self.collectionViewModel = [[CHFChatFeedsModel alloc] initWithCollectionView:collectionView];
+    self.collectionViewModel = [[CHFChatFeedsModel alloc] initWithCollectionViewLayout:[CHFSpringyFlowLayout new]];
+    [self.view addSubview:self.collectionViewModel.collectionView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Subclassing Hooks
+
+- (void)updateContentInset:(CGFloat)inset
+{
+    [self.collectionViewModel updateContentInset:inset];
 }
 
 #pragma mark

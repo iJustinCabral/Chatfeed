@@ -10,6 +10,8 @@
 #import "CHFHoverMenuCell.h"
 #import "CHFHoverMenuHeaderView.h"
 
+#import "CHFBlurView.h"
+
 #import "CHFClientManager.h"
 #import <ANKClient+ANKUser.h>
 
@@ -53,6 +55,13 @@
     [self.collectionView reloadData];
 }
 
+- (void)loadView
+{
+    self.view = [[CHFBlurView alloc] initWithFrame:AppContainer.view.bounds
+                                          blurType:BlurTypeDark
+                                     withAnimation:NO];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -65,6 +74,8 @@
     
     self.collectionView.backgroundView = nil;
     self.collectionView.backgroundColor = [UIColor clearColor];
+    CGFloat topInset = [AppDelegate statusBarIsHidden] ? 0: 20;
+    self.collectionView.contentInset = UIEdgeInsetsMake(topInset, 0, 0, 0);
     
     self.collectionView.clipsToBounds = NO;
     self.collectionView.layer.masksToBounds = NO;
@@ -167,7 +178,7 @@
 
 #pragma mark - Methods
 #pragma mark Public
-- (void)performActionOnCellAtPoint:(CGPoint)point withChatStackItem:(CHFChatStackItem *)item andCompletion:(void (^)(void))completion
+- (void)performActionOnCellAtPoint:(CGPoint)point withChatStackItem:(CHFChatStackItem *)item andCompletion:(HoverActionCompletionHandler)completion
 {
     if ([self cellAtPoint:point] != nil)
     {
@@ -175,13 +186,13 @@
         
         [self performActionWithOption:cell.menuOption
                         chatStackItem:item
-                        andCompletion:^{
-                            completion();
+                        andCompletion:^(BOOL performedAction, BOOL itemShouldReturn) {
+                            completion(performedAction, itemShouldReturn);
                         }];
     }
     else
     {
-        completion();
+        completion(NO, YES);
     }
 }
 
@@ -351,8 +362,21 @@
 
 - (void)performActionWithOption:(HoverMenuOptions)menuOption
                   chatStackItem:(CHFChatStackItem *)item
-                  andCompletion:(void (^)(void))completion
+                  andCompletion:(HoverActionCompletionHandler)completion
 {
+//    switch (menuOption) // menuOption & HoverMenuOptionUserProfile
+//    {
+//        case HoverMenuOptionUserProfile:
+//            
+//        {
+//            
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+    
     // User
     if (menuOption & HoverMenuOptionUserProfile)
     {
@@ -429,11 +453,15 @@
     // Stack
     if (menuOption & HoverMenuOptionChatStackAddUser)
     {
+        completion(YES, NO);
+        
         NSLog(@"HoverMenuOptionChatStackAddUser");
-        self.item.itemtype = ItemTypeStack;
-        [ChatStackManager addItem:self.item fromPoint:self.item.center animated:YES withCompletionBlock:^(BOOL finished) {
-            
-        }];
+        
+        
+        [ChatStackManager addItemToStack:self.item fromView:[self.item superview]];
+        
+        
+        return;
     }
     if (menuOption & HoverMenuOptionChatStackRemoveUser)
     {
@@ -441,7 +469,7 @@
         NSLog(@"HoverMenuOptionChatStackRemoveUser");
     }
     
-    completion();
+    completion(YES, YES);
 }
 
 #pragma mark - Show / Hide methods

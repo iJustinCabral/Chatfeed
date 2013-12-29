@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-#import "CHFDeckController.h"
+#import "CHFPageViewController.h"
 
-@interface CHFBackDeckController : CHFDeckController
+@interface CHFBackDeckController : CHFPageViewController
 
 @end

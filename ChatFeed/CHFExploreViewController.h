@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 Thinkr LLC. All rights reserved.
 //
 
-@import UIKit;
+#import "CHFViewController.h"
 
-@interface CHFExploreViewController : UIViewController
+@interface CHFExploreViewController : CHFViewController
+
+
 
 @end

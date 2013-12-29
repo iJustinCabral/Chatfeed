@@ -22,9 +22,76 @@
 #import <ADNLogin.h>
 #import "CHFIAPHelper.h"
 
+NSString * NSStringFromAppLayer(AppLayer layer)
+{
+    switch (layer)
+    {
+        case AppLayerWallpaper:
+            return @"AppLayer Wallpaper";
+            break;
+        case AppLayerAppContainer:
+            return @"AppLayerAppContainer";
+            break;
+        case AppLayerAppBar:
+            return @"AppLayer AppBar";
+            break;
+        case AppLayerChats:
+            return @"AppLayer Chats";
+            break;
+        case AppLayerHoverMenu:
+            return @"AppLayer HoverMenu";
+            break;
+        case AppLayerChatItems:
+            return @"AppLayer ChatItems";
+            break;
+        default:
+            return @"AppLayer Unkown";
+            break;
+    }
+}
+
+NSString * NSStringFromPanDirection(PanDirection direction)
+{
+    switch (direction)
+    {
+        case PanDirectionUp:
+            return @"PanDirection Up";
+            break;
+        case PanDirectionRight:
+            return @"PanDirection Right";
+            break;
+        case PanDirectionDown:
+            return @"PanDirection Down";
+            break;
+        case PanDirectionLeft:
+            return @"PanDirection Left";
+            break;
+        default:
+            return @"Invalid direction";
+            break;
+    }
+}
+
+PanDirection PanDirectionFromVelocity(CGPoint velocity)
+{
+    PanDirection direction;
+    
+    if (fabs(velocity.y) > fabs(velocity.x))
+    {
+        direction = velocity.y > 0 ? PanDirectionDown : PanDirectionUp;
+    }
+    else
+    {
+        direction = velocity.x > 0 ? PanDirectionRight : PanDirectionLeft;
+    }
+    
+    return direction;
+}
+
 @interface CHFAppDelegate () <CHFWallpaperDelegate, ADNLoginDelegate, LoginViewControllerDelegate>
 
 @property (nonatomic, strong) CHFWallpaperView *wallpaperView;
+@property (nonatomic) NSArray *appLayerContainers;
 
 @end
 
@@ -97,6 +164,70 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+// This method makes sure that our app stays layered properly. If you need to add something that uses the apps window it should go through this method
+- (void)addSubview:(UIView *)view ofAppLayerType:(AppLayer)layer
+{
+    [self.window insertSubview:view atIndex:layer];
+    
+//    switch (layer)
+//    {
+//        case AppLayerWallpaper:
+//            return [self.window insertSubview:view atIndex:layer];
+//            break;
+//        case AppLayerAppContainer:
+//            return [self.window.rootViewController.view addSubview:view];
+//            break;
+//        case AppLayerAppBar:
+//            return ;
+//            break;
+//        case AppLayerChats:
+//            return ;
+//            break;
+//        case AppLayerHoverMenu:
+//            return @"AppLayer HoverMenu";
+//            break;
+//        case AppLayerChatItems:
+//            return @"AppLayer ChatItems";
+//            break;
+//        default:
+//            break;
+//    }
+    
+}
+
+- (UIView *)viewForAppLayer:(AppLayer)layer
+{
+//    switch (layer)
+//    {
+//        case AppLayerWindow:
+//            return self.window;
+//            break;
+//        case AppLayerWallpaper:
+//            return self.wallpaperView;
+//            break;
+//        case AppLayerAppContainer:
+//            return self.window.rootViewController.view;
+//            break;
+//        case AppLayerAppBar:
+//            return ;
+//            break;
+//        case AppLayerChats:
+//            return ;
+//            break;
+//        case AppLayerHoverMenu:
+//            return @"AppLayer HoverMenu";
+//            break;
+//        case AppLayerChatItems:
+//            return @"AppLayer ChatItems";
+//            break;
+//        default:
+//            return nil;
+//            break;
+//    }
+    return nil;
+
+}
+
 #pragma mark - TintColor Methods
 
 - (UIColor *)appColor
@@ -115,10 +246,11 @@
 {
     self.wallpaperView = [[CHFWallpaperView alloc] initWithFrame:self.window.bounds
                                                    blurWallpaper:YES
-                                                     randomStart:YES
+                                                     randomStart:NO
                                                      shouldCycle:NO
                                                   cycleInReverse:NO];
     self.wallpaperView.delegate = self;
+    
     [self.window addSubview:self.wallpaperView];
     [self.window sendSubviewToBack:self.wallpaperView];
 }
@@ -128,6 +260,62 @@
 {
     // This method is being looped from an animation
     [self updateApplicationColorToColor:color];
+}
+
+#pragma mark - StatusBar Helpers
+
+- (void)hideStatusBar:(BOOL)hide withAnimation:(UIStatusBarAnimation)animation
+{
+    if (hide && ![self statusBarIsHidden])
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:hide withAnimation:animation];
+
+    }
+    else if ([self statusBarIsHidden] && Settings.isStatusBarEnabled && !TopNotificationBar.isShowingNotifications)
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:hide withAnimation:animation];
+    }
+}
+
+- (BOOL)statusBarIsHidden
+{
+    return [self statusBarHeight] > 0 ? NO: YES;
+}
+
+- (UIImageView *)statusBarSnapshot
+{
+    // Take a snapshot of the app
+    UIView *statusBarSnapView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+    
+    // Convert the view to an image
+    UIGraphicsBeginImageContext([self statusBarRect].size);
+    
+    [statusBarSnapView.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+    UIImage *statusBarImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    // Mask the status bar
+//    CGFloat colorValueLow = 0;
+//    CGFloat colorValueHigh = 255;
+//    float colorMaskingLow[6] = {0, colorValueLow, 0, colorValueLow, 0, colorValueLow};
+//    float colorMaskingHigh[6] = {colorValueHigh, 255, colorValueHigh, 255, colorValueHigh, 255};
+//    CGImageRef imageRef = CGImageCreateWithMaskingColors(statusBarImage.CGImage, colorMaskingLow);
+//    UIImage *finalImage = [UIImage imageWithCGImage:imageRef];
+//    CGImageRelease(imageRef);
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:statusBarImage];
+    return statusBarSnapView;
+}
+
+- (CGRect)statusBarRect
+{
+    return [UIApplication sharedApplication].statusBarFrame;
+}
+
+- (CGFloat)statusBarHeight
+{
+    return [self statusBarRect].size.height;
 }
 
 #pragma mark - Login Methods
@@ -179,7 +367,7 @@
                                   token:(NSString *)accessToken
 {
     // Stash token in Keychain, make client request with ADNKit, etc.
-    ANKClient *client = [ANKClient new];
+//    ANKClient *client = [ANKClient new];
     
 }
 
@@ -239,5 +427,9 @@
                             sourceApplication:sourceApplication
                                    annotation:annotation];
 }
+
+@end
+
+@implementation CHFLayerContainer
 
 @end

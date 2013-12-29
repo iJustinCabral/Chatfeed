@@ -33,4 +33,6 @@ typedef NS_ENUM (NSUInteger, CellState)
         annotations:(NSArray *)annotations
         andTextView:(UITextView *)textView;
 
+- (void)showControlBar:(BOOL)show withView:(UIView *)view;
+
 @end

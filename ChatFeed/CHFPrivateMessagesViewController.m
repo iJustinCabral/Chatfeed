@@ -24,14 +24,16 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
     
-    //Add the collectionView
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                                          collectionViewLayout:[UICollectionViewFlowLayout new]];
-    collectionView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:collectionView];
-    
     // Model
-    self.collectionViewModel = [[CHFPrivateMessagesModel alloc] initWithCollectionView:collectionView];
+    self.collectionViewModel = [[CHFPrivateMessagesModel alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
+    [self.view addSubview:self.collectionViewModel.collectionView];
+}
+
+#pragma mark - Subclassing Hooks
+
+- (void)updateContentInset:(CGFloat)inset
+{
+    [self.collectionViewModel updateContentInset:inset];
 }
 
 @end

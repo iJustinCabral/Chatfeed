@@ -15,10 +15,13 @@
 #import "CHFHoverMenuCell.h"
 
 #import "UIImage+ImageEffects.h"
+#import "UIView+Hierarchy.h"
 
 #import "CHFBlurView.h"
 
 #import "BlackholeView.h"
+
+#import "CHFChatStackItemBase.h"
 
 @import QuartzCore;
 
@@ -46,6 +49,25 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     ProgressBarStateBeginning = 0,
     ProgressBarStateEnd = 1
 };
+
+NSString * NSStringFromItemLayout(ItemLayout layout)
+{
+    switch (layout)
+    {
+        case ItemLayoutStack:
+            return @"ItemLayout Stack";
+            break;
+        case ItemLayoutMessage:
+            return @"ItemLayout Message";
+            break;
+        case ItemLayoutReply:
+            return @"ItemLayout Reply";
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
 
 @interface CHFChatStackManager () <UIDynamicAnimatorDelegate, StackDeckControllerDelegate, StackDeckControllerDataSource, ItemsCollectionViewControllerDataSource, ItemsCollectionViewControllerDelegate>
 
@@ -127,6 +149,8 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 {
     self = [super init];
     
+    NSLog(@"making chatstack manager");
+    
     if (self)
     {
         [self configureDefaultSettings];
@@ -158,19 +182,13 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 {
     ItemLayout oldLayout = self.layout;
     
-    
-    
     _layout = layout;
-    
-    
     
     [self didChangeLayoutFrom:oldLayout toLayout:layout];
 }
 
 - (void)didChangeLayoutFrom:(ItemLayout)fromLayout toLayout:(ItemLayout)toLayout
 {
-    NSLog(@"from layout == %i, to layout == %i", fromLayout, toLayout);
-    
     if (fromLayout == ItemLayoutStack && toLayout == ItemLayoutMessage)
     {
     }
@@ -189,11 +207,24 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 
 #pragma mark - Boundaries
 
+- (CGRect)windowFrame
+{
+    CGRect frame = self.window.frame;
+    
+    if (!AppDelegate.statusBarIsHidden)
+    {
+        frame.origin.y += AppDelegate.statusBarRect.size.height;
+        frame.size.height -= AppDelegate.statusBarRect.size.height;
+    }
+    
+    return frame;
+}
+
 - (CGRect)snapBackBounds
 {
     CGFloat padding = 10;
     
-    CGRect appFrame = self.window.frame;
+    CGRect appFrame = [self windowFrame];
     CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     
     CGRect screenSizeWithoutStatusBar = CGRectMake(0, statusBarHeight + padding, appFrame.size.width, appFrame.size.height - (statusBarHeight + padding));
@@ -205,9 +236,9 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 - (CGRect)kickZoneArea
 {
     float kickZoneSize = kKickZoneSize;
-    float margin = (CGRectGetWidth(ChatStackManager.window.frame) - kickZoneSize) / 2;
+    float margin = (CGRectGetWidth(self.window.frame) - kickZoneSize) / 2;
     
-    return CGRectMake(margin, CGRectGetHeight(ChatStackManager.window.frame) - (kickZoneSize + 10), kickZoneSize, kickZoneSize);
+    return CGRectMake(margin, CGRectGetHeight(self.window.frame) - (kickZoneSize + 10), kickZoneSize, kickZoneSize);
 }
 
 - (CGRect)replyCollectionViewArea
@@ -216,7 +247,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     CGRect remainder;
     CGFloat margin = 10.0;
     
-    CGRectDivide(ChatStackManager.window.frame, &slice, &remainder, kStackItemSize + (margin * 2), CGRectMinYEdge);
+    CGRectDivide([self windowFrame], &slice, &remainder, kStackItemSize + (margin * 2), CGRectMinYEdge);
     
     return slice;
 }
@@ -227,7 +258,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     CGRect remainder;
     CGFloat margin = 10.0;
     
-    CGRectDivide(ChatStackManager.window.frame, &slice, &remainder, kStackItemSize + (margin * 2), CGRectMaxYEdge);
+    CGRectDivide([self windowFrame], &slice, &remainder, kStackItemSize + (margin * 2), CGRectMaxYEdge);
     
     return slice;
 }
@@ -238,7 +269,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     CGRect remainder;
     CGFloat margin = 10.0;
     
-    CGRectDivide(ChatStackManager.window.frame, &slice, &remainder, kStackItemSize + (margin * 2), self.layout == ItemLayoutMessage ? CGRectMaxYEdge : CGRectMinYEdge);
+    CGRectDivide([self windowFrame], &slice, &remainder, kStackItemSize + (margin * 2), self.layout == ItemLayoutMessage ? CGRectMaxYEdge : CGRectMinYEdge);
     
     return remainder;
 }
@@ -249,7 +280,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 {
     if (!self.blackholeView)
     {
-        self.blackholeView = [[BlackholeView alloc] initWithFrame:self.window.frame andParticleColor:[AppDelegate appColor]];
+        self.blackholeView = [[BlackholeView alloc] initWithFrame:self.window.frame andParticleColor:[UIColor appColor]];
         //        self.blackholeView.backgroundColor = [UIColor grayColor];
         [self.window addSubview:self.blackholeView];
     }
@@ -278,7 +309,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
         {
             self.kickZoneView = [[UIView alloc] initWithFrame:[self kickZoneArea]];
             
-            self.kickZoneView.backgroundColor = [UIColor blueColor];
+            self.kickZoneView.backgroundColor = [UIColor purpleColor];
             self.kickZoneView.layer.masksToBounds = YES;
             self.kickZoneView.layer.cornerRadius = kKickZoneSize / 2;
             self.kickZoneView.transform = CGAffineTransformMakeScale(0, 0);
@@ -304,7 +335,6 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
             [self.kickZoneView addSubview:backgroundImageView];
             
             // Setup Progress bar
-            
             
             [self.window insertSubview:self.kickZoneView belowSubview:(CHFChatStackItem *)self.itemArray.lastObject];
         }
@@ -514,98 +544,86 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 
 #pragma mark - Item Methods
 
-// Add a new item to the stack array, and shift trailing items to there right center point
-- (void)addItem:(CHFChatStackItem *)item fromPoint:(CGPoint)fromPoint animated:(BOOL)animated withCompletionBlock:(void (^)(BOOL))completion
+- (void)addItemToStack:(CHFChatStackItem *)item
 {
-    // Make us the delegate of the object
-    //    item.delegate = self; right now the delegate gets set in init
+    [self addItemToStack:item fromView:nil];
+}
+
+// Add a new item to the stack array, and shift trailing items to there right center point
+- (void)addItemToStack:(CHFChatStackItem *)item fromView:(UIView *)view
+{
+    item.itemtype = ItemTypeStack;
     
+    // If the item has a base then tell the base to make a new item for itself with the same characteristics
+    if (item.base) [item.base spawnItemAnimated:YES];
+    
+    // Make us the delegate of the object
+    if (!item.delegate) item.delegate = self;
+    
+    // If the DynamicAnimator doesn't exist we need to make one
     if (!self.animator) self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.window];
     
-    switch (item.itemtype)
+    // If the itemArray doesn't exist make one
+    if (!self.itemArray) self.itemArray = [NSMutableArray array];
+    
+    // First added object
+    if (self.itemArray.count == 0)
     {
-        case ItemTypeStack:
+        [self.itemArray addObject:item];
+        
+        self.boundsCrossingPoint = self.snapBackBounds.origin;
+        
+        [item snapToPoint:self.snapBackBounds.origin
+                   inView:self.window];
+        
+        [self updateMotionEffectForItem:item
+                                atIndex:[item index]];
+    }
+    else // If there is already an object in the itemarray then there is a possibility that a message object can be added while in the default layout or the message layout.
+    {
+        switch (self.layout)
         {
-            // If the itemArray doesn't exist make one
-            if (!self.itemArray) self.itemArray = [NSMutableArray array];
-            
-            // First added object
-            if (self.itemArray.count == 0)
+            case ItemLayoutStack:
             {
-                [self.itemArray addObject:item];
+                CGPoint spawnPoint = self.headStackItem.center;
                 
-                item.center = self.snapBackBounds.origin;
+                // Get where the current headChatStackItem is and put our new item there.
+                item.center = spawnPoint;
                 
-                self.boundsCrossingPoint = item.center;
+                // Insert the item at the beginning of the array which will make it the head item
+                [self.itemArray insertObject:item atIndex:0];
                 
-                [self presentItem:item
-                        fromPoint:fromPoint
-                          toPoint:self.snapBackBounds.origin
-                    withAnimation:animated];
+                [item snapToPoint:spawnPoint ///self.boundsCrossingPoint
+                           inView:self.window];
                 
-                [self updateMotionEffectForItem:item atIndex:[item index]];
+                [self updateItemsPointForStackLayout:spawnPoint];
             }
-            else // If there is already an object in the itemarray then there is a possibility that a message object can be added while in the default layout or the message layout.
-            {
-                switch (self.layout)
-                {
-                    case ItemLayoutStack:
-                    {
-                        CGPoint spawnPoint = self.headStackItem.center;
-                        
-                        // Get where the current headChatStackItem is and put our new item there.
-                        item.center = spawnPoint;
-                        
-                        // Insert the item at the beginning of the array which will make it the head item
-                        [self.itemArray insertObject:item atIndex:0];
-                        
-                        [self presentItem:item
-                                fromPoint:fromPoint
-                                  toPoint:self.boundsCrossingPoint
-                            withAnimation:animated];
-                        
-                        [self updateItemsPointForStackLayout:spawnPoint];
-                    }
-                        break;
-                    case ItemLayoutMessage:
-                        
-                        [self.itemArray insertObject:item atIndex:0];
-                        
-                        item.center = [item pointForMessageLayout];
-                        
-                        //                [self presentItem:item fromPoint:fromPoint toPoint:toPoint withAnimation:animated];
-                        
-                        // Update the positions
-                        [self snapItemsToMessageLayoutWithTappedItem:item];
-                        break;
-                    default:
-                        break;
-                }
-            }
+                break;
+            case ItemLayoutMessage:
+                
+                [self.itemArray insertObject:item atIndex:0];
+                
+                break;
+            default:
+                break;
         }
-            break;
-        case ItemTypePending:
-        {
-            if (!self.pendingItemArray)
-            {
-                self.pendingItemArray = [@[item] mutableCopy];
-            }
-            else
-            {
-                [self.pendingItemArray addObject:item];
-            }
-            
-            [self presentPendingItem:item withAnimation:YES];
-        }
-            break;
-        case ItemTypeStandAlone:
-        {
-            NSLog(@"Added ItemTypeStandAlone");
-        }
-            break;
+    }
+}
+
+- (void)addItemToPending:(CHFChatStackItem *)item
+{
+    item.itemtype = ItemTypePending;
+    
+    if (!self.pendingItemArray)
+    {
+        self.pendingItemArray = [@[item] mutableCopy];
+    }
+    else
+    {
+        [self.pendingItemArray addObject:item];
     }
     
-    completion(YES);
+    [self presentPendingItem:item withAnimation:YES];
 }
 
 // This will cause the oldest stack item to be dropped out of the view to make room for a new stack item. Once the stack item goes out of the bounds, we remove it from the stack array and let the "addItem" method know to go ahead and add the new item.
@@ -627,34 +645,23 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     }
 }
 
-// After Adding a new item to the stack array, this is called to add the item to the view and will animate if wanted.
-- (void)presentItem:(CHFChatStackItem *)item fromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint withAnimation:(BOOL)animation
+- (void)hideStack
 {
-    if (animation)
+    // There first items are in the stack
+    
+    for (CHFChatStackItem *item in self.itemArray)
     {
-        [self.window addSubview:item];
-        [self.window bringSubviewToFront:item];
-        
-        item.center = fromPoint;
-        
-        [UIView animateWithDuration:1.0
-                              delay:0.0
-             usingSpringWithDamping:0.5
-              initialSpringVelocity:0.8
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             item.center = toPoint;
-                         }
-                         completion:^(BOOL finished) {
-                             
-                         }];
-        
-        //        [item applyEffect:ItemEffectAddZoomIn];
+        [item applyEffect:ItemEffectFadeOut];
     }
-    else
+}
+
+- (void)showStack
+{
+    // There first items are in the stack
+    
+    for (CHFChatStackItem *item in self.itemArray)
     {
-        [self.window addSubview:item];
-        [self.window bringSubviewToFront:item];
+        [item applyEffect:ItemEffectFadeIn];
     }
 }
 
@@ -709,7 +716,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
         if (![trailingItem isEqual:[self headStackItem]])
         {
             float offsetValue = (trailingItem.index * self.chatItemOffset);
-            float offsetDirection = point.x < CGRectGetWidth(ChatStackManager.window.frame) / 2 ? offsetValue: -offsetValue;
+            float offsetDirection = point.x < CGRectGetWidth(self.window.frame) / 2 ? offsetValue: -offsetValue;
             
             CGPoint offsetPoint = CGPointMake(point.x + offsetDirection, point.y);
             
@@ -744,8 +751,6 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     }
 }
 
-
-
 // Update a items position to the head of the stack. May be animated;
 - (void)moveStackItemToHeadItem:(CHFChatStackItem *)item withAnimation:(BOOL)animation
 {
@@ -754,81 +759,391 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     [self updateZIndexForItems];
 }
 
-// For snapping the item we always need to to animate on the chatstacks window, not the destination or the source view.
-- (void)snapItemBackToOrigin:(CHFChatStackItem *)item completion:(void (^)(void))completion
+#pragma mark - ChatStack Item Delegate
+
+- (void)didTapItem:(CHFChatStackItem *)item withGesture:(UITapGestureRecognizer *)tapGesture
 {
-    // Get the current view and point in that view for the item
-    UIView *fromView = item.superview;
-    CGPoint fromPoint = item.center;
+    NSLog(@"_________________________BEGIN________________________________");
+    NSLog(@"Tapped %@", NSStringFromItemType(item.itemtype));
     
-    // If the item is not already in the window we need to find the point and convert it to the window
-    if (![fromView isEqual:self.window])
+    switch (item.itemtype)
     {
-        // Convert the items original point from its original view, to the window so we can animate the item.
-        CGPoint windowFromPoint = [fromView convertPoint:fromPoint toView:self.window];
-        
-        item.center = windowFromPoint;
-        [self.window addSubview:item];
-        [self.window bringSubviewToFront:item];
+            // If a stack item is tapped, we open the message itemcollectionview, and give the stack items to it. The item tapped will be the first in the collection view and makes itself the head chat stack item
+        case ItemTypeStack:
+        {
+            if (!item.isHeadStackItem) [self moveStackItemToHeadItem:item withAnimation:NO];
+            
+            switch (self.layout)
+            {
+                case ItemLayoutStack:
+                {
+                    // If enabled update the motion effects for the items in the stack
+                    [self updateMotionEffectsForAllItems];
+                    
+                    // Detach the trailing items from the headStackItem so they can animate to their cells in the message itemcollectionview.
+                    [self detachItemsFromHeadItem];
+                    
+                    // Present the blurred background
+                    [self presentBlurViewAnimated:YES];
+                    
+                    // Present the messages itemviewcontroller with the items that will be passed to the itemcollectionview once it loads
+                    [self presentMessageItems:self.itemArray withCollectionViewAnimated:YES];
+                }
+                    break;
+                case ItemLayoutMessage:
+                {
+                    //
+                    self.layout = ItemLayoutStack;
+                    
+                    [self dismissMessageCollectionViewAnimated:YES];
+                    [self dismissStackDeckController:YES];
+                    [self dismissBlurViewAnimated:YES];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+            // A pending item will pop on the opposite side of the screen from the stack. If tapped it will be added to the reply itemcollectionview
+        case ItemTypePending:
+        {
+            if ([self.currentChosenItem isEqual:item])
+            {
+                // If the chosen item is equal to the pending item, most likely it is in the reply layout. Tapping the item will dismiss the reply controller
+                [self dismissReplyItemsCollectionViewAnimated:YES];
+                [self dismissStackDeckController:YES];
+                [self dismissBlurViewAnimated:YES];
+                
+            }
+            if (![self.currentChosenItem isEqual:item])
+            {
+                [self presentReplyItems:@[item] withCollectionViewAnimated:YES];
+            }
+        }
+            break;
+            // If a stand alone item is tapped, it will open the reply itemcollectionview if there is no history of messages from the user.
+        case ItemTypeStandAlone:
+        {
+            NSLog(@"the chosen item = %@",item);
+            
+            if (![self.currentChosenItem isEqual:item])
+            {
+                [self presentBlurViewAnimated:YES];
+                NSLog(@"ItemTypeStandAlone presented blure view");
+                if ([AppDelegate chatStackIsPurchased])
+                {
+                    NSLog(@"ItemTypeStandAlone chatStackIsPurchased");
+                    // TODO: Maybe have setting to default begin chat uses reply
+                    if ([self doesHaveCurrentChatWithUserID:item.userID])
+                    {
+                        NSLog(@"ItemTypeStandAlone doesHaveCurrentChatWithUserID");
+                        [self presentMessageItems:self.itemArray withCollectionViewAnimated:YES];
+                        // TODO: scroll to the page with the userID
+                    }
+                    else
+                    {
+                        NSLog(@"ItemTypeStandAlone presentReplyItems");
+                        // Present the ReplyCollectionView, and then give the item to the collection view cell
+                        [self presentReplyItems:@[item] withCollectionViewAnimated:YES];
+                    }
+                }
+                else
+                {
+                    NSLog(@"ItemTypeStandAlone els eelse presentReplyItems");
+                    // Present the ReplyCollectionView, and then give the item to the collection view cell
+                    [self presentReplyItems:@[item] withCollectionViewAnimated:YES];
+                }
+                
+                // Show the deck controller which holds all of the VC's for each chat item
+                
+                //                [self.window bringSubviewToFront:item];
+            }
+            else // The currentChosenItem IS the same as the chosen item
+            {
+                NSLog(@"currentChosenItem IS the same");
+                self.layout = ItemLayoutStack;
+                
+                [self dismissBlurViewAnimated:YES];
+                
+                [self dismissStackDeckController:YES];
+                
+                [self dismissReplyItemsCollectionViewAnimated:YES];
+            }
+        }
+            break;
     }
     
-    // Get the point in the window which to animate to
-    CGPoint toPoint = [item.originalParentView convertPoint:item.originalPoint toView:self.window];
+    if (![self.currentChosenItem isEqual:item])
+    {
+        self.currentChosenItem = item;
+        if (![self.itemArray containsObject:item]) [self.currentChosenItem addShadow:YES animated:YES];
+        NSLog(@"Set new chosen item");
+        // !!!: Hack to get around conforming files to NSCoding right now
+        //        self.currentChosenItem = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:item]];
+    }
+    else
+    {
+        NSLog(@"set chosent item to nil");
+        [self.currentChosenItem addShadow:NO animated:YES];
+//        self.currentChosenItem = nil;
+    }
     
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-         usingSpringWithDamping:1.0
-          initialSpringVelocity:0.2
-                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         item.center = toPoint;
-                     }
-                     completion:^(BOOL finished) {
-                         // Now that the item is is the same coordinate as its origin, we can give the origin view the item
-                         item.center = item.originalPoint;
-                         [item.originalParentView addSubview:item];
-                         [item.originalParentView bringSubviewToFront:item];
-                         
-                         completion();
-                     }];
+    NSLog(@"_________________________END________________________________");
 }
 
-- (void)snapItem:(CHFChatStackItem *)item toPoint:(CGPoint)toPoint inView:(UIView *)toView completion:(void (^)(void))completion
+
+- (void)didPanItem:(CHFChatStackItem *)item withGesture:(UIPanGestureRecognizer *)panGesture
 {
-    // Get the current view and point in that view for the item
-    UIView *fromView = item.superview;
-    CGPoint fromPoint = item.center;
-    
-    // If the item is not already in the window we need to find the point and convert it to the window
-    if (![fromView isEqual:self.window])
+    switch (item.itemtype)
     {
-        // Convert the items original point from its original view, to the window so we can animate the item.
-        CGPoint windowFromPoint = [fromView convertPoint:fromPoint toView:self.window];
-        
-        item.center = windowFromPoint;
-        [self.window addSubview:item];
-        [self.window bringSubviewToFront:item];
+        case ItemTypeStack:
+        {
+            switch (self.layout)
+            {
+                case ItemLayoutStack:
+                    if ([item isHeadStackItem])
+                    {
+                        [self pannedViewFlick:panGesture];
+                        //                        [self pannedViewKickZone:panGesture];
+                        //                        [self configureBlackHole];
+                    }
+                    break;
+                case ItemLayoutMessage:
+                    //                    if (self.messageCollectionViewIsHidden == YES)
+                {
+                    [self pannedViewHoverActions:panGesture];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case ItemTypePending:
+        {
+            [self pannedViewHoverActions:panGesture];
+        }
+            break;
+        case ItemTypeStandAlone:
+        {
+            [self pannedViewHoverActions:panGesture];
+        }
+            break;
     }
+}
+
+- (void)pannedViewHoverActions:(UIPanGestureRecognizer *)panGesture
+{
+    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
+    NSLog(@"the item superview = %@", item.superview);
+    switch (panGesture.state)
+    {
+        case UIGestureRecognizerStateBegan:
+        {
+            [self.window addSubview:item];
+            //            item.center = [item.originalParentView convertPoint:item.originalPoint toView:self.window];
+            
+            item.center = [[(ItemCoordinates *)item.journeyArray[0] view] convertPoint:[(ItemCoordinates *)item.journeyArray[0] point] toView:self.window];
+            
+            self.dragging = YES;
+            // | HoverMenuOptionUserFollowers | HoverMenuOptionMessageRepost | HoverMenuOptionUserMentions | HoverMenuOptionUserInteractions | HoverMenuOptionUserInteractions | HoverMenuOptionMessageStar | HoverMenuOptionMessageShare | HoverMenuOptionMessageReportSpam | HoverMenuOptionManageAddUser | HoverMenuOptionManageKick | HoverMenuOptionChatStackAddUser | HoverMenuOptionChatStackRemoveUser
+            [self presentHoverMenuWithMenuOptions:HoverMenuOptionUserProfile | HoverMenuOptionUserFollow | HoverMenuOptionUserMute | HoverMenuOptionUserBlock | HoverMenuOptionChatStackAddUser
+                                          forItem:item
+                                         animated:YES];
+            
+            [self.window bringSubviewToFront:item];
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            item.center = [panGesture locationInView:self.window];
+            [self.hoverMenuController pannedItemPoint:item.center];
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        {
+            switch (item.itemtype)
+            {
+                case ItemTypePending: // The item will go out of the bounds and be killed muahaha
+                {
+                    [self dismissHoverMenuAnimated:YES];
+                    
+                    [item applyGravity];
+                    
+                    [item applyFlickBehaviorWithPanGesture:panGesture];
+                    [item beginObservingBoundsCrossing];
+                }
+                    break;
+                case ItemTypeStandAlone: // The item will snap back to where it was originaly from
+                case ItemTypeStack:
+                {
+                    if (panGesture.state == UIGestureRecognizerStateEnded)
+                    {
+                        [self.hoverMenuController performActionOnCellAtPoint:item.center
+                                                           withChatStackItem:item
+                                                               andCompletion:^(BOOL performedAction, BOOL itemShouldReturn) {
+                                                                   
+                                                                   // If the didn't perform an action, or if it did and the item should go back from where it came from
+                                                                   if (!performedAction || itemShouldReturn)
+                                                                   {
+                                                                       [self dismissHoverMenuAnimated:YES];
+                                                                       [item snapToPreviousCoordinates];
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                       // The hoverMenuController decides what happens to the item
+                                                                       [self dismissHoverMenuAnimated:YES];
+                                                                   }
+                                                               }];
+                    }
+                    if (panGesture.state == UIGestureRecognizerStateCancelled)
+                    {
+                        [self dismissHoverMenuAnimated:YES];
+                        [item snapToPreviousCoordinates];
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
+            
+            self.dragging = NO;
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)pannedViewFlick:(UIPanGestureRecognizer *)panGesture
+{
+    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
     
-    // Get the point in the window which to animate to
-    CGPoint windowToPoint = [toView convertPoint:toPoint toView:self.window];
+    switch (self.layout)
+    {
+        case ItemLayoutStack:
+        {
+            if (panGesture.state == UIGestureRecognizerStateBegan)
+            {
+                self.dragging = YES;
+                
+                [self removeFlickBehaviorFromAllItems];
+                [self.headStackItem stopObservingBoundsCrossing];
+                [self removeUniverseGravity];
+                
+                [self attachItemsToHeadItem];
+            }
+            else if (panGesture.state == UIGestureRecognizerStateChanged)
+            {
+                item.center = [panGesture locationInView:self.window];
+                
+                [self updateCurrentStateForAllItems];
+            }
+            else if (panGesture.state == UIGestureRecognizerStateEnded)
+            {
+                [self.animator removeAllBehaviors];
+                
+                // If the item is let go while inside the snapBackBounds
+                if (CGRectContainsPoint([self snapBackBounds], self.headStackItem.center))
+                {
+                    [self.headStackItem beginObservingBoundsCrossing];
+                    [self applyUniverseGravity];
+                    [self applyFlickBehaviorForAllItemsWithPanGesture:panGesture];
+                }
+                else // If the item is let go outside the snapBackBounds, snap to nearest bounds edge
+                {
+                    // Get nearest edge point
+                    CGFloat xCoordinate = [self.headStackItem isOnLeftSide] ? CGRectGetMinX([self snapBackBounds]): CGRectGetMaxX([self snapBackBounds]);
+                    
+                    CGFloat yCoordinate = self.headStackItem.center.y;
+                    
+                    for (CHFChatStackItem *item in self.itemArray)
+                    {
+                        [item snapToPoint:CGPointMake(xCoordinate, yCoordinate)
+                           withCompletion:^{
+                               
+                           }];
+                    }
+                }
+                
+                self.dragging = NO;
+            }
+            else if (panGesture.state == UIGestureRecognizerStateCancelled)
+            {
+                // Snap back to crossing point
+                for (CHFChatStackItem *item in self.itemArray)
+                {
+                    if (item.precedentItemAttachmentBehavior)
+                    {
+                        [self.animator removeBehavior:item.precedentItemAttachmentBehavior];
+                    }
+                    
+                    [item snapToPoint:[item pointForDefaultLayoutFromSourcePoint:self.boundsCrossingPoint]
+                       withCompletion:^{
+                           [item removeFlickBehavior];
+                       }];
+                }
+                
+                self.dragging = NO;
+            }
+        }
+            break;
+        case ItemLayoutMessage:
+        {
+            if (panGesture.state == UIGestureRecognizerStateBegan)
+            {
+                
+            }
+            else if (panGesture.state == UIGestureRecognizerStateChanged)
+            {
+                
+            }
+            else if (panGesture.state == UIGestureRecognizerStateEnded ||
+                     panGesture.state == UIGestureRecognizerStateCancelled)
+            {
+                
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)pannedViewKickZone:(UIPanGestureRecognizer *)panGesture
+{
+    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
     
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-         usingSpringWithDamping:1.0
-          initialSpringVelocity:0.2
-                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         item.center = windowToPoint;
-                     }
-                     completion:^(BOOL finished) {
-                         // Now that the item is is the same coordinate as its origin, we can give the origin view the item
-                         item.center = toPoint;
-                         [toView addSubview:item];
-                         [toView bringSubviewToFront:item];
-                         
-                         completion();
-                     }];
+    if (panGesture.state == UIGestureRecognizerStateBegan)
+    {
+        self.wantsToShowKickZone = YES;
+        [self performSelector:@selector(presentKickZoneAnimated:) withObject:@YES afterDelay:0.48];
+    }
+    else if (panGesture.state == UIGestureRecognizerStateChanged)
+    {
+        // updateItemAttachmentLengthsForVelocity needs work. Dragging is jagged, the legnth works.
+        //        [self updateItemAttachmentLengthsForVelocity:[panGesture velocityInView:self.animator.referenceView]];
+        
+        if (CGRectContainsPoint([self kickZoneArea], item.center))
+        {
+            self.wantsToExpand = YES;
+            [self startKickLoadingBar];
+        }
+        else
+        {
+            self.wantsToExpand = NO;
+        }
+    }
+    else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled)
+    {
+        self.wantsToShowKickZone = NO;
+        
+        [self stopKickLoadingBar];
+        [self dismissKickZoneAnimated:@YES];
+    }
 }
 
 #pragma mark - Pending Item Methods
@@ -928,19 +1243,6 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 #pragma mark - Item Behavior Methods
 
 #pragma mark
-
-// Determine what item was tapped. If it was the head item, snap it to the center; Else we need to make the newely selected item the head item with "moveStackItemToHeadItem". Then we call the adjustMessageLayoutPositionForItem to detemine where the stack item should snap to.
-- (void)snapItemsToMessageLayoutWithTappedItem:(CHFChatStackItem *)tappedItem
-{
-    [self.animator removeAllBehaviors];
-    
-    for (CHFChatStackItem *item in self.itemArray)
-    {
-        [item snapToPoint:[item pointForMessageLayout] withCompletion:^{
-            
-        }];
-    }
-}
 
 - (void)snapItemsToStackLayoutWithTappedItem:(CHFChatStackItem *)tappedItem
 {
@@ -1098,17 +1400,20 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 
 - (BOOL)doesHaveCurrentChatWithUserID:(NSString *)userID
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userID == %@", userID];
-    NSString *userIDString;
+    NSLog(@"doesHaveCurrentChatWithUserID = %@", userID);
     
-    userIDString = [self.itemArray filteredArrayUsingPredicate:predicate][0];
+    BOOL doesHaveExistingChat = NO;
     
-    if (!userID)
+    for (CHFChatStackItem *item in self.itemArray)
     {
-        userIDString = [self.replyItemArray filteredArrayUsingPredicate:predicate][0];
+        if ([item.userID isEqualToString:userID])
+        {
+            doesHaveExistingChat = YES;
+            break;
+        }
     }
     
-    return userIDString == nil ? NO : YES;
+    return doesHaveExistingChat;
 }
 
 - (BOOL)itemArrayContainsItemWithUserID:(NSString *)userID
@@ -1150,14 +1455,6 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     return currentItem;
 }
 
-- (UIColor *)randomColor
-{
-    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
-    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
-    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
-    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
-}
-
 - (void)drawShadowOnLayer:(CALayer *)layer
 {
     layer.shadowColor = [UIColor blackColor].CGColor;
@@ -1168,6 +1465,15 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     UIBezierPath *path  =  [UIBezierPath bezierPathWithRoundedRect:[layer bounds] cornerRadius:layer.cornerRadius];
     
     [layer setShadowPath:[path CGPath]];
+}
+
+- (void)removeShadowOnLayer:(CALayer *)layer
+{
+    layer.shadowColor = [UIColor clearColor].CGColor;
+    layer.shadowOffset = CGSizeMake(0, 0);
+    layer.shadowRadius = 0;
+    layer.shadowOpacity = 0.0f;
+    layer.shadowPath = nil;
 }
 
 - (NSArray *)userIDsFromItemArray:(NSArray *)itemArray
@@ -1184,18 +1490,6 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     return userIDArray;
 }
 
-#pragma mark - ChatStack Item Delegate
-
-- (void)didTapItem:(CHFChatStackItem *)item withGesture:(UITapGestureRecognizer *)gesture
-{
-    [self tappedView:gesture];
-}
-
-- (void)didPanItem:(CHFChatStackItem *)item withGesture:(UIPanGestureRecognizer *)gesture
-{
-    [self pannedView:gesture];
-}
-
 #pragma mark - BlurView
 
 - (void)configureBlurViewWithBlurType:(BlurType)type animated:(BOOL)animated
@@ -1204,7 +1498,7 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
                                               blurType:type
                                          withAnimation:animated];
     
-    [self.window insertSubview:self.blurView atIndex:kZIndexBackground];
+    [self.window insertSubview:self.blurView atIndex:2];
 }
 
 - (void)presentBlurViewAnimated:(BOOL)animated
@@ -1232,13 +1526,18 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 {
     if (!self.chatStackDeckController)
     {
-        self.chatStackDeckController = [CHFChatStackDeckController new];
+        self.chatStackDeckController = [[CHFChatStackDeckController alloc] initWithNibName:nil bundle:nil];
         self.chatStackDeckController.view.frame = [self deckControllerArea];
-        self.chatStackDeckController.delegate = self;
-        self.chatStackDeckController.dataSource = self;
         
-        [self.window insertSubview:self.chatStackDeckController.view atIndex:kZIndexViews];
+        
+        [self.window addSubview:self.chatStackDeckController.view];
+        [self.chatStackDeckController.view sendBelowChatStackItems];
+        
+        //        [self.window insertSubview:self.chatStackDeckController.view atIndex:kZIndexViews];
     }
+    
+    self.chatStackDeckController.delegate = self;
+    self.chatStackDeckController.dataSource = self;
 }
 
 - (void)dismissStackDeckController:(BOOL)animated
@@ -1253,6 +1552,8 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
                          }
                          completion:^(BOOL finished) {
                              [self.chatStackDeckController.view removeFromSuperview];
+                             
+                             // !!!: App crashed when setting to nil
                              self.chatStackDeckController = nil;
                          }];
     }
@@ -1264,7 +1565,9 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 
 - (NSInteger)numberOfIndexes
 {
-    return self.replyItemArray.count;
+    NSLog(@"numberOfIndexes ==== %i", self.replyItemArray.count);
+    
+    return 5;
 }
 
 - (NSString *)userIDForItemAtIndex:(NSInteger)index
@@ -1314,15 +1617,15 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 
 - (void)passItems:(NSArray *)items toItemsCollectionViewController:(CHFItemsCollectionViewController *)controller
 {
-    [items enumerateObjectsUsingBlock:^(CHFChatStackItem *item, NSUInteger index, BOOL *stop) {
-        
-        CGPoint point = [controller pointForCellAtIndex:index inSection:0];
-        UICollectionViewCell *cell = [controller cellAtIndex:index inSection:0];
-        
-        [self passItem:item toView:cell atPoint:point withCompletion:^{
-            
-        }];
-    }];
+    [items enumerateObjectsUsingBlock:^(CHFChatStackItem *item, NSUInteger index, BOOL *stop)
+     {
+         //         CGPoint point = [controller pointForCellAtIndex:index inSection:0];
+         
+         CHFItemCollectionViewCell *cell = (CHFItemCollectionViewCell *)[controller.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+         NSLog(@"the POINT OF THE PASS ITEMS == %@ cell ==== %@", NSStringFromCGPoint(cell.center), cell);
+         CGPoint point = CGPointMake(cell.frame.size.width / 2, cell.frame.size.height / 2);
+         [item snapToPoint:point inView:cell.contentView];
+     }];
 }
 
 #pragma mark ReplyCollectionViewController
@@ -1330,16 +1633,19 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 - (void)presentReplyItems:(NSArray *)items withCollectionViewAnimated:(BOOL)animated
 {
     self.layout = ItemLayoutReply;
+ 
+    self.replyItemsCollectionViewIsHidden = NO;
+    
+    [self hideStack];
     
     if (!self.replyItemArray) self.replyItemArray = [NSMutableArray array];
     [self.replyItemArray addObjectsFromArray:items];
     
-    // Temp
-    NSMutableArray *array = [NSMutableArray arrayWithArray:items];
-    [array addObjectsFromArray:@[[CHFChatStackItem testItem:ItemTypeStandAlone]]];
-    
-    self.replyItemsCollectionViewIsHidden = NO;
-    
+    for (CHFChatStackItem *item in self.replyItemArray)
+    {
+        [item prepareToSnap];
+    }
+
     if (!self.replyItemsCollectionViewController)
     {
         self.replyItemsCollectionViewController = [CHFItemsCollectionViewController new];
@@ -1348,7 +1654,8 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
         self.replyItemsCollectionViewController.delegate = self;
     }
     
-    [self.window insertSubview:self.replyItemsCollectionViewController.view atIndex:kZIndexViews];
+    [self.window addSubview:self.replyItemsCollectionViewController.view];
+    [self.replyItemsCollectionViewController.view sendBelowChatStackItems];
     
     [self presentStackDeckController:YES];
 }
@@ -1356,6 +1663,8 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 - (void)dismissReplyItemsCollectionViewAnimated:(BOOL)animated
 {
     self.replyItemsCollectionViewIsHidden = YES;
+    
+    [self showStack];
     
     if (self.replyItemsCollectionViewController)
     {
@@ -1386,12 +1695,16 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
                  case ItemTypeStandAlone:
                  {
                      // Return this item to its original point in its original view
-                     [self passItemBackToOrigin:item withCompletion:nil];
+                     [item snapToOrigin];
                  }
                  default:
                      break;
              }
          }];
+        
+        // The reply item array shouldn't keep its objects since their temporary messages
+        [self.replyItemArray removeAllObjects];
+        self.replyItemArray = nil;
     }
 }
 
@@ -1401,8 +1714,13 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 {
     self.layout = ItemLayoutMessage;
     
-    //    if (!self.itemArray) self.itemArray = [NSMutableArray array];
-    //    [self.itemArray addObjectsFromArray:items];
+//    if (!self.itemArray) self.itemArray = [NSMutableArray array];
+//    [self.itemArray addObjectsFromArray:items];
+    
+    for (CHFChatStackItem *item in self.itemArray)
+    {
+        [item prepareToSnap];
+    }
     
     self.messageItemsCollectionViewIsHidden = NO;
     
@@ -1412,15 +1730,15 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
         self.messageItemsCollectionViewController.view.frame = [self messageCollectionViewArea];
         self.messageItemsCollectionViewController.dataSource = self;
         self.messageItemsCollectionViewController.delegate = self;
-        self.messageItemsCollectionViewController.view.backgroundColor = [UIColor greenSeaColor];
     }
     
-    [self.window insertSubview:self.messageItemsCollectionViewController.view atIndex:kZIndexViews];
+    [self.window addSubview:self.messageItemsCollectionViewController.view];
+    [self.messageItemsCollectionViewController.view sendBelowChatStackItems];
     
     [self presentStackDeckController:YES];
 }
 
-- (void)dismissFriendCollectionViewAnimated:(BOOL)animated
+- (void)dismissMessageCollectionViewAnimated:(BOOL)animated
 {
     self.messageItemsCollectionViewIsHidden = YES;
     
@@ -1440,23 +1758,9 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
 {
     if (self.messageItemsCollectionViewController)
     {
-        [self.itemArray enumerateObjectsUsingBlock:^(CHFChatStackItem *item, NSUInteger idx, BOOL *stop) {
-            
-            // Get the point of the item while in cell
-            CGPoint pointOfCell = [self.messageItemsCollectionViewController pointForCellAtIndex:idx inSection:0];
-            
-            // Convert the cell point to the window point
-            CGPoint pointOfCellInWindow = [self.messageItemsCollectionViewController.collectionView convertPoint:pointOfCell toView:self.window];
-            CHFChatStackItem *itemOfCell = (CHFChatStackItem *)[self.messageItemsCollectionViewController itemForCellAtIndex:idx inSection:0];
-            [itemOfCell removeFromSuperview];
-            
-            itemOfCell.center = pointOfCellInWindow;
-            [self.window insertSubview:item atIndex:kZIndexStackItem];
-            
-            // Snap back to the bounds crossing point
-            [itemOfCell snapToPoint:self.boundsCrossingPoint withCompletion:^{
-                
-            }];
+        [self.itemArray enumerateObjectsUsingBlock:^(CHFChatStackItem *item, NSUInteger idx, BOOL *stop)
+         {
+            [item snapToPoint:self.boundsCrossingPoint inView:self.window];
         }];
     }
 }
@@ -1533,446 +1837,18 @@ typedef NS_ENUM (NSUInteger, ProgressBarState)
     {
         case ItemLayoutStack:
         {
-            return ChatStackManager.window.frame;
+            return self.window.frame;
         }
             break;
         case ItemLayoutMessage:
         case ItemLayoutReply:
         {
-            return CGRectInset(ChatStackManager.deckControllerArea, 10, 10);
+            return CGRectInset(self.deckControllerArea, 10, 10);
         }
             break;
     }
     
-    return CGRectInset(ChatStackManager.deckControllerArea, 10, 10);
-}
-
-#pragma mark - UIGestureRecognizer Methods
-#pragma mark Tap
-
-- (void)tappedView:(UITapGestureRecognizer *)tapGesture
-{
-    [self tappedItem:(CHFChatStackItem *)tapGesture.view];
-}
-
-- (void)tappedItem:(CHFChatStackItem *)item
-{
-    NSLog(@"Tapped item type %i", item.itemtype);
-    
-    switch (item.itemtype)
-    {
-        case ItemTypeStack:
-        {
-            if (!item.isHeadStackItem) [self moveStackItemToHeadItem:item withAnimation:NO];
-            
-            switch (self.layout)
-            {
-                case ItemLayoutStack:
-                {
-                    self.layout = ItemLayoutMessage;
-                    
-                    // Snap to the message layout and present the tapped items view
-                    //            [self snapItemsToMessageLayoutWithTappedItem:item];
-                    [self updateMotionEffectsForAllItems];
-                    
-                    [self detachItemsFromHeadItem];
-                    
-                    [self presentBlurViewAnimated:YES];
-                    [self presentMessageItems:self.itemArray withCollectionViewAnimated:YES];
-                }
-                    break;
-                case ItemLayoutMessage:
-                {
-                    self.layout = ItemLayoutStack;
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case ItemTypePending:
-        {
-            if ([self.currentChosenItem isEqual:item])
-            {
-                
-            }
-            if (![self.currentChosenItem isEqual:item])
-            {
-                
-            }
-            
-            [self presentReplyItems:@[item] withCollectionViewAnimated:YES];
-        }
-            break;
-        case ItemTypeStandAlone:
-        {
-            NSLog(@"the chosen item = %@",item);
-            
-            if (![self.currentChosenItem isEqual:item])
-            {
-                [self presentBlurViewAnimated:YES];
-                
-                if ([AppDelegate chatStackIsPurchased])
-                {
-                    // TODO: Maybe have setting to default begin chat uses reply
-                    if ([self doesHaveCurrentChatWithUserID:item.userID])
-                    {
-                        [self presentMessageItems:self.itemArray withCollectionViewAnimated:YES];
-                        // TODO: scroll to the page with the userID
-                    }
-                    else
-                    {
-                        // Present the ReplyCollectionView, and then give the item to the collection view cell
-                        [self presentReplyItems:@[item] withCollectionViewAnimated:YES];
-                    }
-                }
-                else
-                {
-                    // Present the ReplyCollectionView, and then give the item to the collection view cell
-                    [self presentReplyItems:@[item] withCollectionViewAnimated:YES];
-                }
-                
-                // Show the deck controller which holds all of the VC's for each chat item
-                
-                //                [self.window bringSubviewToFront:item];
-            }
-            else // The currentChosenItem IS the same as the chosen item
-            {
-                self.layout = ItemLayoutStack;
-                
-                [self dismissBlurViewAnimated:YES];
-                
-                [self dismissStackDeckController:YES];
-                
-                [self passItemBackToOrigin:item
-                            withCompletion:^{
-                    [self dismissReplyItemsCollectionViewAnimated:NO];
-                    item.delegate = nil;
-                }];
-            }
-        }
-            break;
-    }
-    
-    if (![self.currentChosenItem isEqual:item])
-    {
-        self.currentChosenItem = item;
-        
-        // !!!: Hack to get around conforming files to NSCoding right now
-        //        self.currentChosenItem = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:item]];
-    }
-    else
-    {
-        self.currentChosenItem = nil;
-    }
-}
-
-#pragma mark Pan
-
-- (void)pannedView:(UIPanGestureRecognizer *)panGesture
-{
-    //    if (!self.animator) self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.window];
-    
-    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
-    
-    switch (item.itemtype)
-    {
-        case ItemTypeStack:
-        {
-            switch (self.layout)
-            {
-                case ItemLayoutStack:
-                    if ([(CHFChatStackItem *)panGesture.view isHeadStackItem])
-                    {
-                        [self pannedViewFlick:panGesture];
-                        //                        [self pannedViewKickZone:panGesture];
-                        [self configureBlackHole];
-                    }
-                    break;
-                case ItemLayoutMessage:
-                    //                    if (self.friendsCollectionViewIsHidden == YES)
-                {
-                    [self pannedViewHoverActions:panGesture];
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case ItemTypePending:
-        {
-            [self pannedViewHoverActions:panGesture];
-        }
-            break;
-        case ItemTypeStandAlone:
-        {
-            [self pannedViewHoverActions:panGesture];
-        }
-            break;
-    }
-}
-
-- (void)pannedViewHoverActions:(UIPanGestureRecognizer *)panGesture
-{
-    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
-    NSLog(@"the item superview = %@", item.superview);
-    switch (panGesture.state)
-    {
-        case UIGestureRecognizerStateBegan:
-        {
-            [self.window addSubview:item];
-            item.center = [item.originalParentView convertPoint:item.originalPoint toView:self.window];
-            
-            self.dragging = YES;
-            // | HoverMenuOptionUserFollowers | HoverMenuOptionMessageRepost | HoverMenuOptionUserMentions | HoverMenuOptionUserInteractions | HoverMenuOptionUserInteractions | HoverMenuOptionMessageStar | HoverMenuOptionMessageShare | HoverMenuOptionMessageReportSpam | HoverMenuOptionManageAddUser | HoverMenuOptionManageKick | HoverMenuOptionChatStackAddUser | HoverMenuOptionChatStackRemoveUser
-            [self presentBlurViewAnimated:YES];
-            [self presentHoverMenuWithMenuOptions:HoverMenuOptionUserProfile | HoverMenuOptionUserFollow | HoverMenuOptionUserMute | HoverMenuOptionUserBlock | HoverMenuOptionChatStackAddUser
-                                          forItem:item
-                                         animated:YES];
-            
-            [self.window bringSubviewToFront:item];
-        }
-            break;
-        case UIGestureRecognizerStateChanged:
-        {
-            item.center = [panGesture locationInView:self.window];
-            [self.hoverMenuController pannedItemPoint:item.center];
-        }
-            break;
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled:
-        {
-            switch (item.itemtype)
-            {
-                case ItemTypePending: // The item will go out of the bounds and be killed
-                {
-                    [self dismissHoverMenuAnimated:YES];
-                    [self dismissBlurViewAnimated:YES];
-                    
-                    [item applyGravity];
-                    
-                    [item applyFlickBehaviorWithPanGesture:panGesture];
-                    [item beginObservingBoundsCrossing];
-                }
-                    break;
-                case ItemTypeStandAlone: // The item will snap back to where it was originaly from
-                {
-                    if (panGesture.state == UIGestureRecognizerStateEnded)
-                    {
-                        [self.hoverMenuController performActionOnCellAtPoint:item.center
-                                                           withChatStackItem:item
-                                                               andCompletion:^() {
-                                                                   [self dismissHoverMenuAnimated:YES];
-                                                                   [self dismissBlurViewAnimated:YES];
-                                                                   
-                                                                   [self snapItemBackToOrigin:item
-                                                                                   completion:^{
-                                                                                       //                                                                                       item.delegate = nil;
-                                                                                   }];
-                                                               }];
-                    }
-                    if (panGesture.state == UIGestureRecognizerStateCancelled)
-                    {
-                        [self dismissHoverMenuAnimated:YES];
-                        [self dismissBlurViewAnimated:YES];
-                        
-                        [self snapItemBackToOrigin:item
-                                        completion:^{
-                                            //                                            item.delegate = nil;
-                                        }];
-                    }
-                }
-                    break;
-                default:
-                    break;
-            }
-            
-            self.dragging = NO;
-        }
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)pannedViewFlick:(UIPanGestureRecognizer *)panGesture
-{
-    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
-    
-    switch (self.layout)
-    {
-        case ItemLayoutStack:
-        {
-            if (panGesture.state == UIGestureRecognizerStateBegan)
-            {
-                self.dragging = YES;
-                
-                [self removeFlickBehaviorFromAllItems];
-                [self.headStackItem stopObservingBoundsCrossing];
-                [self removeUniverseGravity];
-                
-                [self attachItemsToHeadItem];
-            }
-            else if (panGesture.state == UIGestureRecognizerStateChanged)
-            {
-                item.center = [panGesture locationInView:self.window];
-                
-                [self updateCurrentStateForAllItems];
-            }
-            else if (panGesture.state == UIGestureRecognizerStateEnded)
-            {
-                [self.animator removeAllBehaviors];
-                
-                // If the item is let go while inside the snapBackBounds
-                if (CGRectContainsPoint([self snapBackBounds], self.headStackItem.center))
-                {
-                    [self.headStackItem beginObservingBoundsCrossing];
-                    [self applyUniverseGravity];
-                    [self applyFlickBehaviorForAllItemsWithPanGesture:panGesture];
-                }
-                else // If the item is let go outside the snapBackBounds, snap to nearest bounds edge
-                {
-                    // Get nearest edge point
-                    CGFloat xCoordinate = [self.headStackItem isOnLeftSide] ? CGRectGetMinX([self snapBackBounds]): CGRectGetMaxX([self snapBackBounds]);
-                    
-                    CGFloat yCoordinate = self.headStackItem.center.y;
-                    
-                    for (CHFChatStackItem *item in self.itemArray)
-                    {
-                        [item snapToPoint:CGPointMake(xCoordinate, yCoordinate)
-                           withCompletion:^{
-                               
-                           }];
-                    }
-                }
-                
-                self.dragging = NO;
-            }
-            else if (panGesture.state == UIGestureRecognizerStateCancelled)
-            {
-                // Snap back to crossing point
-                for (CHFChatStackItem *item in self.itemArray)
-                {
-                    if (item.precedentItemAttachmentBehavior)
-                    {
-                        [self.animator removeBehavior:item.precedentItemAttachmentBehavior];
-                    }
-                    
-                    [item snapToPoint:[item pointForDefaultLayoutFromSourcePoint:self.boundsCrossingPoint]
-                       withCompletion:^{
-                           [item removeFlickBehavior];
-                       }];
-                }
-                
-                self.dragging = NO;
-            }
-        }
-            break;
-        case ItemLayoutMessage:
-        {
-            if (panGesture.state == UIGestureRecognizerStateBegan)
-            {
-                
-            }
-            else if (panGesture.state == UIGestureRecognizerStateChanged)
-            {
-                
-            }
-            else if (panGesture.state == UIGestureRecognizerStateEnded ||
-                     panGesture.state == UIGestureRecognizerStateCancelled)
-            {
-                
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)pannedViewKickZone:(UIPanGestureRecognizer *)panGesture
-{
-    CHFChatStackItem *item = (CHFChatStackItem *)panGesture.view;
-    
-    if (panGesture.state == UIGestureRecognizerStateBegan)
-    {
-        self.wantsToShowKickZone = YES;
-        [self performSelector:@selector(presentKickZoneAnimated:) withObject:@YES afterDelay:0.48];
-    }
-    else if (panGesture.state == UIGestureRecognizerStateChanged)
-    {
-        // updateItemAttachmentLengthsForVelocity needs work. Dragging is jagged, the legnth works.
-        //        [self updateItemAttachmentLengthsForVelocity:[panGesture velocityInView:self.animator.referenceView]];
-        
-        if (CGRectContainsPoint([self kickZoneArea], item.center))
-        {
-            self.wantsToExpand = YES;
-            [self startKickLoadingBar];
-        }
-        else
-        {
-            self.wantsToExpand = NO;
-        }
-    }
-    else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled)
-    {
-        self.wantsToShowKickZone = NO;
-        
-        [self stopKickLoadingBar];
-        [self dismissKickZoneAnimated:@YES];
-    }
-}
-
-
-#pragma mark -
-
-- (void)passItemBackToOrigin:(CHFChatStackItem *)item
-              withCompletion:(void (^)(void))completion
-{
-    [self passItem:item
-            toView:item.originalParentView
-           atPoint:item.originalPoint
-    withCompletion:^{
-    }];
-}
-
-- (void)passItem:(CHFChatStackItem *)item
-          toView:(UIView *)view
-         atPoint:(CGPoint)point
-  withCompletion:(void (^)(void))completion
-{
-    // Get the items beginning point in the windows point system
-    [self.window insertSubview:item atIndex:self.window.subviews.count];
-    CGPoint windowPoint = [item convertPoint:item.center toView:self.window];
-    item.center = windowPoint;
-    
-    // Get the destination point in the windows point system
-    CGPoint destinationPointInWindow = [view convertPoint:point toView:self.window];
-    
-//                        [item snapToPoint:destinationPointInWindow withCompletion:^{
-//                            item.center = point;
-//                            [view addSubview:item];
-//                            [view bringSubviewToFront:item];
-//                        }];
-    
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-         usingSpringWithDamping:1.0
-          initialSpringVelocity:0.2
-                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         item.center = destinationPointInWindow;
-                     }
-                     completion:^(BOOL finished) {
-                         item.center = point;
-                         [view addSubview:item];
-                         [view bringSubviewToFront:item];
-                         
-                         completion();
-                     }];
+    return CGRectInset(self.deckControllerArea, 10, 10);
 }
 
 @end

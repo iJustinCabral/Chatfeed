@@ -12,19 +12,18 @@
 #import "CHFHomeViewController.h"
 #import "CHFExploreViewController.h"
 
-
-typedef NS_ENUM (NSUInteger, Deck)
+typedef NS_ENUM (NSUInteger, Page)
 {
-    DeckMessages = 0,
-    DeckHome = 1,
-    DeckExplore = 2
+    PageMessages = 0,
+    PageHome = 1,
+    PageExplore = 2
 };
 
-@interface CHFMainDeckController ()
+@interface CHFMainDeckController () <CHFPageViewControllerDataSource, CHFPageViewControllerDelegate>
 
-@property (strong, nonatomic) CHFMessagesViewController *messagesViewController;
-@property (strong, nonatomic) CHFHomeViewController *homeViewController;
-@property (strong, nonatomic) CHFExploreViewController *exploreViewController;
+@property (nonatomic) CHFMessagesViewController *messagesViewController;
+@property (nonatomic) CHFHomeViewController *homeViewController;
+@property (nonatomic) CHFExploreViewController *exploreViewController;
 
 @end
 
@@ -38,9 +37,10 @@ typedef NS_ENUM (NSUInteger, Deck)
     
     if (self)
     {
-        self.cardVerticalOrigin = 0.0f; // Was 69
-        self.initialDeckPage = DeckHome;
-        self.cardGestureOptions = CardGestureOptionNavigationPan | CardGestureOptionNavigationPinch | CardGestureOptionNavigationTap | CardGestureOptionViewPinch | CardGestureOptionViewTap;
+        self.dataSource = self;
+        self.delegate = self;
+        
+        self.initialPage = PageHome;
     }
     
     return self;
@@ -59,82 +59,40 @@ typedef NS_ENUM (NSUInteger, Deck)
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Deck Controller DataSource
+#pragma mark - CHFPageViewController DataSource
 
-- (NSUInteger)numberOfDecksInDeckController:(CHFDeckController *)deckController
+- (NSUInteger)numberOfViewControllersForPageViewController:(CHFPageViewController *)pageViewController
 {
     return 3;
 }
 
-- (NSInteger)deckController:(CHFDeckController *)deckController numberOfControllerCardsInDeckAtIndex:(NSUInteger)deckIndex
+- (UIViewController *)viewControllerAtIndex:(NSUInteger)index
+                      forPageViewController:(CHFPageViewController *)pageViewController
 {
-    switch (deckIndex)
+    id viewController;
+    
+    switch (index)
     {
-        case DeckMessages:
-            return 1;
-            break;
-        case DeckHome:
-            return 1;
-            break;
-        case DeckExplore:
-            return 1;
-            break;
-        default:
-            return 0;
-            break;
-    }
-}
-
-- (UIViewController *)deckController:(CHFDeckController *)deckController viewControllerForDeckAtIndexPath:(NSIndexPath *)indexPath
-{
-    switch (indexPath.section)
-    {
-        case DeckMessages:
+        case PageMessages:
         {
-            switch (indexPath.row)
-            {
-                default:
-                    return self.messagesViewController = [CHFMessagesViewController new];
-                    break;
-            }
+            viewController = self.messagesViewController ? self.messagesViewController : [CHFMessagesViewController new];
         }
             break;
-        case DeckHome:
+        case PageHome:
         {
-            switch (indexPath.row)
-            {
-                default:
-                    return self.homeViewController = [CHFHomeViewController new];
-                    break;
-            }
+            viewController = self.homeViewController ? self.homeViewController : [CHFHomeViewController new];
         }
             break;
-        case DeckExplore:
+        case PageExplore:
         {
-            switch (indexPath.row)
-            {
-                case 0:
-                    return self.exploreViewController = [CHFExploreViewController new];
-                    break;
-            }
+            viewController = self.exploreViewController ? self.exploreViewController : [CHFExploreViewController new];
         }
             break;
         default:
             break;
     }
     
-    return nil;
+    return viewController;
 }
-
-- (BOOL)deckController:(CHFDeckController *)deckController embedCardInNavigationControllerAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == DeckMessages)
-    {
-        return YES;
-    }
-    
-    return NO;
-}
-
 
 @end

@@ -8,6 +8,6 @@
 
 #import "CHFAbstractModel.h"
 
-@interface CHFPrivateMessagesModel : CHFAbstractModel
+@interface CHFPrivateMessagesModel : CHFAbstractModel <CHFModelDataSource, CHFModelDelegate>
 
 @end

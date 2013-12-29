@@ -12,14 +12,14 @@
 #import "CHFProfileViewController.h"
 #import "CHFSettingsViewController.h"
 
-typedef NS_ENUM (NSUInteger, Deck)
+typedef NS_ENUM (NSUInteger, Page)
 {
-    DeckStore = 0,
-    DeckProfile = 1,
-    DeckSettings = 2
+    PageStore = 0,
+    PageProfile = 1,
+    PageSettings = 2
 };
 
-@interface CHFBackDeckController ()
+@interface CHFBackDeckController () <CHFPageViewControllerDataSource, CHFPageViewControllerDelegate>
 
 @property (strong, nonatomic) CHFStoreViewController *storeViewController;
 @property (strong, nonatomic) CHFProfileViewController *profileViewController;
@@ -29,13 +29,17 @@ typedef NS_ENUM (NSUInteger, Deck)
 
 @implementation CHFBackDeckController
 
+#pragma mark - Lifecycle
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.cardVerticalOrigin = 0.0f; // Was 69
-        self.initialDeckPage = DeckProfile;
-        self.cardGestureOptions = CardGestureOptionNavigationPan | CardGestureOptionNavigationPinch | CardGestureOptionNavigationTap | CardGestureOptionViewPinch | CardGestureOptionViewTap;
+    if (self)
+    {
+        self.dataSource = self;
+        self.delegate = self;
+        
+        self.initialPage = PageProfile;
     }
     return self;
 }
@@ -53,76 +57,52 @@ typedef NS_ENUM (NSUInteger, Deck)
 }
 
 
-#pragma mark - Deck Controller DataSource
+#pragma mark - CHFPageViewController DataSource
 
-- (NSUInteger)numberOfDecksInDeckController:(CHFDeckController *)deckController
+- (NSUInteger)numberOfViewControllersForPageViewController:(CHFPageViewController *)pageViewController
 {
     return 3;
 }
 
-- (NSInteger)deckController:(CHFDeckController *)deckController numberOfControllerCardsInDeckAtIndex:(NSUInteger)deckIndex
+- (UIViewController *)viewControllerAtIndex:(NSUInteger)index
+                      forPageViewController:(CHFPageViewController *)pageViewController
 {
-    switch (deckIndex)
+    switch (index)
     {
-        case DeckStore:
-            return 1;
-            break;
-        case DeckProfile:
-            return 1;
-            break;
-        case DeckSettings:
-            return 1;
-            break;
-        default:
-            return 0;
-            break;
-    }
-}
-
-- (UIViewController *)deckController:(CHFDeckController *)deckController viewControllerForDeckAtIndexPath:(NSIndexPath *)indexPath
-{
-    switch (indexPath.section)
-    {
-        case DeckStore:
+        case PageStore:
         {
-            switch (indexPath.row)
+            if (!self.storeViewController)
             {
-                default:
-                    return self.storeViewController = [CHFStoreViewController new];
-                    break;
+                self.storeViewController = [CHFStoreViewController new];
             }
+            
+            return self.storeViewController;
         }
             break;
-        case DeckProfile:
+        case PageProfile:
         {
-            switch (indexPath.row)
+            if (!self.profileViewController)
             {
-                default:
-                    return self.profileViewController = [CHFProfileViewController new];
-                    break;
+                self.profileViewController = [CHFProfileViewController new];
             }
+            
+            return self.profileViewController;
         }
             break;
-        case DeckSettings:
+        case PageSettings:
         {
-            switch (indexPath.row)
+            if (!self.settingsViewController)
             {
-                case 0:
-                    return self.settingsViewController = [CHFSettingsViewController new];
-                    break;
+                self.settingsViewController = [CHFSettingsViewController new];
             }
+            
+            return self.settingsViewController;
         }
             break;
         default:
+            return nil;
             break;
     }
-    
-    return nil;
-}
-
-- (BOOL)deckController:(CHFDeckController *)deckController embedCardInNavigationControllerAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
 }
 
 @end
